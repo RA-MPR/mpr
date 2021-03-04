@@ -1,18 +1,18 @@
 version: '3.7'
 
 services:
-  web:
+  backend:
     build:
-      context: ./mpr
+      context: ./backend
       dockerfile: ./Dockerfile
-    container_name: mpr_web
+    container_name: mpr_backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./mpr:/usr/src/app/
+      - ./backend:/usr/src/app/
     ports:
       - 8000:8000
     env_file:
-      - ./mpr/.env
+      - ./backend/.env
     depends_on:
       - db
   db:
@@ -20,7 +20,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./mpr/.env
+      - ./backend/.env
     ports:
       - 5432:5432
 
