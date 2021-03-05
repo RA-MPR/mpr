@@ -1,5 +1,6 @@
 # mpr
 
-### `docker-compose up --build`
-
-### `docker-compose up`
+Run project with docker-compose
+```shell
+docker-compose up
+```
