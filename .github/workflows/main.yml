@@ -13,6 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Deploy to Staging server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          ARGS: "-rltgoDzvO"
+          SOURCE: "."
+          REMOTE_HOST: 157.90.24.140
+          REMOTE_USER: root
+          TARGET: /root/mpr
+
       - name: Deploy to Docker Host
         uses: wshihadeh/docker-deployment-action@v2
         with:
