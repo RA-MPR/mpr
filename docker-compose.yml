@@ -5,17 +5,15 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    container_name: react-ui
+      - 3000:3000
     stdin_open: true
     volumes:
-      - '.:/app'
+      - ./frontend:/app
 
   backend:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
-    container_name: mpr_backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/usr/src/app/
@@ -34,6 +32,13 @@ services:
       - ./backend/.env
     ports:
       - 5432:5432
+
+  nginx:
+    image: nginx:1.19
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 4000:80
 
 volumes:
   postgres_data:
