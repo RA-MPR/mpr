@@ -23,6 +23,8 @@ services:
       - ./backend/.env
     depends_on:
       - db
+    environment:
+      DJANGO_ALLOWED_HOSTS: mpr.zarybnicky.com
 
   db:
     image: postgres:13.0-alpine
@@ -39,8 +41,6 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 4000:80
-    environment:
-      DJANGO_ALLOWED_HOSTS: mpr.zarybnicky.com
 
 volumes:
   postgres_data:
