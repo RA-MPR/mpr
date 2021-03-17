@@ -48,3 +48,5 @@ const CompanyDetails = ({companyDetails, contactPersons, notes, events, orders})
         </div>
     )
 }
+
+export default CompanyDetails;

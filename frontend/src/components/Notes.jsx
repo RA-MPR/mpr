@@ -2,7 +2,7 @@ const Notes = ({data}) => {
 
     return (
         <div className="notes">
-            {notes.map(note => {
+            {data.map(note => {
                 <div className="note">
                     <span className="note-title">{note.title}</span>
                     <div className="note-content">{note.content}</div>
@@ -12,3 +12,5 @@ const Notes = ({data}) => {
         </div>
     )
 }
+
+export default Notes;
