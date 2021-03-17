@@ -22,3 +22,5 @@ const Orders = ({data}) => {
         </div>
     )
 }
+
+export default Orders;

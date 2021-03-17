@@ -25,3 +25,5 @@ const Events = ({data}) => {
         </div>
     )
 }
+
+export default Events;
