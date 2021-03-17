@@ -11,14 +11,14 @@ const Events = ({data}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(event => {
+                    {data.map(event => (
                         <tr>
-                            <td>{event.dete}</td>
+                            <td>{event.date}</td>
                             <td>{event.name}</td>
                             <td>{event.description}</td>
                             <td><input type="checkbox" name="reminder" id={"reminder-" + event.id}/></td>
                         </tr>
-                    })}
+                    ))}
                 </tbody>
             </table>
             <button>+ Nová</button>
