@@ -10,13 +10,13 @@ const Orders = ({data}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(order => {
+                    {data.map(order => (
                         <tr>
                             <td>{order.date}</td>
                             <td>{order.contractNumber}</td>
                             <td>{order.sum}</td>
                         </tr>
-                    })}
+                    ))}
                 </tbody>
             </table>
         </div>
