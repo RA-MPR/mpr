@@ -23,8 +23,6 @@ services:
       - ./backend/.env
     depends_on:
       - db
-    environment:
-      DJANGO_ALLOWED_HOSTS: mpr.zarybnicky.com
 
   db:
     image: postgres:13.0-alpine
