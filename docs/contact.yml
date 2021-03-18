@@ -1,0 +1,5 @@
+get:
+  tags: [ contact ]
+  summary: Get list of contacts
+  description: Returns all contacts.
+  operationId: getContact

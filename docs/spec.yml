@@ -1,0 +1,42 @@
+openapi: 3.0.2
+
+info:
+  description: |
+    MPR school project
+  version: "1.0.0"
+  title: MPR project
+
+tags:
+  - name: company
+    x-displayName: Company
+    description: >
+      Resources for working with company.
+  - name: contact
+    x-displayName: Contact
+    description: >
+      Resources for working with contact.
+  - name: event
+    x-displayName: Event
+    description: >
+      Resources for working with event.
+  - name: order
+    x-displayName: Order
+    description: >
+        Resources for working with order.
+  - name: user
+    x-displayName: User
+    description: >
+        Resources for working with user.
+
+
+paths:
+  /company:
+    $ref: './company.yml'
+  /contact:
+    $ref: './contact.yml'
+  /event:
+    $ref: './event.yml'
+  /order:
+    $ref: './order.yml'
+  /user:
+    $ref: './user.yml'

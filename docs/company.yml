@@ -1,0 +1,5 @@
+get:
+  tags: [ company ]
+  summary: Get list of companies
+  description: Returns all companies.
+  operationId: getCompany

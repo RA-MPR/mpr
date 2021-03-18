@@ -1,0 +1,5 @@
+get:
+  tags: [ user ]
+  summary: Get list of users
+  description: Returns all users.
+  operationId: getUser

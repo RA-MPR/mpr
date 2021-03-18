@@ -1,0 +1,5 @@
+get:
+  tags: [ event ]
+  summary: Get list of events
+  description: Returns all Events.
+  operationId: getEvent
