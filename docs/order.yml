@@ -1,0 +1,5 @@
+get:
+  tags: [ order ]
+  summary: Get list of orders
+  description: Returns all Orders.
+  operationId: getOrder
