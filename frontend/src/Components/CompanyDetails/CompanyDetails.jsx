@@ -6,11 +6,19 @@ const CompanyDetails = ({companyDetails, contactPersons, notes, events, orders})
 
     const {companyName, companyICO, billingAddress, contactAddress} = companyDetails;
 
+    const editCompanyDetails = () => {
+        // TODO
+    }
+
+    const deleteCompany = () => {
+        // TODO
+    }
+
     return (
         <div>
             <div className="detail-header">
                  <h1 id="company-name">{companyName} - {companyICO}</h1>
-                 <button>Smazat</button>
+                 <button onClick={deleteCompany}>Smazat</button>
             </div>
            <div className="details-body">
                <h2>Kontaktní osoba</h2>
@@ -30,7 +38,7 @@ const CompanyDetails = ({companyDetails, contactPersons, notes, events, orders})
                 <h2>Kontaktní adresa</h2>
                 <span>{contactAddress}</span>
 
-                <button>Upravit</button>
+                <button onClick={editCompanyDetails}>Upravit</button>
            </div>
             <h2>Poznámky</h2>
                 <Notes data={notes}/>

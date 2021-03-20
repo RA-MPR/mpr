@@ -1,4 +1,9 @@
 const Events = ({data}) => {
+
+    const addEvent = () => {
+
+    }
+
     return (
         <div className="events">
             <table>
@@ -21,7 +26,7 @@ const Events = ({data}) => {
                     ))}
                 </tbody>
             </table>
-            <button>+ Nová</button>
+            <button onClick={addEvent}>+ Nová</button>
         </div>
     )
 }
