@@ -3,7 +3,7 @@
     border: 2px solid red ;
     display: flex; 
     flex-direction: column;
-    height: 50vh;
+    height: 80vh;
     width: 70vw;
     padding: 1%;
 }
