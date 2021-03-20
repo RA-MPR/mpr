@@ -1,7 +1,10 @@
+import "./Notes.css"
+
 const Notes = ({data}) => {
 
     return (
         <div className="notes">
+            <h2>Poznámky</h2>
             {data.map(note => (
                 
                 <div className="note">

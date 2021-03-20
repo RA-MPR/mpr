@@ -1,0 +1,8 @@
+.details-header, .details-body {
+    text-align: left;
+}
+
+.company-details-delete-button {
+    /* background-color: red; */
+    background-color: red !important;
+}
