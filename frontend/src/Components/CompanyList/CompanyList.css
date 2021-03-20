@@ -1,0 +1,76 @@
+.company-list{
+    /* TODO remove border for testing */
+    border: 2px solid red ;
+    display: flex; 
+    flex-direction: column;
+    height: 80vh;
+    width: 70vw;
+    padding: 1%;
+}
+
+.company-list-add {
+    color : green !important;
+}
+
+.company-list-close {
+    color : red !important;
+}
+
+.text-container {
+    overflow-wrap: break-word;
+  }
+
+.company-status{
+    padding: 3px 7px;
+    border-radius: 5px;
+    color:white;
+}
+
+.company-list-table{
+    max-height: 50%;
+}
+
+.company-list-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.company-list-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.company-list-footer-letter{
+    cursor: pointer;
+    margin: 0px 0.5% !important;
+}
+
+.company-list-footer-letter.active{
+    color: #109cf1;
+    text-decoration: underline;
+}
+
+.company-list-header-button{
+    border:0px !important;
+    background-color: white !important;
+    color: gray !important;
+}
+
+.company-list-header-button.active{
+    border:2px solid #109cf1 !important;
+    background-color: white !important;
+    color: #109cf1 !important;
+    display: inline-block !important;
+    box-sizing: border-box;
+}
+
+.add-button{
+    padding: 7px 15px !important;
+    border-radius: 5px !important;
+    background-color: #109cf1 !important;
+    color: white !important;
+}
