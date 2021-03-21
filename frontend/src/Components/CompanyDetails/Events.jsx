@@ -5,6 +5,7 @@ import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
 
 import CheckIcon from "@material-ui/icons/Check"
 import CloseIcon from "@material-ui/icons/Close"
@@ -18,7 +19,7 @@ const Events = ({data}) => {
     return (
         <div>
             <div className="events">
-                <h2>Aktivity</h2>
+                <Typography variant="h4">Aktivity</Typography>
                 <TableContainer>
                     <Table>
                         <TableHead>

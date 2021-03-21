@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material
 import Button from "@material-ui/core/Button"
 import DeleteDialog from "./DeleteDialog"
 import React from "react"
+import Typography from "@material-ui/core/Typography"
 
 import "./CompanyDetails.css"
 
@@ -18,11 +19,12 @@ const CompanyDetails = ({companyDetails, contactPersons,  events, orders}) => {
     return (
         <div className="company-details">
             <div className="company-details-header">
-                 <h1 id="company-name">{companyName} - {companyICO}</h1>
+                <Typography id="company-name" variant="h3">{companyName} - {companyICO}</Typography>
                  <DeleteDialog companyName={companyName}/>
             </div>
            <div className="company-details-body">
-               <h2>Kontaktní osoba</h2>
+                <Typography variant="h4">Kontaktní osoba</Typography>
+               
                <TableContainer>
                    <Table className="company-details-contact-persons">
                        <TableBody>
@@ -37,14 +39,12 @@ const CompanyDetails = ({companyDetails, contactPersons,  events, orders}) => {
                     </Table> 
                 </TableContainer>
                 
-
-                <h2>Obchodní adresa</h2>
+                <Typography variant="h4">Obchodní adresa</Typography>
                 <span>{billingAddress}</span>
 
-                <h2>Kontaktní adresa</h2>
+                <Typography variant="h4">Kontaktní adresa</Typography>
                 <span>{contactAddress}</span>
-                
-                
+            
             </div>
 
                 <div className="comapy-details-body-footer">

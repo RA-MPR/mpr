@@ -4,11 +4,12 @@ import TableCell from "@material-ui/core/TableCell"
 import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
+import Typography from "@material-ui/core/Typography"
 
 const Orders = ({data}) => {
     return (
         <div className="orders">
-            <h2>Podepsané objednávky</h2>
+            <Typography variant="h4">Podepsané objednávky</Typography>
             <TableContainer>
                 <Table>
                     <TableHead>
