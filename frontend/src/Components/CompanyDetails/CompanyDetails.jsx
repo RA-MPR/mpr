@@ -16,11 +16,16 @@ const CompanyDetails = ({companyDetails, contactPersons,  events, orders}) => {
         // TODO
     }
 
+    const handleBack = () => {
+        // TODO
+    }
+
     return (
         <div className="company-details">
             <div className="company-details-header">
+                <Button className="company-details-back-button" onClick={handleBack}>Zpět</Button>
                 <Typography id="company-name" variant="h3">{companyName} - {companyICO}</Typography>
-                 <DeleteDialog companyName={companyName}/>
+                <DeleteDialog companyName={companyName}/>
             </div>
            <div className="company-details-body">
                 <Typography variant="h4">Kontaktní osoba</Typography>
