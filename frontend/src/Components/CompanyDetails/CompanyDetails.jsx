@@ -1,38 +1,30 @@
-import Notes from "./Notes"
 import Events from "./Events"
 import Orders from "./Orders"
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableRow from "@material-ui/core/TableRow"
+import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core"
 import Button from "@material-ui/core/Button"
+import DeleteDialog from "./DeleteDialog"
+import React from "react"
 
 import "./CompanyDetails.css"
 
+const CompanyDetails = ({companyDetails, contactPersons,  events, orders}) => {
 
-const CompanyDetails = ({companyDetails, contactPersons, notes, events, orders}) => {
-
-    const {companyName, companyICO, billingAddress, contactAddress} = companyDetails;
+    const {companyName, companyICO, billingAddress, contactAddress, created} = companyDetails;
 
     const editCompanyDetails = () => {
         // TODO
     }
 
-    const deleteCompany = () => {
-        // TODO
-    }
-
     return (
-        <div>
-            <div className="details-header">
+        <div className="company-details">
+            <div className="company-details-header">
                  <h1 id="company-name">{companyName} - {companyICO}</h1>
-                 <Button className="company-details-delete-button" variant="contained" onClick={deleteCompany}>Smazat</Button>
+                 <DeleteDialog companyName={companyName}/>
             </div>
-           <div className="details-body">
+           <div className="company-details-body">
                <h2>Kontaktní osoba</h2>
                <TableContainer>
-                   <Table>
+                   <Table className="company-details-contact-persons">
                        <TableBody>
                            {contactPersons.map(person => (
                                 <TableRow>
@@ -51,16 +43,17 @@ const CompanyDetails = ({companyDetails, contactPersons, notes, events, orders})
 
                 <h2>Kontaktní adresa</h2>
                 <span>{contactAddress}</span>
+                
+                
+            </div>
 
-                <Button onClick={editCompanyDetails}>Upravit</Button>
-           </div>
-                <Notes data={notes}/>
-
-                <hr/>
+                <div className="comapy-details-body-footer">
+                    <Button className="company-details-edit-button" onClick={editCompanyDetails}>Upravit</Button>
+                </div>
 
                 <Events data={events}/>
-
-                <hr/>
+                
+                <span className="company-details-created-date">Vytvořeno dne {created}</span>
 
                 <Orders data={orders}/>
 

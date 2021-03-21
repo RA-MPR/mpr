@@ -5,8 +5,6 @@ import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 
-import "./Orders.css"
-
 const Orders = ({data}) => {
     return (
         <div className="orders">
@@ -25,7 +23,7 @@ const Orders = ({data}) => {
                             <TableRow>
                                 <TableCell>{order.date}</TableCell>
                                 <TableCell>{order.contractNumber}</TableCell>
-                                <TableCell>{order.sum}</TableCell>
+                                <TableCell>{order.sum}&nbsp;CZK</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
