@@ -28,64 +28,66 @@ const ContactNew = ({ open, setOpen, contacts, setContacts }) => {
                                 tel: tel.current.value}]);
   };
   return (
-    <form onSubmit={handleAdd}>
-      <Dialog
-        open={open}
-        aria-labelledby="form-dialog-title"
-        disablePortal
-      >
-        <DialogTitle id="form-dialog-title">Přidat kontaktní osobu</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            required
-            variant="outlined"
-            margin="dense"
-            id="name"
-            fullWidth
-            label="Jméno"
-            name="name"
-            inputRef={name}
-          />
-          <TextField
-            required
-            variant="outlined"
-            margin="dense"
-            id="surname"
-            fullWidth
-            label="Příjmení"
-            name="surname"
-            inputRef={surname}
-          />
-          <TextField
-            variant="outlined"
-            margin="dense"
-            id="email"
-            label="E-mail"
-            type="email"
-            fullWidth
-            inputRef={email}
-          />
-          <TextField
-            variant="outlined"
-            margin="dense"
-            id="tel"
-            label="Telefon"
-            type="number"
-            fullWidth
-            inputRef={tel}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Zrušit
-          </Button>
-          <Button type="submit" color="primary">
-            Přidat
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </form>
+    <div>
+      <form onSubmit={handleAdd}>
+        <Dialog
+          open={open}
+          aria-labelledby="form-dialog-title"
+          disablePortal
+        >
+          <DialogTitle id="form-dialog-title">Přidat kontaktní osobu</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              required
+              variant="outlined"
+              margin="dense"
+              id="name"
+              fullWidth
+              label="Jméno"
+              name="name"
+              inputRef={name}
+            />
+            <TextField
+              required
+              variant="outlined"
+              margin="dense"
+              id="surname"
+              fullWidth
+              label="Příjmení"
+              name="surname"
+              inputRef={surname}
+            />
+            <TextField
+              variant="outlined"
+              margin="dense"
+              id="email"
+              label="E-mail"
+              type="email"
+              fullWidth
+              inputRef={email}
+            />
+            <TextField
+              variant="outlined"
+              margin="dense"
+              id="tel"
+              label="Telefon"
+              type="number"
+              fullWidth
+              inputRef={tel}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Zrušit
+            </Button>
+            <Button type="submit" color="primary">
+              Přidat
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </form>
+    </div>
   );
 };
 

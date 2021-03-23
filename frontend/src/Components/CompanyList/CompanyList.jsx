@@ -48,7 +48,7 @@ const testData = [
     {id: 18, insertionDate: "2021/1/18", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "Ga s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
 ]
 
-const CompanyList = ({className}) => {
+const CompanyList = ({onAddCompany, className}) => {
 
     const [companies, setCompanies] = useState([]);
     const [onlyMyCompanies, setOnlyMyCompanies] = useState(true);
@@ -103,10 +103,6 @@ const CompanyList = ({className}) => {
             e.target.parentNode.classList.add("active");
         }
         setOnlyMyCompanies(!onlyMyCompanies);
-    }
-
-    const addCompany = () => {
-        console.log("TODO Show add company form")
     }
 
     const giveUpCompany = () => {
@@ -172,8 +168,8 @@ const CompanyList = ({className}) => {
     }
 
     return (
-        <div className={className}>
-        <CompanyListHeader onToggle={toggleButton} onClickAdd={addCompany}></CompanyListHeader>
+        <div id="companyList" className={className + " company-list"}>
+        <CompanyListHeader onToggle={toggleButton} onClickAdd={onAddCompany}></CompanyListHeader>
         <TableContainer>
             <Table stickyHeader size='small' aria-label="sticky table">
                 <TableHead>
