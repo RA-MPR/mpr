@@ -18,6 +18,10 @@ function CompanyPage() {
     document.getElementById("companyList").classList.add("show");
   }
 
+  const showCompanyDetail = (id) =>{
+    console.log("TODO Show company " + id + " detail");
+  }
+
   return (
     <div className="root">
       <Grid container justify="center" spacing={2} style={{width:"100%"}}>
@@ -25,7 +29,7 @@ function CompanyPage() {
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
               <CompanyNew onCloseForm={showCompanyList} className="company-module"/>
-              <CompanyList onAddCompany={showNewCompanyForm} className="company-module show"/>
+              <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} className="company-module show"/>
             </div>
           </Paper>
         </Grid>
