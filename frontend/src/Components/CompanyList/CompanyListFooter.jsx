@@ -14,7 +14,7 @@ const CompanyListFooter = ({onLetterClick}) => {
     return (
         <div className="company-list-footer">
             {generateLetters().map((letter) => (
-                <Typography onClick={onLetterClick} variant="h6" className="company-list-footer-letter">{letter}</Typography>
+                <Typography key={letter} onClick={onLetterClick} variant="h6" className="company-list-footer-letter">{letter}</Typography>
             ))}
         </div>
     )

@@ -7,3 +7,18 @@
     text-align: center;
     padding: 2;
 }
+
+.company-module {
+    display: none !important;
+}
+
+.company-main-screen {
+    display: flex;
+    flex-direction: column;
+    height: 70vh !important;
+}
+
+.company-module.show {
+    display: flex !important; 
+    flex-direction: column;
+}

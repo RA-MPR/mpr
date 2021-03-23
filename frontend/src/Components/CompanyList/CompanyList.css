@@ -1,15 +1,17 @@
 .company-list{
-    /* TODO remove border for testing */
-    border: 2px solid red ;
     display: flex; 
     flex-direction: column;
-    height: 80vh;
-    width: 70vw;
-    padding: 1%;
+    max-height: 100%;
 }
 
-.company-list-add {
-    color : green !important;
+.company-list-take {
+    background-color: #109cf1 !important;
+    color : white !important;
+}
+
+.company-list-take.disabled {
+    background-color : lightgray !important;
+    color: gray !important;
 }
 
 .company-list-close {

@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ContactList from "./ContactList";
 import ContactNew from "./ContactNew";
 
-function NewCompany() {
+function NewCompany({onCloseForm, className}) {
   const [open, setOpen] = React.useState(false);
   const [contacts, setContacts] = React.useState([]);
 
@@ -24,13 +24,13 @@ function NewCompany() {
 
 
   return (
-    <div>
+    <div id="companyNew" className={className}>
     <ContactNew open={open} setOpen={setOpen} contacts={contacts} setContacts={setContacts}/>
       <form>
         <div className="header">
           <Typography variant="h4">Nová firma</Typography>
           <span className="flexExpand"></span>
-          <IconButton aria-label="cancel">
+          <IconButton aria-label="cancel" onClick={onCloseForm}>
             <CancelIcon />
           </IconButton>
         </div>

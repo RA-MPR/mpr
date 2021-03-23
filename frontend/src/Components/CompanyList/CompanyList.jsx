@@ -6,9 +6,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
-import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
 import CompanyListHeader from './CompanyListHeader'
@@ -21,10 +21,11 @@ const columns = [
     {id: 'insertionDate', label: "Datum"},
     {id: 'status', label: "Status"},
     {id: 'name', label: "Název"},
-    {id: 'contactNumber', label: "Telefonní číslo"},
+    {id: 'contactNumber', label: "Kontakt"},
     {id: 'ico', label: "IČO"},
     {id: 'sales', label: "Reklama v tomto roce"},
-    {id: 'user', label: "Obchodník"}
+    {id: 'user', label: "Obchodník"},
+    {id: 'takeCompany', label: "Zabrat firmu"}
 ]
 
 const testData = [
@@ -48,7 +49,7 @@ const testData = [
     {id: 18, insertionDate: "2021/1/18", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "Ga s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
 ]
 
-const CompanyList = ({className}) => {
+const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
 
     const [companies, setCompanies] = useState([]);
     const [onlyMyCompanies, setOnlyMyCompanies] = useState(true);
@@ -103,10 +104,6 @@ const CompanyList = ({className}) => {
             e.target.parentNode.classList.add("active");
         }
         setOnlyMyCompanies(!onlyMyCompanies);
-    }
-
-    const addCompany = () => {
-        console.log("TODO Show add company form")
     }
 
     const giveUpCompany = () => {
@@ -172,8 +169,8 @@ const CompanyList = ({className}) => {
     }
 
     return (
-        <div className={className}>
-        <CompanyListHeader onToggle={toggleButton} onClickAdd={addCompany}></CompanyListHeader>
+        <div id="companyList" className={className + " company-list"}>
+        <CompanyListHeader onToggle={toggleButton} onClickAdd={onAddCompany}></CompanyListHeader>
         <TableContainer>
             <Table stickyHeader size='small' aria-label="sticky table">
                 <TableHead>
@@ -185,7 +182,9 @@ const CompanyList = ({className}) => {
                                 onClick = {createSortHandler(columns[1].id)}
                             />
                         </TableCell>
-                        {!onlyMyCompanies && <TableCell width="3%" align="center"/>}
+                        {!onlyMyCompanies && <TableCell width="13%" align="center">
+                            {columns[8].label}
+                        </TableCell>}
                         {onlyMyCompanies && <TableCell width="15%" align="center" key={columns[2].id}>
                             <TableSortLabel 
                                 active={columns[2].id === orderBy}
@@ -195,7 +194,7 @@ const CompanyList = ({className}) => {
                                 {columns[2].label}
                             </TableSortLabel>
                         </TableCell>}
-                        <TableCell width={onlyMyCompanies ? "40%" : "50%"} align="center" key={columns[3].id}>
+                        <TableCell width="40%" align="center" key={columns[3].id}>
                             <TableSortLabel 
                                 active={columns[3].id === orderBy}
                                 direction = {columns[3].id === orderBy ? orderDirection : 'asc'}
@@ -246,30 +245,32 @@ const CompanyList = ({className}) => {
                 <TableBody>
                     {sortRowInfo(companies, getComparator(orderDirection, orderBy)).map((company, index) =>(
                         <TableRow hover key={index}>
-                            <TableCell align="left">
-                                {index+1}
+                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="left">
+                                {index}
                             </TableCell>
                             {!onlyMyCompanies && <TableCell align="center">
-                                {(company.user === "" || company.user === undefined) && <IconButton onClick={takeCompany} size="small" className="company-list-add"><CheckIcon/></IconButton>}
+                                {(company.user === "" || company.user === undefined) ? 
+                                    <Button onClick={takeCompany} size="small" className="company-list-take">Zabrat</Button> : 
+                                    <Button size="small" disabled className="company-list-take disabled">Zabrano</Button>}
                             </TableCell>}
-                            {onlyMyCompanies && <TableCell align="center">
+                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
                                 <span className="company-status" style={{backgroundColor: company.statusColor}}>{company.status}</span>
                             </TableCell>}
-                            <TableCell align="center">
+                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
                                 <div className="text-container">
                                     {company.name}
                                 </div>
                             </TableCell>
-                            <TableCell align="center">
+                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
                                 {company.contactNumber}
                             </TableCell>
-                            <TableCell align="center">
+                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
                                 {company.ico}
                             </TableCell>
-                            {onlyMyCompanies && <TableCell align="center">
+                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
                                 {company.sales}
                             </TableCell>}
-                            {!onlyMyCompanies && <TableCell align="center">
+                            {!onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
                                 {company.user}
                             </TableCell>}
                             {onlyMyCompanies && <TableCell align="center">
