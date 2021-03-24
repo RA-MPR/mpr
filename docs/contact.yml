@@ -3,3 +3,53 @@ get:
   summary: Get list of contacts
   description: Returns all contacts.
   operationId: getContact
+
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: './schema.yml#/Contact'
+
+post:
+  tags: [ contact ]
+  summary: Create a new contact
+  description: Creates a new contact.
+  operationId: postContact
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 'test'
+            surname:
+              type: string
+              example: 'test'
+            phone:
+              type: string
+              example: "+420212345678"
+            email:
+              type: string
+              example: 'test@mpr.io'
+            company:
+              type: int
+              example: 2616685
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+              $ref: './schema.yml#/Contact'

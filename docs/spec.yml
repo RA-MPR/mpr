@@ -32,8 +32,12 @@ tags:
 paths:
   /company:
     $ref: './company.yml'
+  /company/{id}:
+    $ref: './company_id.yml'
   /contact:
     $ref: './contact.yml'
+  /contact/{id}:
+    $ref: './contact_id.yml'
   /event:
     $ref: './event.yml'
   /order:
