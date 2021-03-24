@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "company.apps.CompanyConfig",
     "contact.apps.ContactConfig",
+    "order.apps.OrderConfig",
     "rest_framework",
     "phonenumber_field",
     'corsheaders',
@@ -54,7 +55,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -64,9 +65,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+ROOT_URLCONF = "settings.urls"
 CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
-
-ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [
     {
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "backend.wsgi.application"
+WSGI_APPLICATION = "settings.wsgi.application"
 
 
 # Database
