@@ -7,7 +7,7 @@ import CompanyPage from "./Components/CompanyPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <Router>
       <AppBar />
       <Switch>
@@ -20,7 +20,7 @@ ReactDOM.render(
         <Route path="/" component={CompanyPage}></Route>
       </Switch>
     </Router>
-  </React.StrictMode>,
+  /*</React.StrictMode>*/,
   document.getElementById("root")
 );
 
