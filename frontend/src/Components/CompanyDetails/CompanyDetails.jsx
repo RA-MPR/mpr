@@ -1,68 +1,63 @@
 import Events from "./Events"
 import Orders from "./Orders"
-import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core"
+import ContactPersons from "./ContactPersons"
+import Notes from "./Notes"
+import CompanyInformations from "./CompanyInformations"
+
 import Button from "@material-ui/core/Button"
-import DeleteDialog from "./DeleteDialog"
-import React from "react"
 import Typography from "@material-ui/core/Typography"
+import { Card, CardContent } from "@material-ui/core"
 
-import "./CompanyDetails.css"
+import EditIcon from '@material-ui/icons/Edit';
 
-const CompanyDetails = ({companyDetails, contactPersons,  events, orders}) => {
+import React from "react"
 
-    const {companyName, companyICO, billingAddress, contactAddress, created} = companyDetails;
+import "./css/CompanyDetails.css"
 
-    const editCompanyDetails = () => {
-        // TODO
-    }
+
+const CompanyDetails = ({companyDetails, contactPersons, notes,  events, orders}) => {
+
+    const {companyName, companyICO, billingAddress, contactAddress, mainPhoneNumber, created, status, statusColor} = companyDetails;
+
 
     const handleBack = () => {
         // TODO
     }
 
     return (
-        <div className="company-details">
-            <div className="company-details-header">
-                <Button className="company-details-back-button" onClick={handleBack}>Zpět</Button>
-                <Typography id="company-name" variant="h3">{companyName} - {companyICO}</Typography>
-                <DeleteDialog companyName={companyName}/>
-            </div>
-           <div className="company-details-body">
-                <Typography variant="h4">Kontaktní osoba</Typography>
-               
-               <TableContainer>
-                   <Table className="company-details-contact-persons">
-                       <TableBody>
-                           {contactPersons.map(person => (
-                                <TableRow>
-                                    <TableCell>{person.name}</TableCell>
-                                    <TableCell>{person.phoneNumber}</TableCell>
-                                    <TableCell>{person.email}</TableCell>
-                                </TableRow>
-                            ))}
-                       </TableBody>
-                    </Table> 
-                </TableContainer>
-                
-                <Typography variant="h4">Obchodní adresa</Typography>
-                <span>{billingAddress}</span>
-
-                <Typography variant="h4">Kontaktní adresa</Typography>
-                <span>{contactAddress}</span>
-            
-            </div>
-
-                <div className="comapy-details-body-footer">
-                    <Button className="company-details-edit-button" onClick={editCompanyDetails}>Upravit</Button>
+        <Card className="company-details comapny-details-card">
+            <CardContent>
+                <div className="company-details-header">
+                    <div className="left">
+                        <Typography id="company-name" variant="h3">{companyName}</Typography>
+                        <span className="company-status" style={{backgroundColor: statusColor}}>{status} <EditIcon className="icon"/></span>
+                    </div>
+                    
+                    <div>
+                        <Button className="company-details-cancel-button" onClick={handleBack}>Zrušit</Button>
+                        <Button className="company-details-save-button" onClick={handleBack}>Uložit</Button>
+                    </div>
                 </div>
+                <div className="company-details-body">
+                    
+                    <CompanyInformations companyICO={companyICO} billingAddress={billingAddress} 
+                        contactAddress={contactAddress} mainPhoneNumber={mainPhoneNumber}/>
 
-                <Events data={events}/>
-                
-                <span className="company-details-created-date">Vytvořeno dne {created}</span>
+                    <ContactPersons data={contactPersons}/>
 
-                <Orders data={orders}/>
-
-        </div>
+                    <div className="grid">
+                        <Events data={events}/>
+                        <Notes data={notes}/>
+                    </div>
+                    
+                    <Orders data={orders}/>
+                    
+                </div>
+                <div className="company-details-footer">
+                    <span className="company-details-created-date">Přidáno: {created}</span>
+                </div>
+            </CardContent>
+        </Card>
     )
 }
 
