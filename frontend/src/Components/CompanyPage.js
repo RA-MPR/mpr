@@ -3,6 +3,7 @@ import { Grid, Paper } from "@material-ui/core";
 import CompanyNew from "./CompanyNew/CompanyNew";
 // eslint-disable-next-line
 import CompanyList from "./CompanyList/CompanyList";
+// eslint-disable-next-line
 import CompanyDetails from "./CompanyDetails/CompanyDetails";
 import "./CompanyPage.css";
 
