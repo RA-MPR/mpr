@@ -1,0 +1,40 @@
+.company-details-info .grid {
+    display: grid;
+    width: 100%;
+    grid-template-areas: 
+        "leftr1 rightr1"
+        "leftr2 rightr2";
+    grid-template-columns: 50% 50%;
+}
+
+.company-details-info .grid h5{
+    margin-left: 24px;
+}
+
+.company-details-info .grid span {
+    padding-left: 10px;
+    margin-left: 36px;
+    padding-right: 25px;
+    border-bottom: 1px solid #888888;
+}
+
+.company-details-info .grid div {
+    margin-bottom: 23px;
+
+}
+
+.ico {
+    grid-area: leftr1;
+}
+
+.main-phone-number {
+    grid-area: leftr2;
+}
+
+.billing-address{
+    grid-area: rightr1;
+}
+
+.contact-address {
+    grid-area: rightr2;
+}

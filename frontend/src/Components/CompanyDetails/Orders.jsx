@@ -1,37 +1,38 @@
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
+import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
+import { Card, CardContent } from "@material-ui/core"
+import IconButton from "@material-ui/core/IconButton"
+
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+
+import "./css/Orders.css"
 
 const Orders = ({data}) => {
     return (
-        <div className="orders">
-            <Typography variant="h4">Podepsané objednávky</Typography>
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Datum</TableCell>
-                            <TableCell>Číslo smlouvy</TableCell>
-                            <TableCell>Částka</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.map(order => (
-                            <TableRow>
-                                <TableCell>{order.date}</TableCell>
-                                <TableCell>{order.contractNumber}</TableCell>
-                                <TableCell>{order.sum}&nbsp;CZK</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            
-        </div>
+        <Card className="company-details-orders comapny-details-card">
+            <CardContent>
+                <Typography variant="h4">
+                    Podepsané objednávky
+                    <IconButton className="plus-button" size="small" ><AddIcon/></IconButton>
+                </Typography>
+                <TableContainer>
+                    <Table>
+                        <TableBody>
+                            {data.map(order => (
+                                <TableRow>
+                                    <TableCell>{order.date}</TableCell>
+                                    <TableCell>{order.contractNumber}</TableCell>
+                                    <TableCell>{order.state}</TableCell>
+                                    <TableCell>{order.sum}&nbsp;Kč</TableCell>
+                                    <TableCell><IconButton className="delete-button"><DeleteIcon/></IconButton></TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </CardContent>
+        </Card>
     )
 }
 

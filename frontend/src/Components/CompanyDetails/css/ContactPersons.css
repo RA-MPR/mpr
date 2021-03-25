@@ -1,0 +1,8 @@
+.company-details-contact-persons table {
+    border-collapse:separate;
+    border-spacing:0 15px;
+}
+.company-details-contact-persons tr>td {
+    margin-bottom: 9px !important;
+}
+

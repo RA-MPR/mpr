@@ -1,55 +1,56 @@
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import Button from "@material-ui/core/Button"
+import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
+import { Card, CardContent } from "@material-ui/core"
+import IconButton from "@material-ui/core/IconButton"
 
 import CheckIcon from "@material-ui/icons/Check"
 import CloseIcon from "@material-ui/icons/Close"
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+
+import "./css/Events.css";
 
 const Events = ({data}) => {
 
-    const addEvent = () => {
-
-    }
-
     return (
-        <div>
-            <div className="events">
-                <Typography variant="h4">Aktivity</Typography>
+        <Card className="company-details-events comapny-details-card">
+            <CardContent>
+                <Typography variant="h4">
+                    Události
+                    <IconButton className="plus-button" size="small" ><AddIcon/></IconButton>    
+                </Typography>
                 <TableContainer>
                     <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Datum</TableCell>
-                                <TableCell>Název</TableCell>
-                                <TableCell>Popis</TableCell>
-                                <TableCell>Připomínka</TableCell>
-                            </TableRow>
-                        </TableHead>
                         <TableBody>
                             {data.map(event => (
                                 <TableRow>
-                                    <TableCell>{event.date}</TableCell>
-                                    <TableCell>{event.name}</TableCell>
-                                    <TableCell>{event.description}</TableCell>
                                     <TableCell>
-                                        {event.reminder && <CheckIcon/>}
-                                        {!event.reminder && <CloseIcon/>}
+                                        <div className="grid">
+                                            <div className="name">
+                                                {event.name}
+                                            </div>
+                                            <div className="date">
+                                                {event.date}
+                                            </div>
+                                            <div className="delete-button">
+                                                <IconButton size="small"><DeleteIcon/></IconButton>
+                                            </div>
+                                            <div className="description">
+                                                {event.description}
+                                            </div>
+                                            <div className="reminder">
+                                                {event.reminder && <IconButton className="reminder-button" size="small"><CheckIcon/></IconButton>}
+                                                {!event.reminder &&  <IconButton className="reminder-button" size="small"><CloseIcon/></IconButton>}
+                                            </div>
+                                        </div>                                        
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
-            <div className="company-details-event-footer">
-                <Button className="company-details-add-event-button" variant="contained" onClick={addEvent}>+ Nová</Button>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }
 
