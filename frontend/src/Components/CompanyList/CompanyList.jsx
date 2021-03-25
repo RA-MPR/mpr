@@ -11,6 +11,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 import CloseIcon from '@material-ui/icons/Close';
 
+import axios from 'axios';
+
 import CompanyListHeader from './CompanyListHeader'
 import CompanyListFooter from './CompanyListFooter'
 import './CompanyList.css';
@@ -28,62 +30,67 @@ const columns = [
     {id: 'takeCompany', label: "Zabrat firmu"}
 ]
 
-const testData = [
-    {id: 1, insertionDate: "2021/1/1", contactNumber: "+420 123 456 789", status: "Odmítnuto", statusColor: "#ff4a4a", name: "ABCEFGH IJKLM NOPQRST UVWXYZABC EFGH IJKL MNOPQRSTU VW XY ZABCEFGH IJKLMNOPQR STUV WXYZ s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 2, insertionDate: "2021/1/2", contactNumber: "+420 123 456 789", status: "Odmítnuto", statusColor: "rgba(255,74,74,255)", name: "A s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 3, insertionDate: "2021/1/3", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "B s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 4, insertionDate: "2021/1/4", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "Bca s.r.o.", ico: 12345678, user: "", sales: 10000},
-    {id: 5, insertionDate: "2021/1/5", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "C s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-    {id: 6, insertionDate: "2021/1/6", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "D s.r.o.", ico: 12345678, user: "", sales: 10000},
-    {id: 7, insertionDate: "2021/1/7", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "E s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 8, insertionDate: "2021/1/8", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "F s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 9, insertionDate: "2021/1/9", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "G s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 10, insertionDate: "2021/1/10", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "H s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-    {id: 11, insertionDate: "2021/1/11", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "I s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-    {id: 12, insertionDate: "2021/1/12", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "J s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-    {id: 13, insertionDate: "2021/1/13", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "K s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 14, insertionDate: "2021/1/14", contactNumber: "+420 123 456 789", status: "Uzavřeno", statusColor: "green", name: "La s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 15, insertionDate: "2021/1/15", contactNumber: "+420 123 456 789", status: "Uzavřeno", statusColor: "green", name: "X s.r.o.", ico: 12345678, user: "Richard", sales: 10000},
-    {id: 16, insertionDate: "2021/1/16", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "Wa s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-    {id: 17, insertionDate: "2021/1/17", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "ZZZ s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-    {id: 18, insertionDate: "2021/1/18", contactNumber: "+420 123 456 789", status: "Osloveno", statusColor: "orange", name: "Ga s.r.o.", ico: 12345678, user: "Jano", sales: 10000},
-]
-
 const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
-
+    const [companiesFromServer, setCompaniesFromServer] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [onlyMyCompanies, setOnlyMyCompanies] = useState(true);
     const [letterFilter, setLetterFilter] = useState('');
     const [orderDirection, setOrderDirection] = useState('desc');
-    const [orderBy, setOrderBy] = useState('insertionDate');
+    const [orderBy, setOrderBy] = useState('ico');
 
     useEffect(() => {
         const getCompanies = async () => {
-            const companiesFromServer = await fetchCompanies();
+            const compsFromServer = await fetchCompanies();
+            setCompaniesFromServer(compsFromServer);
             if(letterFilter !== ''){
                 if(onlyMyCompanies){
                     //TODO filter companies for currently loged in user
-                    setCompanies(companiesFromServer.filter((company) => (company.user === "Richard") && (company.name[0].toUpperCase() === letterFilter)));
+                    setCompanies(compsFromServer.filter((company) => /*(company.user === "Richard") && */(company.name[0].toUpperCase() === letterFilter)));
+                }else{
+                    setCompanies(compsFromServer.filter((company) => company.name[0].toUpperCase() === letterFilter));
+                }
+            }else{
+                if(onlyMyCompanies){
+                    //TODO filter companies for currently loged in user
+                    setCompanies(compsFromServer/*.filter((company) => company.user === "Richard")*/);
+                }else{
+                    setCompanies(compsFromServer);
+                }
+            }
+        }
+        console.log("First load")
+        getCompanies();
+    },[])
+
+    useEffect(() => {
+        const getCompanies = async () => {
+            if(letterFilter !== ''){
+                if(onlyMyCompanies){
+                    //TODO filter companies for currently loged in user
+                    setCompanies(companiesFromServer.filter((company) => /*(company.user === "Richard") && */(company.name[0].toUpperCase() === letterFilter)));
                 }else{
                     setCompanies(companiesFromServer.filter((company) => company.name[0].toUpperCase() === letterFilter));
                 }
             }else{
                 if(onlyMyCompanies){
                     //TODO filter companies for currently loged in user
-                    setCompanies(companiesFromServer.filter((company) => company.user === "Richard"));
+                    setCompanies(companiesFromServer/*.filter((company) => company.user === "Richard")*/);
                 }else{
                     setCompanies(companiesFromServer);
                 }
             }
         }
+        console.log("filter")
         getCompanies();
     },[onlyMyCompanies, letterFilter])
 
-    const fetchCompanies = async() => {
-        // TODO Fetch data from API
-        /*const response = await fetch('');
-        const data = await response.json();*/
+    /*const fetchCompanies = async() => {
         const data = testData;
+        return data;
+    }*/
+
+    const fetchCompanies = async() => {
+        const data = await axios.get('http://127.0.0.1:8000/company').then(res => res.data);
         return data;
     }
 
@@ -245,32 +252,32 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                 <TableBody>
                     {sortRowInfo(companies, getComparator(orderDirection, orderBy)).map((company, index) =>(
                         <TableRow hover key={index}>
-                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="left">
-                                {index}
+                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="left">
+                                {index+1}
                             </TableCell>
                             {!onlyMyCompanies && <TableCell align="center">
                                 {(company.user === "" || company.user === undefined) ? 
                                     <Button onClick={takeCompany} size="small" className="company-list-take">Zabrat</Button> : 
                                     <Button size="small" disabled className="company-list-take disabled">Zabrano</Button>}
                             </TableCell>}
-                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
-                                <span className="company-status" style={{backgroundColor: company.statusColor}}>{company.status}</span>
+                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                                <span className="company-status" style={{backgroundColor: company.status_color}}>{company.status}</span>
                             </TableCell>}
-                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
+                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 <div className="text-container">
                                     {company.name}
                                 </div>
                             </TableCell>
-                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
-                                {company.contactNumber}
+                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                                {company.phone_number}
                             </TableCell>
-                            <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
+                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.ico}
                             </TableCell>
-                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
+                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.sales}
                             </TableCell>}
-                            {!onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.id)} align="center">
+                            {!onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.user}
                             </TableCell>}
                             {onlyMyCompanies && <TableCell align="center">
