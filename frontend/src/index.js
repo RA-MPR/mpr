@@ -5,9 +5,22 @@ import AppBar from "./Components/AppBar/AppBar";
 import reportWebVitals from "./reportWebVitals";
 import CompanyPage from "./Components/CompanyPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+
+const theme = createMuiTheme({
+  palette: {
+     primary: {
+        main: "#109cf1" // This is an orange looking color
+               },
+     secondary: {
+        main: "#ffcc80" //Another orange-ish color
+                }
+           }
+});
 
 ReactDOM.render(
   //<React.StrictMode>
+  <ThemeProvider theme={theme}>
     <Router>
       <AppBar />
       <Switch>
@@ -20,6 +33,7 @@ ReactDOM.render(
         <Route path="/" component={CompanyPage}></Route>
       </Switch>
     </Router>
+  </ThemeProvider>
   /*</React.StrictMode>*/,
   document.getElementById("root")
 );

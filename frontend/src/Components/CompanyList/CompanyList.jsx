@@ -37,6 +37,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
     const [letterFilter, setLetterFilter] = useState('');
     const [orderDirection, setOrderDirection] = useState('desc');
     const [orderBy, setOrderBy] = useState('ico');
+    const [searchValue, setSearchValue] = useState("");
 
     useEffect(() => {
         const getCompanies = async () => {
@@ -67,22 +68,22 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
             if(letterFilter !== ''){
                 if(onlyMyCompanies){
                     //TODO filter companies for currently loged in user
-                    setCompanies(companiesFromServer.filter((company) => /*(company.user === "Richard") && */(company.name[0].toUpperCase() === letterFilter)));
+                    setCompanies(companiesFromServer.filter((company) => /*(company.user === "Richard") && */company.name.toLowerCase().includes(searchValue.toLowerCase()) && (company.name[0].toUpperCase() === letterFilter)));
                 }else{
-                    setCompanies(companiesFromServer.filter((company) => company.name[0].toUpperCase() === letterFilter));
+                    setCompanies(companiesFromServer.filter((company) => company.name.toLowerCase().includes(searchValue.toLowerCase()) && company.name[0].toUpperCase() === letterFilter));
                 }
             }else{
                 if(onlyMyCompanies){
                     //TODO filter companies for currently loged in user
-                    setCompanies(companiesFromServer/*.filter((company) => company.user === "Richard")*/);
+                    setCompanies(companiesFromServer.filter((company) => company.name.toLowerCase().includes(searchValue.toLowerCase())/* && company.user === "Richard")*/));
                 }else{
-                    setCompanies(companiesFromServer);
+                    setCompanies(companiesFromServer.filter((company) => company.name.toLowerCase().includes(searchValue.toLowerCase())));
                 }
             }
         }
         console.log("filter")
         getCompanies();
-    },[onlyMyCompanies, letterFilter])
+    },[onlyMyCompanies, letterFilter, searchValue])
 
     /*const fetchCompanies = async() => {
         const data = testData;
@@ -119,6 +120,10 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
 
     const takeCompany = () => {
         console.log("TODO Take control of company")
+    }
+
+    const onSearch = (value) => {
+        setSearchValue(value);
     }
 
     const letterClicked = (e) => {
@@ -177,7 +182,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
 
     return (
         <div id="companyList" className={className + " company-list"}>
-        <CompanyListHeader onToggle={toggleButton} onClickAdd={onAddCompany}></CompanyListHeader>
+        <CompanyListHeader onSearch={onSearch} onToggle={toggleButton} onClickAdd={onAddCompany}></CompanyListHeader>
         <TableContainer>
             <Table stickyHeader size='small' aria-label="sticky table">
                 <TableHead>
