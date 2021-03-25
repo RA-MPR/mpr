@@ -24,8 +24,23 @@
     -moz-appearance: textfield;
   }
   
-  .paperContacts {
+  .paperStatus {
       background-color: lightgray;
       max-height: 200px;
       overflow: auto;
   }
+
+  .toggleColors .MuiToggleButtonGroup-root{
+    padding: 5x;
+  }
+
+  .toggleColors .MuiToggleButtonGroup-grouped{
+    color: transparent;
+    width: 80px;
+    border-width: 1px;
+    border-color: grey;
+    border-radius: 5px;
+    height: 30px;
+  }
+
+  

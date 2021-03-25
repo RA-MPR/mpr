@@ -15,7 +15,7 @@
 .company-main-screen {
     display: flex;
     flex-direction: column;
-    height: 70vh !important;
+    height: 80vh !important;
 }
 
 .company-module.show {
