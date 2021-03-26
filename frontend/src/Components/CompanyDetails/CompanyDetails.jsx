@@ -1,68 +1,106 @@
 import Events from "./Events"
 import Orders from "./Orders"
-import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core"
+import ContactPersons from "./ContactPersons"
+import Notes from "./Notes"
+import CompanyInformations from "./CompanyInformations"
+
 import Button from "@material-ui/core/Button"
-import DeleteDialog from "./DeleteDialog"
-import React from "react"
 import Typography from "@material-ui/core/Typography"
+import { Card, CardContent } from "@material-ui/core"
 
-import "./CompanyDetails.css"
+import EditIcon from '@material-ui/icons/Edit';
 
-const CompanyDetails = ({companyDetails, contactPersons,  events, orders}) => {
+import { React, useState, useEffect } from "react"
 
-    const {companyName, companyICO, billingAddress, contactAddress, created} = companyDetails;
+import axios from "axios"
 
-    const editCompanyDetails = () => {
-        // TODO
+import "./css/CompanyDetails.css"
+
+const CompanyDetails = ({ico}) => {
+
+    const [company, setCompany] = useState();
+    const [contacts, setContacts] = useState([]);
+    const [orders, setOrders] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [notes, setNotes] = useState([]);
+    
+    const fetchCompany = async () => {
+        return await axios.get('http://127.0.0.1:8000/company/'+ico).then(res => res.data);
     }
+
+    const fetchContacts = async () => {
+        return await axios.get('http://127.0.0.1:8000/contact').then(res => res.data);
+    }
+
+    const fetchOrders = async () => {
+        return await axios.get('http://127.0.0.1:8000/order').then(res => res.data);
+    }
+
+    const fetchEvents = async () => {
+        return await axios.get('http://127.0.0.1:8000/event').then(res => res.data);
+    }
+
+    const fetchNotes= async () => {
+        return await axios.get('http://127.0.0.1:8000/note').then(res => res.data);
+    }
+ 
+    useEffect(() => {
+
+        const getData = async () => {
+            setCompany(await fetchCompany());
+            const contactData = await fetchContacts();
+            setContacts(contactData.filter(contact => contact.company == ico));
+            const ordersData = await fetchOrders();
+            setOrders(ordersData.filter(order => order.company.ico == ico));
+            const eventsData = await fetchEvents();
+            setEvents(eventsData.filter(event => event.company.ico == ico));
+            const notesData = await fetchNotes();
+            setNotes(notesData.filter(note => note.company.ico == ico));
+        } 
+        getData();
+    },[])
+
+    
 
     const handleBack = () => {
         // TODO
     }
 
-    return (
-        <div className="company-details">
-            <div className="company-details-header">
-                <Button className="company-details-back-button" onClick={handleBack}>Zpět</Button>
-                <Typography id="company-name" variant="h3">{companyName} - {companyICO}</Typography>
-                <DeleteDialog companyName={companyName}/>
-            </div>
-           <div className="company-details-body">
-                <Typography variant="h4">Kontaktní osoba</Typography>
-               
-               <TableContainer>
-                   <Table className="company-details-contact-persons">
-                       <TableBody>
-                           {contactPersons.map(person => (
-                                <TableRow>
-                                    <TableCell>{person.name}</TableCell>
-                                    <TableCell>{person.phoneNumber}</TableCell>
-                                    <TableCell>{person.email}</TableCell>
-                                </TableRow>
-                            ))}
-                       </TableBody>
-                    </Table> 
-                </TableContainer>
-                
-                <Typography variant="h4">Obchodní adresa</Typography>
-                <span>{billingAddress}</span>
-
-                <Typography variant="h4">Kontaktní adresa</Typography>
-                <span>{contactAddress}</span>
-            
-            </div>
-
-                <div className="comapy-details-body-footer">
-                    <Button className="company-details-edit-button" onClick={editCompanyDetails}>Upravit</Button>
+    return (        
+       <Card className="company-details comapny-details-card">
+            {company &&<CardContent>
+                 <div className="company-details-header">
+                    <div className="left">
+                        <Typography id="company-name" variant="h3">{company.name}</Typography>
+                        <span className="company-status" >{company.status} <EditIcon className="icon"/></span>
+                    </div>
+                    
+                    <div>
+                        <Button className="company-details-cancel-button" onClick={handleBack}>Zrušit</Button>
+                        <Button className="company-details-save-button" onClick={handleBack}>Uložit</Button>
+                    </div>
                 </div>
+                <div className="company-details-body">
+                    
+                    <CompanyInformations companyICO={company.ico} billingAddress={company.billing_address} 
+                        contactAddress={company.contact_address} mainPhoneNumber={company.phone_number}/>
 
-                <Events data={events}/>
-                
-                <span className="company-details-created-date">Vytvořeno dne {created}</span>
+                    <ContactPersons data={contacts}/>
 
-                <Orders data={orders}/>
+                    <div className="grid">
+                        <Events data={events}/>
+                        <Notes data={notes}/>
+                    </div>
+                    
+                    <Orders data={orders}/>
+                    
+                </div>
+                <div className="company-details-footer">
+                    {/* <span className="company-details-created-date">Přidáno: {created}</span> */}
+                </div>
+            </CardContent>}
 
-        </div>
+        </Card>
     )
 }
 

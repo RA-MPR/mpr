@@ -1,0 +1,15 @@
+
+.company-details-notes-content {
+   display: flex;
+    flex-flow: column;
+    height: 100%;
+   
+}
+
+.notes-box {
+    background-color: #F2F2F2;
+    padding: 13px 13px 13px 33px;
+    margin-top: 15px;
+    flex: 1 1 auto;
+    margin-bottom: 55px;
+}

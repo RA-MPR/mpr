@@ -1,0 +1,30 @@
+.company-details-orders table {
+    border-collapse:separate;
+    border-spacing:0 15px;
+}
+
+.company-details-orders td
+{
+    box-shadow: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.company-details-orders td:nth-child(1) {
+    width: 12% ;
+}
+
+.company-details-orders td:nth-child(2) {
+    width: 12% ;
+}
+
+.company-details-orders td:nth-child(3) {
+    width: 60% ;
+}
+
+.company-details-orders td:nth-child(4) {
+    width: 12% ;
+}
+
+.company-details-orders td:nth-child(5) {
+    width: 4%;
+}
