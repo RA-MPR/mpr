@@ -22,7 +22,7 @@ const Orders = ({data}) => {
                             {data.map(order => (
                                 <TableRow>
                                     <TableCell>{order.date}</TableCell>
-                                    <TableCell>{order.contractNumber}</TableCell>
+                                    <TableCell>{order.contract_number}</TableCell>
                                     <TableCell>{order.state}</TableCell>
                                     <TableCell>{order.sum}&nbsp;Kč</TableCell>
                                     <TableCell><IconButton className="delete-button"><DeleteIcon/></IconButton></TableCell>

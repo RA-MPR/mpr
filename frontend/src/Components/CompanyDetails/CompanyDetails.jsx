@@ -20,9 +20,11 @@ import { Suspense } from "react"
 
 const CompanyDetails = ({ico}) => {
 
-    // const {companyName, companyICO, billingAddress, contactAddress, mainPhoneNumber, created, status, statusColor} = companyDetails;
     const [company, setCompany] = useState();
     const [contacts, setContacts] = useState([]);
+    const [orders, setOrders] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [notes, setNotes] = useState([]);
     
     const fetchCompany = async () => {
         return await axios.get('http://127.0.0.1:8000/company/'+ico).then(res => res.data);
@@ -39,13 +41,23 @@ const CompanyDetails = ({ico}) => {
     const fetchEvents = async () => {
         return await axios.get('http://127.0.0.1:8000/event').then(res => res.data);
     }
+
+    const fetchNotes= async () => {
+        return await axios.get('http://127.0.0.1:8000/note').then(res => res.data);
+    }
  
     useEffect(() => {
 
         const getData = async () => {
             setCompany(await fetchCompany());
             const contactData = await fetchContacts();
-            setContacts(contactData.filter(contact => contact.company == ico))
+            setContacts(contactData.filter(contact => contact.company == ico));
+            const ordersData = await fetchOrders();
+            setOrders(ordersData.filter(order => order.company.ico == ico));
+            const eventsData = await fetchEvents();
+            setEvents(eventsData.filter(event => event.company.ico == ico));
+            const notesData = await fetchNotes();
+            setNotes(notesData.filter(note => note.company.ico == ico));
         } 
         getData();
     },[])
@@ -79,11 +91,11 @@ const CompanyDetails = ({ico}) => {
                     <ContactPersons data={contacts}/>
 
                     <div className="grid">
-                        <Events data={[]}/>
-                        <Notes data={[]}/>
+                        <Events data={events}/>
+                        <Notes data={notes}/>
                     </div>
                     
-                    <Orders data={[]}/>
+                    <Orders data={orders}/>
                     
                 </div>
                 <div className="company-details-footer">
