@@ -15,8 +15,6 @@ import { React, useState, useEffect } from "react"
 import axios from "axios"
 
 import "./css/CompanyDetails.css"
-import { Suspense } from "react"
-
 
 const CompanyDetails = ({ico}) => {
 
@@ -68,8 +66,7 @@ const CompanyDetails = ({ico}) => {
         // TODO
     }
 
-    return (
-        
+    return (        
        <Card className="company-details comapny-details-card">
             {company &&<CardContent>
                  <div className="company-details-header">
@@ -102,6 +99,7 @@ const CompanyDetails = ({ico}) => {
                     {/* <span className="company-details-created-date">Přidáno: {created}</span> */}
                 </div>
             </CardContent>}
+
         </Card>
     )
 }
