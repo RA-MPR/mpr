@@ -10,27 +10,60 @@ import { Card, CardContent } from "@material-ui/core"
 
 import EditIcon from '@material-ui/icons/Edit';
 
-import React from "react"
+import { React, useState, useEffect } from "react"
+
+import axios from "axios"
 
 import "./css/CompanyDetails.css"
+import { Suspense } from "react"
 
 
-const CompanyDetails = ({companyDetails, contactPersons, notes,  events, orders}) => {
+const CompanyDetails = ({ico}) => {
 
-    const {companyName, companyICO, billingAddress, contactAddress, mainPhoneNumber, created, status, statusColor} = companyDetails;
+    // const {companyName, companyICO, billingAddress, contactAddress, mainPhoneNumber, created, status, statusColor} = companyDetails;
+    const [company, setCompany] = useState();
+    const [contacts, setContacts] = useState([]);
+    
+    const fetchCompany = async () => {
+        return await axios.get('http://127.0.0.1:8000/company/'+ico).then(res => res.data);
+    }
 
+    const fetchContacts = async () => {
+        return await axios.get('http://127.0.0.1:8000/contact').then(res => res.data);
+    }
+
+    const fetchOrders = async () => {
+        return await axios.get('http://127.0.0.1:8000/order').then(res => res.data);
+    }
+
+    const fetchEvents = async () => {
+        return await axios.get('http://127.0.0.1:8000/event').then(res => res.data);
+    }
+ 
+    useEffect(() => {
+
+        const getData = async () => {
+            setCompany(await fetchCompany());
+            const contactData = await fetchContacts();
+            setContacts(contactData.filter(contact => contact.company == ico))
+        } 
+        getData();
+    },[])
+
+    
 
     const handleBack = () => {
         // TODO
     }
 
     return (
-        <Card className="company-details comapny-details-card">
-            <CardContent>
-                <div className="company-details-header">
+        
+       <Card className="company-details comapny-details-card">
+            {company &&<CardContent>
+                 <div className="company-details-header">
                     <div className="left">
-                        <Typography id="company-name" variant="h3">{companyName}</Typography>
-                        <span className="company-status" style={{backgroundColor: statusColor}}>{status} <EditIcon className="icon"/></span>
+                        <Typography id="company-name" variant="h3">{company.name}</Typography>
+                        <span className="company-status" >{company.status} <EditIcon className="icon"/></span>
                     </div>
                     
                     <div>
@@ -40,23 +73,23 @@ const CompanyDetails = ({companyDetails, contactPersons, notes,  events, orders}
                 </div>
                 <div className="company-details-body">
                     
-                    <CompanyInformations companyICO={companyICO} billingAddress={billingAddress} 
-                        contactAddress={contactAddress} mainPhoneNumber={mainPhoneNumber}/>
+                    <CompanyInformations companyICO={company.ico} billingAddress={company.billing_address} 
+                        contactAddress={company.contact_address} mainPhoneNumber={company.phone_number}/>
 
-                    <ContactPersons data={contactPersons}/>
+                    <ContactPersons data={contacts}/>
 
                     <div className="grid">
-                        <Events data={events}/>
-                        <Notes data={notes}/>
+                        <Events data={[]}/>
+                        <Notes data={[]}/>
                     </div>
                     
-                    <Orders data={orders}/>
+                    <Orders data={[]}/>
                     
                 </div>
                 <div className="company-details-footer">
-                    <span className="company-details-created-date">Přidáno: {created}</span>
+                    {/* <span className="company-details-created-date">Přidáno: {created}</span> */}
                 </div>
-            </CardContent>
+            </CardContent>}
         </Card>
     )
 }

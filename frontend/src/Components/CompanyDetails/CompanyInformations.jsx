@@ -16,17 +16,17 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                     
                     <div className="main-phone-number">
                         <Typography variant="h5">Hlavní kontaktní číslo</Typography>
-                        <span>{mainPhoneNumber}</span>
+                        <span>{mainPhoneNumber} </span>
                     </div>
                     
                     <div className="billing-address">
                         <Typography variant="h5">Obchodní adresa</Typography>
-                        <span>{billingAddress}</span>
+                        <span>{billingAddress.street}, {billingAddress.zip} {billingAddress.city}, {billingAddress.country}</span>
                     </div>
                     
                     <div className="contact-address">
                         <Typography variant="h5">Kontaktní adresa</Typography>
-                        <span>{contactAddress}</span>
+                        <span>{contactAddress.street}, {contactAddress.zip} {contactAddress.city}, {contactAddress.country}</span>
                     </div>
                 </div>
             </CardContent>
