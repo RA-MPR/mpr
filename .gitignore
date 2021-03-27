@@ -24,3 +24,6 @@ yarn-error.log*
 venv
 
 static/
+
+# python temp files
+*.pyc
