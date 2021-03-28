@@ -9,3 +9,11 @@ class Contact(models.Model):
     phone = PhoneNumberField(null=False, blank=False)
     email = models.EmailField(null=False, blank=False)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.name} {self.surname}"
+
+    def update(self, validated_data):
+        for attr, value in validated_data.items():
+            setattr(self, attr, value)
+        self.save()
