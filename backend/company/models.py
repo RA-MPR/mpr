@@ -29,6 +29,7 @@ class Company(models.Model):
     phone_number = PhoneNumberField(null=True, blank=True)
     ad_volume = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
+    status_color = models.CharField(max_length=30, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name}"
