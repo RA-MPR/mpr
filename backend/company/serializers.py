@@ -18,6 +18,15 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 1
 
+    def get_fields(self, *args, **kwargs):
+        fields = super(CompanySerializer, self).get_fields(*args, **kwargs)
+        request = self.context.get("request", None)
+        if request and getattr(request, "method", None) == "PUT":
+            fields['ico'].required = False
+            fields['contact_address'].required = False
+            fields['billing_address'].required = False
+        return fields
+
     def create(self, validated_data: dict):
 
         contact_address = None
@@ -34,12 +43,14 @@ class CompanySerializer(serializers.ModelSerializer):
         return company
 
     def update(self, company: models.Company, validated_data: dict):
-        company.contact_address.update(validated_data.pop("contact_address"))
-        company.billing_address.update(validated_data.pop("billing_address"))
+        if "contact_address" in validated_data:
+            company.contact_address.update(validated_data.pop("contact_address"))
+        if "billing_address" in validated_data:
+            company.billing_address.update(validated_data.pop("billing_address"))
         company.update(validated_data)
         return company
 
     def validate(self, attrs):
-        if len(attrs["ico"]) != 8:
+        if "ico" in attrs and len(attrs["ico"]) != 8:
             raise serializers.ValidationError({"ico": "ico must have exactly 8 digits"})
         return attrs
