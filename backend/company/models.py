@@ -11,9 +11,14 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.street}, {self.zip_code} {self.city}"
 
+    def update(self, validated_data):
+        for attr, value in validated_data.items():
+            setattr(self, attr, value)
+        self.save()
+
 
 class Company(models.Model):
-    ico = models.IntegerField(blank=False, null=False, primary_key=True)
+    ico = models.CharField(blank=False, null=False, primary_key=True, max_length=8)
     name = models.CharField(max_length=200, blank=True, null=True)
     contact_address = models.ForeignKey(
         Address, on_delete=models.CASCADE, blank=True, null=True, related_name="company_contact"
@@ -27,3 +32,8 @@ class Company(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def update(self, validated_data):
+        for attr, value in validated_data.items():
+            setattr(self, attr, value)
+        self.save()
