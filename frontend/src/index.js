@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import AppBar from "./Components/AppBar/AppBar";
+import Footer from "./Components/Footer/Footer";
 import reportWebVitals from "./reportWebVitals";
 import CompanyPage from "./Components/CompanyPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -30,8 +31,12 @@ ReactDOM.render(
         <Route path="/contacts">
           <div>Contacts</div>
         </Route>
+        <Route path="/matrix">
+          <div>Místo pro matici rizik</div>
+        </Route>
         <Route path="/" component={CompanyPage}></Route>
       </Switch>
+      <Footer />
     </Router>
   </ThemeProvider>
   /*</React.StrictMode>*/,

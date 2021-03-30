@@ -29,7 +29,7 @@ function CompanyPage() {
         <Grid item xs={8}>
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
-              <CompanyNew onCloseForm={showCompanyList} className="company-module"/>
+              <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} className="company-module"/>
               <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} className="company-module show"/>
             </div>
           </Paper>

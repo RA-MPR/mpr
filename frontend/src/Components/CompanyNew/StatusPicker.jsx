@@ -20,6 +20,7 @@ const StatusPicker = ({ customStatus, color, handleColor }) => {
                 label="Název"
                 name="statusText"
                 required={!customStatus}
+                inputProps={{maxLength :16}}
               />
             </div>
             <div style={{ padding: 5 }}>
@@ -30,7 +31,7 @@ const StatusPicker = ({ customStatus, color, handleColor }) => {
                 onChange={handleColor}
                 className="toggleColors"
                 size="small"
-                labelId="colorsLabel"
+                labelid="colorsLabel"
               >
                 <ToggleButton
                   value={"white"}

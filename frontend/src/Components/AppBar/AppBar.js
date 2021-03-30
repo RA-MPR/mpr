@@ -6,7 +6,7 @@ import { AppBar, Toolbar } from "@material-ui/core";
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 
 function App() {
-  const [alignment, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(0);
 
   const handlePage = (event, newPage) => {
     setPage(newPage);
@@ -19,7 +19,7 @@ function App() {
             <BusinessCenterIcon/>
             <span className="flexExpand"></span>
             <ToggleButtonGroup
-              value={alignment}
+              value={page}
               exclusive
               onChange={handlePage}
             >
