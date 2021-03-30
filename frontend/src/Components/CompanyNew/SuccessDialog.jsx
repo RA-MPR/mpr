@@ -7,7 +7,7 @@ import {
     DialogActions
   } from "@material-ui/core";
 
-const SuccessDialog = ({ open, handleClose, error }) => {
+const SuccessDialog = ({ open, handleClose }) => {
   return (
     <Dialog
       open={open}
