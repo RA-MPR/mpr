@@ -33,6 +33,6 @@ jobs:
           deploy_path: /root/mpr
           stack_file_name: docker-compose.yml
           keep_files: 5
-          args: up -d
+          args: up -d --build
           docker_prune: 'false'
           pull_images_first: 'false'
