@@ -41,6 +41,12 @@
     margin-right: 10px !important;
 }
 
+.company-details-delete-button {
+    background-color: #FF5756 !important; 
+    padding: 7px 15px !important;
+    border-radius: 5px !important;
+}
+
 
 .company-details-created-date {
     text-align: left;
