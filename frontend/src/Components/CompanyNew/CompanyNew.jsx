@@ -36,10 +36,18 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
 
   const [responseICO, setResponseICO] = React.useState("");
 
+  const [errorICO, setErrorICO] = React.useState("");
+
+  const [errorTel, setErrorTel] = React.useState("");
+
+  const [errorZipContact, setErrorZipContact] = React.useState("");
+
+  const [errorZipBilling, setErrorZipBilling] = React.useState("");
+
   const handleChange = (event) => {
     setStatusValue(event.target.value);
     setStatusTextVal(event.currentTarget.innerText);
-    
+
     if (event.target.value === "Custom") {
       setCustomStatus(false);
       setColor("white");
@@ -67,45 +75,94 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
   };
 
   const handleColor = (event, value) => {
-    setColor(value);
+    if (value) setColor(value);
   };
 
   const toggleChecked = (e) => {
     setCheckedBilling((prev) => !prev);
+    if (!checkedBilling) {
+      setErrorZipBilling("");
+    }
   };
 
   const telRegex = /^(\+420)?[1-9][0-9]{2}[0-9]{3}[0-9]{3}$/;
   const telRegex2 = /^[1-9][0-9]{2}[0-9]{3}[0-9]{3}$/;
 
+  const icoValidate = (icoValue) => {
+    var ico = icoValue.replace(/ /g, "");
+    if (!ico) {
+      setErrorICO("Vyžadováno");
+      return false;
+    }
+    if (ico.length !== 8) {
+      setErrorICO("IČO nemá správnou délku");
+      return false;
+    } else {
+      setErrorICO("");
+      return true;
+    }
+  };
+
+  const phoneValidate = (telValue) => {
+    var phoneNumber = telValue.replace(/ /g, "");
+    if (phoneNumber.length !== 0) {
+      if (telRegex.test(phoneNumber)) {
+        setErrorTel("");
+        return true;
+      }
+      if (telRegex2.test(phoneNumber)) {
+        phoneNumber = "+420" + phoneNumber;
+        setErrorTel("");
+        return true;
+      } else {
+        setErrorTel("Špatný formát (+420987654321)");
+        return false;
+      }
+    }
+  };
+
+  const zipRegex = /^[0-9]{5}$/;
+
+  const zipValidate = (zipValue, setErrorZip) => {
+    var zipNumber = zipValue.replace(/ /g, "");
+    if (setErrorZip === setErrorZipBilling && checkedBilling) {
+      setErrorZip("");
+      return true;
+    }
+    if (zipNumber.length !== 0) {
+      if (zipRegex.test(zipNumber)) {
+        setErrorZip("");
+        return true;
+      } else {
+        setErrorZip("PSČ se musí skládat z 5ti číslic");
+        return false;
+      }
+    }
+  };
+
   const handleCreate = (event) => {
     event.preventDefault();
 
     var ico = event.target.ICO.value.replace(/ /g, "");
-    if (ico.length !== 8) {
-      setErrorMessage("IČO nemá správnou délku");
+    if (!icoValidate(ico)) {
+      setErrorMessage("Špatně zadané IČO");
       handleClickOpenAlert();
       return;
     }
 
     var phoneNumber = event.target.tel.value.replace(/ /g, "");
-    if (phoneNumber.length !== 0 && !telRegex.test(phoneNumber)) {
-      if (telRegex2.test(phoneNumber)) {
-        phoneNumber = "+420" + phoneNumber;
-      } else {
-        setErrorMessage('Telefonní číslo musí být ve formátu "+420987654321"');
-        handleClickOpenAlert();
-        return;
-      }
+    if (!phoneValidate(phoneNumber)) {
+      setErrorMessage('Telefonní číslo musí být ve formátu "+420987654321"');
+      handleClickOpenAlert();
+      return;
     }
 
-    const zipRegex = /^[0-9]{5}$/;
-
     var contactZip = event.target.zipContact.value.replace(/ /g, "");
-    var billingZip = event.target.zip.value.replace(/ /g, "");
+    var billingZip = event.target.zipBilling.value.replace(/ /g, "");
 
     if (
-      (contactZip.length !== 0 && !zipRegex.test(contactZip)) ||
-      (billingZip.length !== 0 && !zipRegex.test(billingZip))
+      !zipValidate(contactZip, setErrorZipContact) ||
+      !zipValidate(billingZip, setErrorZipBilling)
     ) {
       setErrorMessage("PSČ se musí skládat z 5ti číslic");
       handleClickOpenAlert();
@@ -121,10 +178,10 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
     var billingAddress = contactAddress;
     if (!checkedBilling) {
       billingAddress = {
-        street: event.target.street.value,
+        street: event.target.streetBilling.value,
         zip_code: billingZip,
-        city: event.target.city.value,
-        country: event.target.country.value,
+        city: event.target.cityBilling.value,
+        country: event.target.countryBilling.value,
       };
     }
 
@@ -168,7 +225,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
         <div className="header">
           <Typography variant="h4">Nová firma</Typography>
           <span className="flexExpand"></span>
-          <IconButton aria-label="cancel" onClick={onCloseForm}>
+          <IconButton className="cancelButton" onClick={onCloseForm}>
             <CancelIcon />
           </IconButton>
         </div>
@@ -182,6 +239,9 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
               type="number"
               autoFocus
               fullWidth
+              error={errorICO !== "" ? true : false}
+              helperText={errorICO}
+              onBlur={(e) => icoValidate(e.target.value)}
             />
           </Grid>
           <Grid item xs={4}>
@@ -192,6 +252,9 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
               type="number"
               autoFocus
               fullWidth
+              error={errorTel !== "" ? true : false}
+              helperText={errorTel}
+              onBlur={(e) => phoneValidate(e.target.value)}
             />
           </Grid>
           <Grid item xs={7}>
@@ -217,6 +280,11 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
                     name="zipContact"
                     fullWidth
                     type="number"
+                    error={errorZipContact !== "" ? true : false}
+                    helperText={errorZipContact}
+                    onBlur={(e) =>
+                      zipValidate(e.target.value, setErrorZipContact)
+                    }
                   />
                   <TextField
                     id="cityContact"
@@ -250,31 +318,36 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
                 <Grid item xs={12}>
                   <TextField
                     disabled={checkedBilling}
-                    id="street"
+                    id="streetBilling"
                     label="Ulice"
-                    name="street"
+                    name="streetBilling"
                     fullWidth
                   />
                   <TextField
                     disabled={checkedBilling}
-                    id="zip"
+                    id="zipBilling"
                     label="PSČ"
-                    name="zip"
+                    name="zipBilling"
                     fullWidth
                     type="number"
+                    error={errorZipBilling !== "" ? true : false}
+                    helperText={errorZipBilling}
+                    onBlur={(e) =>
+                      zipValidate(e.target.value, setErrorZipBilling)
+                    }
                   />
                   <TextField
                     disabled={checkedBilling}
-                    id="city"
+                    id="cityBilling"
                     label="Město"
-                    name="city"
+                    name="cityBilling"
                     fullWidth
                   />
                   <TextField
                     disabled={checkedBilling}
-                    id="country"
+                    id="countryBilling"
                     label="Země"
-                    name="country"
+                    name="countryBilling"
                     fullWidth
                   />
                 </Grid>
@@ -284,7 +357,8 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
           <Grid item xs={7}>
             <InputLabel id="statusLabel">Stav</InputLabel>
             <TextField
-              style={{ width: 120, backgroundColor: color }}
+              className="statusTextField"
+              style={{ backgroundColor: color }}
               id="status"
               value={statusValue}
               labelid="statusLabel"
@@ -292,9 +366,19 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
               onChange={handleChange}
               required
             >
-              <MenuItem value="orange" style={{ backgroundColor: "orange" }} selected>Osloveno</MenuItem>
-              <MenuItem value="green" style={{ backgroundColor: "green" }}>Uzavřeno</MenuItem>
-              <MenuItem value="red" style={{ backgroundColor: "red" }}>Odmítnuto</MenuItem>
+              <MenuItem
+                value="orange"
+                style={{ backgroundColor: "orange" }}
+                selected
+              >
+                Osloveno
+              </MenuItem>
+              <MenuItem value="green" style={{ backgroundColor: "green" }}>
+                Uzavřeno
+              </MenuItem>
+              <MenuItem value="red" style={{ backgroundColor: "red" }}>
+                Odmítnuto
+              </MenuItem>
               <MenuItem value="Custom">Vlastní</MenuItem>
             </TextField>
           </Grid>
@@ -306,7 +390,12 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
         </Grid>
 
         <div className="footer">
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{ color: "white" }}
+          >
             Vytvořit
           </Button>
         </div>

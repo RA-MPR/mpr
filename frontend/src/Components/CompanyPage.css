@@ -15,7 +15,9 @@
 .company-main-screen {
     display: flex;
     flex-direction: column;
-    height: 80vh !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 82vh !important;
 }
 
 .company-module.show {
