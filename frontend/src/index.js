@@ -1,12 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import AppBar from "./Components/AppBar/AppBar";
 import Footer from "./Components/Footer/Footer";
 import reportWebVitals from "./reportWebVitals";
-import CompanyPage from "./Components/CompanyPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+
+import "./index.css";
+
+import CompanyPage from "./Components/CompanyPage";
+import ContactPage from "./Components/ContactPage";
 
 const theme = createMuiTheme({
   palette: {
@@ -28,9 +31,7 @@ ReactDOM.render(
         <Route path="/calendar">
           <div>Calendar</div>
         </Route>
-        <Route path="/contacts">
-          <div>Contacts</div>
-        </Route>
+        <Route path="/contacts" component={ContactPage}></Route>
         <Route path="/matrix">
           <div>Místo pro matici rizik</div>
         </Route>
