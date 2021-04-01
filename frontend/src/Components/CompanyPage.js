@@ -30,6 +30,7 @@ function CompanyPage() {
   const isMounted = useRef(false);
   useEffect(() => {
     if(isMounted.current){
+      document.getElementById("companyNew").classList.remove("show");
       document.getElementById("companyList").classList.remove("show");
       document.getElementById("companyDetail").classList.add("show");
     }else{
