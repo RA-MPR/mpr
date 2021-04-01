@@ -10,13 +10,13 @@ import { Card, CardContent } from "@material-ui/core"
 
 import EditIcon from '@material-ui/icons/Edit';
 
-import { React, useState, useEffect } from "react"
+import { React, useState, useEffect, useRef } from "react"
 
 import axios from "axios"
 
 import "./css/CompanyDetails.css"
 
-const CompanyDetails = ({ico}) => {
+const CompanyDetails = ({ico, className, onClose}) => {
 
     const [company, setCompany] = useState();
     const [contacts, setContacts] = useState([]);
@@ -44,30 +44,38 @@ const CompanyDetails = ({ico}) => {
         return await axios.get('http://127.0.0.1:8000/note').then(res => res.data);
     }
  
+    const isMounted = useRef(false);
     useEffect(() => {
-
-        const getData = async () => {
-            setCompany(await fetchCompany());
-            const contactData = await fetchContacts();
-            setContacts(contactData.filter(contact => contact.company == ico));
-            const ordersData = await fetchOrders();
-            setOrders(ordersData.filter(order => order.company.ico == ico));
-            const eventsData = await fetchEvents();
-            setEvents(eventsData.filter(event => event.company.ico == ico));
-            const notesData = await fetchNotes();
-            setNotes(notesData.filter(note => note.company.ico == ico));
-        } 
-        getData();
-    },[])
+        if(isMounted.current){
+            const getData = async () => {
+                setCompany(await fetchCompany());
+                const contactData = await fetchContacts();
+                setContacts(contactData.filter(contact => contact.company == ico));
+                const ordersData = await fetchOrders();
+                setOrders(ordersData.filter(order => order.company.ico == ico));
+                const eventsData = await fetchEvents();
+                setEvents(eventsData.filter(event => event.company.ico == ico));
+                const notesData = await fetchNotes();
+                setNotes(notesData.filter(note => note.company.ico == ico));
+            } 
+            getData();
+        }else{
+            isMounted.current = true;
+        }  
+    },[ico])
 
     
 
     const handleBack = () => {
-        // TODO
+        onClose();
     }
-
+    if(ico == ""){
+        return (
+            <div id="companyDetail"></div>
+        )
+    }
     return (        
-       <Card className="company-details comapny-details-card">
+       <Card id="companyDetail" className={className + " company-details comapny-details-card"}>
             {company &&<CardContent>
                  <div className="company-details-header">
                     <div className="left">

@@ -59,7 +59,6 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                 }
             }
         }
-        console.log("First load")
         getCompanies();
     },[])
 
@@ -81,7 +80,6 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                 }
             }
         }
-        console.log("filter")
         getCompanies();
     },[onlyMyCompanies, letterFilter, searchValue])
 
@@ -257,7 +255,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                 <TableBody>
                     {sortRowInfo(companies, getComparator(orderDirection, orderBy)).map((company, index) =>(
                         <TableRow hover key={index}>
-                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="left">
+                            <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="left">
                                 {index+1}
                             </TableCell>
                             {!onlyMyCompanies && <TableCell align="center">
@@ -265,24 +263,24 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                                     <Button onClick={takeCompany} size="small" className="company-list-take">Zabrat</Button> : 
                                     <Button size="small" disabled className="company-list-take disabled">Zabrano</Button>}
                             </TableCell>}
-                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            {onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 <span className="company-status" style={{backgroundColor: company.status_color}}>{company.status}</span>
                             </TableCell>}
-                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 <div className="text-container">
                                     {company.name}
                                 </div>
                             </TableCell>
-                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.phone_number}
                             </TableCell>
-                            <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.ico}
                             </TableCell>
-                            {onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            {onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.sales}
                             </TableCell>}
-                            {!onlyMyCompanies && <TableCell onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            {!onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.user}
                             </TableCell>}
                             {onlyMyCompanies && <TableCell align="center">
