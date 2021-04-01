@@ -1,46 +1,51 @@
 .header {
-    display: flex;
-    justify-content: space-around;
-  }
-  .footer {
-      padding-top: 10px;
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  .flexExpand {
-    flex: 1 1 auto;
-  }
-  
-  /* Chrome, Safari, Edge, Opera */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
-  /* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-  
-  .paperStatus {
-      background-color: lightgray;
-      max-height: 200px;
-      overflow: auto;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.footer {
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
 
-  .toggleColors .MuiToggleButtonGroup-root{
-    padding: 5x;
-  }
+.flexExpand {
+  flex: 1 1 auto;
+}
 
-  .toggleColors .MuiToggleButtonGroup-grouped{
-    color: transparent;
-    width: 80px;
-    border-width: 1px;
-    border-color: grey;
-    border-radius: 5px;
-    height: 30px;
-  }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
-  
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.paperStatus {
+  background-color: lightgray;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.cancelButton {
+  height: 38px !important;
+  width: 54px !important;
+  border-radius: 5px !important;
+  background-color: #f11010 !important;
+  color: white !important;
+}
+
+.statusTextField {
+  width: 120px;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.statusTextField {
+  color: white !important;
+}

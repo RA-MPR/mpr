@@ -16,7 +16,7 @@ function App() {
     <div className="AppBar">
         <AppBar position="static" color="transparent">
           <Toolbar className="toolbarContainer">
-            <BusinessCenterIcon/>
+            <Link to="/"><BusinessCenterIcon style={{ fill: "black" }}/></Link>
             <span className="flexExpand"></span>
             <ToggleButtonGroup
               value={page}

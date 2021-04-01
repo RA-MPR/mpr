@@ -1,0 +1,18 @@
+.toggleColors .MuiToggleButtonGroup-root {
+  padding: 5x;
+}
+
+.toggleColors .MuiToggleButtonGroup-grouped {
+  width: 80px;
+  border-width: 2px;
+  border-radius: 5px;
+  height: 30px;
+  text-transform: none;
+  font-size:small;
+  font-weight: bolder;
+}
+
+.toggleColors .Mui-selected {
+    border-color: black !important;
+    border-width: 2px !important;
+}

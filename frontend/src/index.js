@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import CompanyPage from "./Components/CompanyPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import NotFound from "./Components/NotFound/NotFound";
 
 const theme = createMuiTheme({
   palette: {
@@ -34,7 +35,8 @@ ReactDOM.render(
         <Route path="/matrix">
           <div>Místo pro matici rizik</div>
         </Route>
-        <Route path="/" component={CompanyPage}></Route>
+        <Route path="/" exact component={CompanyPage}></Route>
+        <Route component={NotFound}></Route>
       </Switch>
       <Footer />
     </Router>
