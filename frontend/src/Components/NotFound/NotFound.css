@@ -1,0 +1,16 @@
+.divNotFound {
+    margin: auto;
+    width: 50%;
+    height: 82vh;
+    padding-top: 50px;
+}
+
+.paperNotFound {
+    margin: auto;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.buttonNotFound {
+    margin: 40px;
+}

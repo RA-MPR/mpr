@@ -1,11 +1,12 @@
 import {
-    Grid,
-    TextField,
-    Typography,
-    Paper,
-    InputLabel,
-  } from "@material-ui/core";
+  Grid,
+  TextField,
+  Typography,
+  Paper,
+  InputLabel,
+} from "@material-ui/core";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import "./StatusPicker.css";
 
 const StatusPicker = ({ customStatus, color, handleColor }) => {
   return (
@@ -20,7 +21,7 @@ const StatusPicker = ({ customStatus, color, handleColor }) => {
                 label="Název"
                 name="statusText"
                 required={!customStatus}
-                inputProps={{maxLength :16}}
+                inputProps={{ maxLength: 16 }}
               />
             </div>
             <div style={{ padding: 5 }}>
@@ -35,25 +36,25 @@ const StatusPicker = ({ customStatus, color, handleColor }) => {
               >
                 <ToggleButton
                   value={"white"}
-                  style={{ backgroundColor: "white" }}
+                  style={{ backgroundColor: "white", color: "black" }}
                 >
                   Bílá
                 </ToggleButton>
                 <ToggleButton
                   value={"yellow"}
-                  style={{ backgroundColor: "yellow" }}
+                  style={{ backgroundColor: "yellow", color: "black" }}
                 >
                   Žlutá
                 </ToggleButton>
                 <ToggleButton
                   value={"green"}
-                  style={{ backgroundColor: "green" }}
+                  style={{ backgroundColor: "green", color: "white" }}
                 >
                   Zelená
                 </ToggleButton>
                 <ToggleButton
                   value={"purple"}
-                  style={{ backgroundColor: "purple" }}
+                  style={{ backgroundColor: "purple", color: "white" }}
                 >
                   Fialová
                 </ToggleButton>
@@ -67,22 +68,25 @@ const StatusPicker = ({ customStatus, color, handleColor }) => {
               >
                 <ToggleButton
                   value={"orange"}
-                  style={{ backgroundColor: "orange" }}
+                  style={{ backgroundColor: "orange", color: "black" }}
                 >
                   Oranžová
                 </ToggleButton>
-                <ToggleButton value={"red"} style={{ backgroundColor: "red" }}>
+                <ToggleButton
+                  value={"red"}
+                  style={{ backgroundColor: "red", color: "black" }}
+                >
                   Červená
                 </ToggleButton>
                 <ToggleButton
                   value={"blue"}
-                  style={{ backgroundColor: "blue" }}
+                  style={{ backgroundColor: "blue", color: "white" }}
                 >
                   Modrá
                 </ToggleButton>
                 <ToggleButton
                   value={"pink"}
-                  style={{ backgroundColor: "pink" }}
+                  style={{ backgroundColor: "pink", color: "black" }}
                 >
                   Růžová
                 </ToggleButton>

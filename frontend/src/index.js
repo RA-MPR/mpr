@@ -5,6 +5,7 @@ import Footer from "./Components/Footer/Footer";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import NotFound from "./Components/NotFound/NotFound";
 
 import "./index.css";
 
@@ -35,7 +36,8 @@ ReactDOM.render(
         <Route path="/matrix">
           <div>Místo pro matici rizik</div>
         </Route>
-        <Route path="/" component={CompanyPage}></Route>
+        <Route path="/" exact component={CompanyPage}></Route>
+        <Route component={NotFound}></Route>
       </Switch>
       <Footer />
     </Router>
