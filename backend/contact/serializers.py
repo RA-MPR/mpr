@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from company.serializers import CompanyNameSerializer
 from . import models
 
 
@@ -7,6 +8,7 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Contact
         fields = "__all__"
+
     def create(self, validated_data: dict):
         contact = models.Contact.objects.create(**validated_data)
         contact.save()
@@ -26,3 +28,18 @@ class ContactSerializer(serializers.ModelSerializer):
             fields['phone'].required = False
             fields['email'].required = False
         return fields
+
+
+class ContactGetSerializer(serializers.ModelSerializer):
+    company = CompanyNameSerializer(many=False, required=True)
+
+    class Meta:
+        model = models.Contact
+        fields = (
+            "id",
+            "name",
+            "surname",
+            "phone",
+            "email",
+            "company"
+        )

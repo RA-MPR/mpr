@@ -42,5 +42,7 @@ paths:
     $ref: './event.yml'
   /order:
     $ref: './order.yml'
+  /order/{id}:
+    $ref: './order_id.yml'
   /user:
     $ref: './user.yml'
