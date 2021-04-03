@@ -1,11 +1,9 @@
 from rest_framework import serializers
 
-from company.serializers import CompanySerializer
 from order.models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    company = CompanySerializer(many=False, required=True)
 
     class Meta:
         model = Order

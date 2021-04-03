@@ -54,3 +54,12 @@ class CompanySerializer(serializers.ModelSerializer):
         if "ico" in attrs and len(attrs["ico"]) != 8:
             raise serializers.ValidationError({"ico": "ico must have exactly 8 digits"})
         return attrs
+
+
+class CompanyNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Company
+        fields = (
+            "ico",
+            "name"
+        )

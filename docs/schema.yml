@@ -3,8 +3,8 @@ Company:
   type: object
   properties:
     ico:
-      format: int
-      example: 2616685
+      format: string
+      example: '2616685'
     name:
       type: string
       example: 'test'
@@ -74,5 +74,55 @@ Contact:
       type: string
       example: 'test@mpr.io'
     company:
+      type: object
+      properties:
+        ico:
+          format: string
+          example: '2616685'
+        name:
+          type: string
+          example: 'test'
+
+
+PostContact:
+  title: Contact
+  type: object
+  properties:
+    id:
+      format: int
+      example: 1
+    name:
+      type: string
+      example: 'test'
+    surname:
+      type: string
+      example: 'test'
+    phone:
+      type: string
+      example: "+420212345678"
+    email:
+      type: string
+      example: 'test@mpr.io'
+    company:
+      type: string
+      example: '2616685'
+
+Order:
+  title: Order
+  type: object
+  properties:
+    id:
+      format: int
+      example: 1
+    date:
+      type: date
+      example: "2021-04-03"
+    contract_number:
       type: int
-      example: 2616685
+      example: 2341
+    sum:
+      type: int
+      example: 300
+    company:
+      type: string
+      example: '2616685'
