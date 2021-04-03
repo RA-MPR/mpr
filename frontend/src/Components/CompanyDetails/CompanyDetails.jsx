@@ -54,10 +54,10 @@ const CompanyDetails = ({ico, className, onClose}) => {
                 setContacts(contactData.filter(contact => contact.company == ico));
                 const ordersData = await fetchOrders();
                 setOrders(ordersData.filter(order => order.company.ico == ico));
-                const eventsData = await fetchEvents();
-                setEvents(eventsData.filter(event => event.company.ico == ico));
-                const notesData = await fetchNotes();
-                setNotes(notesData.filter(note => note.company.ico == ico));
+                // const eventsData = await fetchEvents();
+                // setEvents(eventsData.filter(event => event.company.ico == ico));
+                // const notesData = await fetchNotes();
+                // setNotes(notesData.filter(note => note.company.ico == ico));
             } 
             getData();
         }else{

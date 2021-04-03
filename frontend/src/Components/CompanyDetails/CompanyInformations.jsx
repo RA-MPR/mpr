@@ -32,12 +32,55 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
     }
 
     const handleSave = () => {
-        //TODO Parse address
+        //TODO Rozumnejsia validacia adresy
+        let billingAddressItems = newBillingAddress.split(", ");
+        let contactAddressItems = newContactAddress.split(", ");
+        let billingAddressTest = billingAddressItems.length === 3;
+        let contactAddressTest = contactAddressItems.length === 3;
+        // let billingAddressTest = newBillingAddress.match("(\w|\b|[Á-Ž]|[á-ž])+\,\b([0-9]{5})(\w|\b|[Á-Ž]|[á-ž])+\,\b*(\w|\b|[Á-Ž]|[á-ž])+");
+        // let contactAddressTest = new RegExp("(\w|\s|[Á-Ž]|[á-ž])+\,\s*([0-9]{5})(\w|\s|[Á-Ž]|[á-ž])+\,\s*(\w|\s|[Á-Ž]|[á-ž])+").test(newContactAddress);
+        let phoneTest = new RegExp("^([\+]|00)([0-9]){12}$").test(newMainPhoneNumber);
+        let icoTest = new RegExp("[0-9]{8}").test(newCompanyICO);
 
-        console.log(newBillingAddress);
+        if(!billingAddressTest) {
+            console.log(newBillingAddress);
+        }
 
-        // axios.put('http://127.0.0.1:8000/company', {data});
-        // setInfoEditing(false);
+        if(!contactAddressTest) {
+            console.log(newContactAddress);
+        }
+
+        if(!phoneTest) {
+            console.log(newMainPhoneNumber);
+        }
+
+        if(!icoTest) {
+            console.log(newCompanyICO);
+        }
+
+        if(billingAddressTest && contactAddressTest && phoneTest && icoTest) {
+            let data = {
+                "ico": newCompanyICO,
+                "contact_address":{
+                    "id": contactAddress.id,
+                    "street": contactAddressItems[0],
+                    "zip_code": contactAddressItems[1].split(" ")[0],
+                    "city": contactAddressItems[1].split(" ")[1],
+                    "country": contactAddressItems[2]
+                },
+                "billing_address":{
+                    "id": billingAddress.id,
+                    "street": billingAddressItems[0],
+                    "zip_code": billingAddressItems[1].split(" ")[0],
+                    "city": billingAddressItems[1].split(" ")[1],
+                    "country": billingAddressItems[2]
+                },
+                "phone_number": newMainPhoneNumber                
+            }
+            console.log(data);
+            // axios.put('http://127.0.0.1:8000/company', {data});
+            // setInfoEditing(false);
+        }
     }
 
     const handleEdit = () => {
@@ -83,7 +126,7 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                     </div>}
                     {infoEditing && <div className="button-area">
                             <Button className="company-details-cancel-button" onClick={handleCancel}>Zrušit</Button>
-                            <Button className="company-details-save-button">Uložit</Button>
+                            <Button className="company-details-save-button" onClick={handleSave}>Uložit</Button>
                         </div> }
                 </div>
             </CardContent>
