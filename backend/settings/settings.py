@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "company.apps.CompanyConfig",
     "contact.apps.ContactConfig",
     "order.apps.OrderConfig",
+    "invoice.apps.InvoiceConfig",
     "rest_framework",
     "phonenumber_field",
     'corsheaders',
