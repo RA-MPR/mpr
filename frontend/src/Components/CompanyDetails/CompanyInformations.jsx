@@ -3,13 +3,22 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import TextField from '@material-ui/core/TextField'
 
-import { React, useState, useEffect } from "react"
+import { React, useState } from "react"
 
 import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
 const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, contactAddress}) => {
+
+    const [billingAddressError, setBillingAddressError] = useState(false);
+    const [contactAddressError, setContactAddressError] = useState(false);
+    const [phoneNumberError, setPhoneNumberError] = useState(false);
+    const [icoError, setIcoError] = useState(false);
+    const [billingAddressErrorMessage, setBillingAddressErrorMessage] = useState("");
+    const [contactAddressErrorMessage, setContactAddressErrorMessage] = useState("");
+    const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
+    const [icoErrorMessage, setIcoErrorMessage] = useState("");
 
     const [infoEditing, setInfoEditing] = useState(false);
     const [newCompanyICO, setNewCompanyICO] = useState(companyICO);
@@ -43,19 +52,23 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
         let icoTest = new RegExp("[0-9]{8}").test(newCompanyICO);
 
         if(!billingAddressTest) {
-            console.log(newBillingAddress);
+            setBillingAddressErrorMessage("Obchodní adresa musí být ve tvaru \"Ulice, PSČ Město, Stát\"")
+            setBillingAddressError(true);
         }
 
         if(!contactAddressTest) {
-            console.log(newContactAddress);
+            setContactAddressErrorMessage("Kontaktní adresa musí být ve tvaru \"Ulice, PSČ Město, Stát\"")
+            setContactAddressError(true);
         }
 
         if(!phoneTest) {
-            console.log(newMainPhoneNumber);
+            setPhoneNumberErrorMessage("Telefónni číslo musí být ve tvaru +xxx xxx xxx xxx, nebo 00xxx xxx xxx")
+            setPhoneNumberError(true);
         }
 
         if(!icoTest) {
-            console.log(newCompanyICO);
+            setIcoErrorMessage("ICO musí obsahovat 8 čísel");
+            setIcoError(true);
         }
 
         if(billingAddressTest && contactAddressTest && phoneTest && icoTest) {
@@ -77,9 +90,8 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                 },
                 "phone_number": newMainPhoneNumber                
             }
-            console.log(data);
-            // axios.put('http://127.0.0.1:8000/company', {data});
-            // setInfoEditing(false);
+            axios.put('http://127.0.0.1:8000/company/'+companyICO, {data});
+            setInfoEditing(false);
         }
     }
 
@@ -95,14 +107,14 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                         <Typography variant="h5">IČO</Typography>
                         {!infoEditing && <span className="company-details-info-field">{companyICO}</span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
-                        value={newCompanyICO} onChange={e => setNewCompanyICO(e.target.value)} ></TextField>}
+                        value={newCompanyICO} error={icoError} helperText={icoErrorMessage} onChange={e => setNewCompanyICO(e.target.value)} ></TextField>}
                     </div>
                     
                     <div className="main-phone-number">
                         <Typography variant="h5">Hlavní kontaktní číslo</Typography>
                         {!infoEditing && <span className="company-details-info-field">{mainPhoneNumber} </span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
-                        value={newMainPhoneNumber} onChange={e => setNewMainPhoneNumber(e.target.value)} ></TextField>}
+                        value={newMainPhoneNumber} error={phoneNumberError} helperText={phoneNumberErrorMessage} onChange={e => setNewMainPhoneNumber(e.target.value)} ></TextField>}
                     </div>
                     
                     <div className="billing-address">
@@ -110,7 +122,7 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                         {!infoEditing && <span className="company-details-info-field">{billingAddress.street}, &nbsp;
                         {billingAddress.zip_code}&nbsp; {billingAddress.city},&nbsp; {billingAddress.country}</span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
-                        value={newBillingAddress} onChange={e => setNewBillingAddress(e.target.value)} ></TextField>}
+                        value={newBillingAddress} error={billingAddressError} helperText={billingAddressErrorMessage} onChange={e => setNewBillingAddress(e.target.value)} ></TextField>}
                     </div>
                     
                     <div className="contact-address">
@@ -118,7 +130,7 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                         {!infoEditing && <span className="company-details-info-field">{contactAddress.street}, &nbsp;
                         {contactAddress.zip_code}&nbsp; {contactAddress.city},&nbsp; {contactAddress.country}</span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
-                        value={newContactAddress} onChange={e => setNewContactAddress(e.target.value)} ></TextField>}
+                        value={newContactAddress} error={contactAddressError} helperText={contactAddressErrorMessage} onChange={e => setNewContactAddress(e.target.value)} ></TextField>}
                     </div>
 
                     {!infoEditing && <div className="button-area">

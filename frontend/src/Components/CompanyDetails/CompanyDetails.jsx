@@ -81,9 +81,10 @@ const CompanyDetails = ({ico, className, onClose}) => {
                  <div className="company-details-header">
                     <div className="left">
                         <Typography id="company-name" variant="h3">{company.name}</Typography>
-                        <span className="company-status" >{company.status} <EditIcon className="icon"/></span>
+                        <span className="company-status" style={{backgroundColor:company.status_color}} >{company.status} <EditIcon className="icon"/></span>
                     </div>
                     <div>
+                        <Button onClick={handleBack} className="company-details-cancel-button" >Zpět</Button>
                         <Button className="company-details-delete-button" >Smazat</Button>
                     </div>
                 </div>
