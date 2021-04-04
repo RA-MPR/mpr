@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from . import models
+from .. import models
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -9,9 +9,7 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CompanySerializer(serializers.ModelSerializer):
-    contact_address = AddressSerializer()
-    billing_address = AddressSerializer()
+class SimplifiedCompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Company
@@ -19,7 +17,7 @@ class CompanySerializer(serializers.ModelSerializer):
         depth = 1
 
     def get_fields(self, *args, **kwargs):
-        fields = super(CompanySerializer, self).get_fields(*args, **kwargs)
+        fields = super(SimplifiedCompanySerializer, self).get_fields(*args, **kwargs)
         request = self.context.get("request", None)
         if request and getattr(request, "method", None) == "PUT":
             fields['ico'].required = False

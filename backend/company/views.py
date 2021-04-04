@@ -1,7 +1,8 @@
 from rest_framework import viewsets
 
 from .models import Address, Company
-from .serializers import AddressSerializer, CompanySerializer
+from .serializers.common import CompanySerializer
+from .serializers.nested import AddressSerializer
 
 
 class AddressViewSet(viewsets.ModelViewSet):

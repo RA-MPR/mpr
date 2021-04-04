@@ -1,7 +1,22 @@
 from rest_framework import serializers
 
-from company.serializers import CompanyNameSerializer
-from . import models
+from company.serializers.nested import CompanyNameSerializer
+from .. import models
+
+
+class ContactGetSerializer(serializers.ModelSerializer):
+    company = CompanyNameSerializer(many=False, required=True)
+
+    class Meta:
+        model = models.Contact
+        fields = (
+            "id",
+            "name",
+            "surname",
+            "phone",
+            "email",
+            "company"
+        )
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -28,18 +43,3 @@ class ContactSerializer(serializers.ModelSerializer):
             fields['phone'].required = False
             fields['email'].required = False
         return fields
-
-
-class ContactGetSerializer(serializers.ModelSerializer):
-    company = CompanyNameSerializer(many=False, required=True)
-
-    class Meta:
-        model = models.Contact
-        fields = (
-            "id",
-            "name",
-            "surname",
-            "phone",
-            "email",
-            "company"
-        )
