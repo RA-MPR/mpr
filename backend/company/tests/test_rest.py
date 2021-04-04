@@ -1,8 +1,9 @@
+from contact.models import Contact
+from order.models import Order
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from ..models import Address, Company
-from contact.models import Contact
 
 
 class CompanyRestTestCase(APITestCase):
@@ -34,6 +35,14 @@ class CompanyRestTestCase(APITestCase):
             "company": company
         }
         Contact.objects.create(**contact_data)
+
+        order_data = {
+            "date": "2021-04-04",
+            "contract_number": 123,
+            "sum": 1000,
+            "company": company
+        }
+        Order.objects.create(**order_data)
 
     def test_create_company(self):
         company_data = {
@@ -84,3 +93,9 @@ class CompanyRestTestCase(APITestCase):
         response = self.client.get(f"/company/{ico}/")
         contacts = response.data["contacts"]
         self.assertEqual(len(contacts), 0)
+
+    def test_company_order(self):
+        ico = "26168685"
+        response = self.client.get(f"/company/{ico}/")
+        order = response.data["orders"][0]
+        self.assertEqual(order["contract_number"], 123)

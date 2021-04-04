@@ -40,3 +40,15 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
         fields = ("id", "date", "contract_number", "sum", "company_id")
 
         read_only_fields = ("id",)
+
+
+class OrderDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = (
+            "id",
+            "date",
+            "contract_number",
+            "sum",
+        )
