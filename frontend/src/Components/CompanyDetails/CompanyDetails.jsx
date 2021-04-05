@@ -51,9 +51,9 @@ const CompanyDetails = ({ico, className, onClose}) => {
             const getData = async () => {
                 setCompany(await fetchCompany());
                 const contactData = await fetchContacts();
-                setContacts(contactData.filter(contact => contact.company == ico));
+                setContacts(contactData.filter(contact => contact.company.ico == ico));
                 const ordersData = await fetchOrders();
-                setOrders(ordersData.filter(order => order.company.ico == ico));
+                setOrders(ordersData.filter(order => order.company == ico));
                 // const eventsData = await fetchEvents();
                 // setEvents(eventsData.filter(event => event.company.ico == ico));
                 // const notesData = await fetchNotes();
