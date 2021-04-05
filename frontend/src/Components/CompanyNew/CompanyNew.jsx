@@ -119,6 +119,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
         return false;
       }
     }
+    return true;
   };
 
   const zipRegex = /^[0-9]{5}$/;
@@ -138,6 +139,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
         return false;
       }
     }
+    return true;
   };
 
   const handleCreate = (event) => {
