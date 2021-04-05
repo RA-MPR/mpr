@@ -51,32 +51,31 @@ const CompanyDetails = ({ico, className, onClose}) => {
             const getData = async () => {
                 setCompany(await fetchCompany());
                 const contactData = await fetchContacts();
-                setContacts(contactData.filter(contact => contact.company.ico == ico));
+                setContacts(contactData.filter(contact => contact.company.ico === ico));
                 const ordersData = await fetchOrders();
-                setOrders(ordersData.filter(order => order.company == ico));
+                setOrders(ordersData.filter(order => order.company === ico));
                 // const eventsData = await fetchEvents();
                 // setEvents(eventsData.filter(event => event.company.ico == ico));
                 // const notesData = await fetchNotes();
                 // setNotes(notesData.filter(note => note.company.ico == ico));
             } 
+            
             getData();
         }else{
             isMounted.current = true;
         }  
     },[ico])
 
-    
-
     const handleBack = () => {
         onClose();
     }
-    if(ico == ""){
+    if(ico === ""){
         return (
             <div id="companyDetail"></div>
         )
     }
     return (        
-       <Card id="companyDetail" className={className + " company-details comapny-details-card"}>
+       <Card id="companyDetail" className={className + " company-details "}>
             {company &&<CardContent>
                  <div className="company-details-header">
                     <div className="left">
