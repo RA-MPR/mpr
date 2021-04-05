@@ -90,8 +90,8 @@ const CompanyDetails = ({ico, className, onClose}) => {
                 </div>
                 <div className="company-details-body">
                     
-                    <CompanyInformations companyICO={company.ico} billingAddress={company.billing_address} 
-                        contactAddress={company.contact_address} mainPhoneNumber={company.phone_number}/>
+                    <CompanyInformations companyICOData={company.ico} billingAddressData={company.billing_address} 
+                        contactAddressData={company.contact_address} mainPhoneNumberData={company.phone_number}/>
                     
                     <ContactPersons data={contacts}/>
 

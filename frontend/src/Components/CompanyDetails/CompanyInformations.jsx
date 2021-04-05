@@ -9,34 +9,35 @@ import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
-const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, contactAddress}) => {
+const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData}) => {
 
     const [billingAddressError, setBillingAddressError] = useState(false);
     const [contactAddressError, setContactAddressError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
     const [icoError, setIcoError] = useState(false);
+
     const [billingAddressErrorMessage, setBillingAddressErrorMessage] = useState("");
     const [contactAddressErrorMessage, setContactAddressErrorMessage] = useState("");
     const [phoneNumberErrorMessage, setPhoneNumberErrorMessage] = useState("");
     const [icoErrorMessage, setIcoErrorMessage] = useState("");
 
     const [infoEditing, setInfoEditing] = useState(false);
-    const [newCompanyICO, setNewCompanyICO] = useState(companyICO);
-    const [newMainPhoneNumber, setNewMainPhoneNumber] = useState(mainPhoneNumber);
-    const [newBillingAddress, setNewBillingAddress] 
-        = useState(billingAddress.street + ", " +  billingAddress.zip_code + " " 
-        + billingAddress.city + ", " + billingAddress.country);
-    const [newContactAddress, setNewContactAddress] 
-        = useState(contactAddress.street + ", " + contactAddress.zip_code + " " 
-        + contactAddress.city + ", " + contactAddress.country);
+
+    const [companyICO, setCompanyICO] = useState(companyICOData);
+    const [mainPhoneNumber, setMainPhoneNumber] = useState(mainPhoneNumberData);
+    const [billingAddress, setBillingAddress] 
+        = useState(billingAddressData.street + ", " +  billingAddressData.zip_code + " " 
+        + billingAddressData.city + ", " + billingAddressData.country);
+    const [contactAddress, setContactAddress] 
+        = useState(contactAddressData.street + ", " + contactAddressData.zip_code + " " 
+        + contactAddressData.city + ", " + contactAddressData.country);
+
+    const [newCompanyICO, setNewCompanyICO] = useState();
+    const [newMainPhoneNumber, setNewMainPhoneNumber] = useState();
+    const [newBillingAddress, setNewBillingAddress] = useState();
+    const [newContactAddress, setNewContactAddress] = useState();
 
     const handleCancel = () => {
-        setNewBillingAddress(billingAddress.street + ", " +  billingAddress.zip_code + " " 
-            + billingAddress.city + ", " + billingAddress.country);
-        setNewContactAddress(contactAddress.street + ", " + contactAddress.zip_code + " " 
-            + contactAddress.city + ", " + contactAddress.country);
-        setNewCompanyICO(companyICO);
-        setNewMainPhoneNumber(mainPhoneNumber);
         setInfoEditing(false);
     }
 
@@ -90,12 +91,22 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                 },
                 "phone_number": newMainPhoneNumber                
             }
-            axios.put('http://127.0.0.1:8000/company/'+companyICO, {data});
+
+            axios.put('http://0.0.0.0:8000/company/'+companyICO+"/", data);
+            setMainPhoneNumber(newMainPhoneNumber);
+            setCompanyICO(newCompanyICO);
+            setBillingAddress(newBillingAddress);
+            setContactAddress(newContactAddress);
             setInfoEditing(false);
+            
         }
     }
 
     const handleEdit = () => {
+        setNewMainPhoneNumber(mainPhoneNumber);
+        setNewCompanyICO(companyICO);
+        setNewBillingAddress(billingAddress);
+        setNewContactAddress(contactAddress);
         setInfoEditing(true);
     }
 
@@ -119,16 +130,14 @@ const CompanyInformations = ({companyICO, mainPhoneNumber, billingAddress, conta
                     
                     <div className="billing-address">
                         <Typography variant="h5">Obchodní adresa</Typography>
-                        {!infoEditing && <span className="company-details-info-field">{billingAddress.street}, &nbsp;
-                        {billingAddress.zip_code}&nbsp; {billingAddress.city},&nbsp; {billingAddress.country}</span>}
+                        {!infoEditing && <span className="company-details-info-field">{billingAddress}</span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
                         value={newBillingAddress} error={billingAddressError} helperText={billingAddressErrorMessage} onChange={e => setNewBillingAddress(e.target.value)} ></TextField>}
                     </div>
                     
                     <div className="contact-address">
                         <Typography variant="h5">Kontaktní adresa</Typography>
-                        {!infoEditing && <span className="company-details-info-field">{contactAddress.street}, &nbsp;
-                        {contactAddress.zip_code}&nbsp; {contactAddress.city},&nbsp; {contactAddress.country}</span>}
+                        {!infoEditing && <span className="company-details-info-field">{contactAddress}</span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
                         value={newContactAddress} error={contactAddressError} helperText={contactAddressErrorMessage} onChange={e => setNewContactAddress(e.target.value)} ></TextField>}
                     </div>
