@@ -1,7 +1,9 @@
 from contact.serializers.nested import ContactDetailSerializer
 from order.serializers import OrderDetailSerializer
+from rest_framework import serializers
 
 from .nested import SimplifiedCompanySerializer, AddressSerializer
+from .. import models
 
 
 class CompanySerializer(SimplifiedCompanySerializer):
@@ -9,3 +11,17 @@ class CompanySerializer(SimplifiedCompanySerializer):
     billing_address = AddressSerializer()
     contacts = ContactDetailSerializer(many=True, required=False)
     orders = OrderDetailSerializer(many=True, required=False)
+
+
+class CompanyListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Company
+        fields = (
+            "ico",
+            "name",
+            "phone_number",
+            "ad_volume",
+            "status",
+            "status_color"
+        )
+        depth = 0
