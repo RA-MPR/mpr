@@ -33,10 +33,10 @@ post:
               type: string
               example: 'test'
             date:
-              type: string
+              type: date
               example: '2021-04-01'
             time:
-              type: string
+              type: time
               example: "15:00:00"
             description:
               type: string
@@ -46,7 +46,7 @@ post:
               example: 2616685
             reminder:
               type: boolean
-              example: 1
+              example: true
 
   responses:
     200:

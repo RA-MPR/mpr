@@ -131,7 +131,7 @@ Event:
       example: '2616685'
     reminder:
       type: bool
-      example: 1
+      example: false
 
 PostEvent:
   title: Event
@@ -157,7 +157,7 @@ PostEvent:
       example: '2616685'
     reminder:
       type: bool
-      example: 1
+      example: true
 
 Order:
   title: Order
