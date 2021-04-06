@@ -40,6 +40,8 @@ paths:
     $ref: './contact_id.yml'
   /event:
     $ref: './event.yml'
+  /event/{id}:
+    $ref: './event_id.yml'
   /order:
     $ref: './order.yml'
   /order/{id}:

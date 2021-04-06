@@ -1,0 +1,17 @@
+get:
+  tags: [ event ]
+  summary: Get specific event
+  description: Returns event detail.
+  operationId: getEventID
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allof:
+                - $ref: './schema.yml#/Event'
