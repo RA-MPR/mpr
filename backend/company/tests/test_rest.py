@@ -1,3 +1,5 @@
+from contact.models import Contact
+from order.models import Order
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -23,7 +25,24 @@ class CompanyRestTestCase(APITestCase):
             "contact_address": address,
             "billing_address": address
         }
-        Company.objects.create(**company_data)
+        company = Company.objects.create(**company_data)
+
+        contact_data = {
+            "name": "Studijní",
+            "surname": "oddělení",
+            "phone": "+420541141144",
+            "email": "studijni@fit.vut.cz",
+            "company": company
+        }
+        Contact.objects.create(**contact_data)
+
+        order_data = {
+            "date": "2021-04-04",
+            "contract_number": 123,
+            "sum": 1000,
+            "company": company
+        }
+        Order.objects.create(**order_data)
 
     def test_create_company(self):
         company_data = {
@@ -59,3 +78,24 @@ class CompanyRestTestCase(APITestCase):
         response = self.client.put(f"/company/{ico}/", altered_company_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Company.objects.get(ico=ico).name, "Seznam_1")
+
+    def test_company_contact(self):
+        ico = "26168685"
+        response = self.client.get(f"/company/{ico}/")
+        contact = response.data["contacts"][0]
+        self.assertEqual(contact["name"], "Studijní")
+
+    def test_no_company_contact(self):
+        ico = "26168685"
+        contact = Company.objects.get(ico=ico).contacts.first()
+        contact.delete()
+
+        response = self.client.get(f"/company/{ico}/")
+        contacts = response.data["contacts"]
+        self.assertEqual(len(contacts), 0)
+
+    def test_company_order(self):
+        ico = "26168685"
+        response = self.client.get(f"/company/{ico}/")
+        order = response.data["orders"][0]
+        self.assertEqual(order["contract_number"], 123)
