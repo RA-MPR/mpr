@@ -251,7 +251,6 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
               name="tel"
               id="tel"
               label="Telefon"
-              type="number"
               autoFocus
               fullWidth
               error={errorTel !== "" ? true : false}
