@@ -107,6 +107,58 @@ PostContact:
       type: string
       example: '2616685'
 
+Event:
+  title: Event
+  type: object
+  properties:
+    id:
+      format: int
+      example: 1
+    name:
+      type: string
+      example: 'test'
+    date:
+      type: date
+      example: "2021-04-03"
+    time:
+      type: time
+      example: "15:00:00"
+    description:
+      type: string
+      example: "Tea with client"
+    company:
+      type: string
+      example: '2616685'
+    reminder:
+      type: bool
+      example: false
+
+PostEvent:
+  title: Event
+  type: object
+  properties:
+    id:
+      format: int
+      example: 1
+    name:
+      type: string
+      example: "test"
+    date:
+      type: date
+      example: "2021-04-05"
+    time:
+      type: time
+      example: "15:00:00"
+    description:
+      type: string
+      example: "Tea with client"
+    company:
+      type: string
+      example: '2616685'
+    reminder:
+      type: bool
+      example: true
+
 Order:
   title: Order
   type: object

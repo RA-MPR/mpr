@@ -1,5 +1,58 @@
 get:
   tags: [ event ]
   summary: Get list of events
-  description: Returns all Events.
+  description: Returns all events.
   operationId: getEvent
+
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: './schema.yml#/Event'
+
+post:
+  tags: [ event ]
+  summary: Create a new event
+  description: Creates a new event.
+  operationId: PostEvent
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 'test'
+            date:
+              type: date
+              example: '2021-04-01'
+            time:
+              type: time
+              example: "15:00:00"
+            description:
+              type: string
+              example: 'Tea with client'
+            company:
+              type: int
+              example: 2616685
+            reminder:
+              type: boolean
+              example: true
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+              $ref: './schema.yml#/PostEvent'
