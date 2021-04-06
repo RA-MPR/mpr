@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1px 24px 1px 15px;
+    padding: 0px 24px 1px 15px;
 }
 
 .company-details-footer {
@@ -39,6 +39,12 @@
     padding: 7px 15px !important;
     border-radius: 5px !important;
     margin-right: 10px !important;
+}
+
+.company-details-delete-button {
+    background-color: #FF5756 !important; 
+    padding: 7px 15px !important;
+    border-radius: 5px !important;
 }
 
 

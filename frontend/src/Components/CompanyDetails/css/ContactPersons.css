@@ -6,3 +6,8 @@
     margin-bottom: 9px !important;
 }
 
+.comapny-details-contact-persons-addition {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
