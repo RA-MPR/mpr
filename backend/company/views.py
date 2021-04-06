@@ -20,7 +20,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
 
     def list(self, request, *args, **kwargs):
-        serializer = CompanyListSerializer(self.queryset, many=True)
+        serializer = CompanyListSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
     def get_queryset(self):

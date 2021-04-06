@@ -33,9 +33,13 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
         fields = super(SimplifiedCompanySerializer, self).get_fields(*args, **kwargs)
         request = self.context.get("request", None)
         if request and getattr(request, "method", None) == "PUT":
-            fields['ico'].required = False
-            fields['contact_address'].required = False
-            fields['billing_address'].required = False
+            fields["ico"].required = False
+            fields["contact_address"].required = False
+            fields["billing_address"].required = False
+
+        if request and getattr(request, "method", None) in ["PUT", "POST"]:
+            # remove non-model field
+            del fields["advertising_this_year"]
         return fields
 
     def create(self, validated_data: dict):
