@@ -17,7 +17,7 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 82vh !important;
+    min-height: 82vh !important;
 }
 
 .company-module.show {

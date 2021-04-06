@@ -3,3 +3,49 @@ get:
   summary: Get list of orders
   description: Returns all Orders.
   operationId: getOrder
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              allOf:
+                - $ref: './schema.yml#/Order'
+
+post:
+  tags: [ order ]
+  summary: Create a new order
+  description: Creates a new order.
+  operationId: postOrder
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            date:
+              type: date
+              example: "2021-04-03"
+            contract_number:
+              type: int
+              example: 2341
+            sum:
+              type: int
+              example: 300
+            company:
+              type: int
+              example: 2616685
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+              $ref: './schema.yml#/Order'

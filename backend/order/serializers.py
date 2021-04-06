@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from company.serializers import CompanySerializer
 from order.models import Order
+from invoice.serializers import InvoiceSerializer
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    company = CompanySerializer(many=False, required=True)
+    Invoice = InvoiceSerializer(many=True, required=False)
 
     class Meta:
         model = Order
@@ -15,6 +15,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "contract_number",
             "sum",
             "company",
+            "Invoice",
         )
 
 
@@ -36,6 +37,6 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ("date", "contract_number", "sum", "company_id")
+        fields = ("id", "date", "contract_number", "sum", "company_id")
 
         read_only_fields = ("id",)

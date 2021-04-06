@@ -2,20 +2,33 @@
     display: grid;
     width: 100%;
     grid-template-areas: 
-        "leftr1 rightr1"
-        "leftr2 rightr2";
-    grid-template-columns: 50% 50%;
+        "leftr1 rightr1 bt1"
+        "leftr2 rightr2 bt2";
+    grid-template-columns: 40% 40% 20%;
 }
 
 .company-details-info .grid h5{
     margin-left: 24px;
 }
 
-.company-details-info .grid span {
+.company-details-info-field {
     padding-left: 10px;
     margin-left: 36px;
     padding-right: 25px;
-    border-bottom: 1px solid #888888;
+    /* border-bottom: 1px solid #888888; */
+}
+.company-details-info-edit-field {
+    padding-left: 10px !important;
+    padding-right: 25px !important;
+    margin-left: 36px !important;
+    margin-bottom: 0px !important;
+    width: 80%;
+}
+
+.company-details-info-edit-button {
+    background-color: #109cf1 !important; 
+    padding: 7px 15px !important;
+    border-radius: 5px !important;
 }
 
 .company-details-info .grid div {
@@ -37,4 +50,9 @@
 
 .contact-address {
     grid-area: rightr2;
+}
+
+.button-area {
+    grid-area: bt1;
+    justify-self: end;
 }

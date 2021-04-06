@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import { Card, CardContent } from "@material-ui/core"
 
-import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from '@material-ui/icons/Edit'
 
 import { React, useState, useEffect, useRef } from "react"
 
@@ -46,53 +46,52 @@ const CompanyDetails = ({ico, className, onClose}) => {
  
     const isMounted = useRef(false);
     useEffect(() => {
+
         if(isMounted.current){
             const getData = async () => {
                 setCompany(await fetchCompany());
                 const contactData = await fetchContacts();
-                setContacts(contactData.filter(contact => contact.company == ico));
+                setContacts(contactData.filter(contact => contact.company.ico === ico));
                 const ordersData = await fetchOrders();
-                setOrders(ordersData.filter(order => order.company.ico == ico));
-                const eventsData = await fetchEvents();
-                setEvents(eventsData.filter(event => event.company.ico == ico));
-                const notesData = await fetchNotes();
-                setNotes(notesData.filter(note => note.company.ico == ico));
+                setOrders(ordersData.filter(order => order.company === ico));
+                // const eventsData = await fetchEvents();
+                // setEvents(eventsData.filter(event => event.company.ico == ico));
+                // const notesData = await fetchNotes();
+                // setNotes(notesData.filter(note => note.company.ico == ico));
             } 
+            
             getData();
         }else{
             isMounted.current = true;
         }  
     },[ico])
 
-    
-
     const handleBack = () => {
         onClose();
     }
-    if(ico == ""){
+    if(ico === ""){
         return (
             <div id="companyDetail"></div>
         )
     }
     return (        
-       <Card id="companyDetail" className={className + " company-details comapny-details-card"}>
+       <Card id="companyDetail" className={className + " company-details "}>
             {company &&<CardContent>
                  <div className="company-details-header">
                     <div className="left">
                         <Typography id="company-name" variant="h3">{company.name}</Typography>
-                        <span className="company-status" >{company.status} <EditIcon className="icon"/></span>
+                        <span className="company-status" style={{backgroundColor:company.status_color}} >{company.status} <EditIcon className="icon"/></span>
                     </div>
-                    
                     <div>
-                        <Button className="company-details-cancel-button" onClick={handleBack}>Zrušit</Button>
-                        <Button className="company-details-save-button" onClick={handleBack}>Uložit</Button>
+                        <Button onClick={handleBack} className="company-details-cancel-button" >Zpět</Button>
+                        <Button className="company-details-delete-button" >Smazat</Button>
                     </div>
                 </div>
                 <div className="company-details-body">
                     
-                    <CompanyInformations companyICO={company.ico} billingAddress={company.billing_address} 
-                        contactAddress={company.contact_address} mainPhoneNumber={company.phone_number}/>
-
+                    <CompanyInformations companyICOData={company.ico} billingAddressData={company.billing_address} 
+                        contactAddressData={company.contact_address} mainPhoneNumberData={company.phone_number}/>
+                    
                     <ContactPersons data={contacts}/>
 
                     <div className="grid">

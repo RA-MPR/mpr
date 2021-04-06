@@ -52,4 +52,4 @@ post:
       content:
         application/json:
           schema:
-              $ref: './schema.yml#/Contact'
+              $ref: './schema.yml#/PostContact'

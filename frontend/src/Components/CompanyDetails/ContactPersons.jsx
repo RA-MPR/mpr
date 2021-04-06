@@ -26,9 +26,9 @@ const ContactPersons = ({data}) => {
                     <TableBody>
                         {data.map(person => (
                             <TableRow>
-                                <TableCell>{person.name}</TableCell>
+                                <TableCell>{person.name + " " + person.surname}</TableCell>
                                 <TableCell>{person.email}</TableCell>
-                                <TableCell>{person.phoneNumber}</TableCell>
+                                <TableCell>{person.phone}</TableCell>
                                 <TableCell><IconButton size="small" className="delete-button" onClick={handleDelete(person.id)}><DeleteIcon/></IconButton></TableCell>
                             </TableRow>
                         ))}

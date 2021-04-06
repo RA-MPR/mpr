@@ -24,7 +24,13 @@ function CompanyPage() {
   }
 
   const showCompanyDetail = (ico) =>{
-    setDetailIco(ico);
+    if(ico === detailIco){
+      document.getElementById("companyNew").classList.remove("show");
+      document.getElementById("companyList").classList.remove("show");
+      document.getElementById("companyDetail").classList.add("show");
+    }else{
+      setDetailIco(ico);
+    }
   }
 
   const isMounted = useRef(false);
