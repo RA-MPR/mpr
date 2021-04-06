@@ -264,7 +264,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                                     <Button size="small" disabled className="company-list-take disabled">Zabrano</Button>}
                             </TableCell>}
                             {onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
-                                <span className="company-status" style={{backgroundColor: company.status_color}}>{company.status}</span>
+                                <span className="company-list-status" style={{backgroundColor: company.status_color}}>{company.status}</span>
                             </TableCell>}
                             <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 <div className="text-container">
