@@ -10,10 +10,23 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class SimplifiedCompanySerializer(serializers.ModelSerializer):
+    advertising_this_year = serializers.IntegerField()
 
     class Meta:
         model = models.Company
-        fields = "__all__"
+        fields = (
+            "ico",
+            "name",
+            "phone_number",
+            "ad_volume",
+            "status",
+            "status_color",
+            "contact_address",
+            "billing_address",
+            "contacts",
+            "orders",
+            "advertising_this_year"
+        )
         depth = 1
 
     def get_fields(self, *args, **kwargs):

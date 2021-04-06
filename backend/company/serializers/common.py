@@ -14,6 +14,8 @@ class CompanySerializer(SimplifiedCompanySerializer):
 
 
 class CompanyListSerializer(serializers.ModelSerializer):
+    advertising_this_year = serializers.IntegerField()
+
     class Meta:
         model = models.Company
         fields = (
@@ -22,6 +24,7 @@ class CompanyListSerializer(serializers.ModelSerializer):
             "phone_number",
             "ad_volume",
             "status",
-            "status_color"
+            "status_color",
+            "advertising_this_year"
         )
         depth = 0
