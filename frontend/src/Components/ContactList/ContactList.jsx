@@ -44,7 +44,7 @@ const ContactList = ({className}) => {
             setContacts(contactsFromServer.filter((contact) => 
                 contact.name.toLowerCase().includes(searchValue.toLowerCase()) || 
                 contact.surname.toLowerCase().includes(searchValue.toLowerCase()) || 
-                contact.company.toLowerCase().includes(searchValue.toLowerCase())))
+                contact.company.name.toLowerCase().includes(searchValue.toLowerCase())))
         }
         getContacts();
     }, [searchValue])
