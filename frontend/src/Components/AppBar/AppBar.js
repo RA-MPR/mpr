@@ -23,15 +23,31 @@ function App() {
               exclusive
               onChange={handlePage}
             >
-              <ToggleButton value={0} component={Link} to="/">
+              {console.log(window.location.pathname)}
+              {window.location.pathname === "/" &&
+              <ToggleButton selected value={0} component={Link} to="/">
                 Firmy
-              </ToggleButton>
-              <ToggleButton value={1} component={Link} to="/calendar">
+              </ToggleButton>}
+              {window.location.pathname !== "/" &&
+              <ToggleButton selected={false} value={0} component={Link} to="/">
+                Firmy
+              </ToggleButton>}
+              {window.location.pathname === "/calendar" &&
+              <ToggleButton selected value={1} component={Link} to="/calendar">
                 Kalendář
-              </ToggleButton>
-              <ToggleButton value={2} component={Link} to="/contacts">
+              </ToggleButton>}
+              {window.location.pathname !== "/calendar" &&
+              <ToggleButton selected={false} value={1} component={Link} to="/calendar">
+                Kalendář
+              </ToggleButton>}
+              {window.location.pathname === "/contacts" && 
+              <ToggleButton selected value={2} component={Link} to="/contacts">
                 Kontaktní osoby
-              </ToggleButton>
+              </ToggleButton>}
+              {window.location.pathname !== "/contacts" && 
+              <ToggleButton selected={false} value={2} component={Link} to="/contacts">
+                Kontaktní osoby
+              </ToggleButton>}
             </ToggleButtonGroup>
           </Toolbar>
         </AppBar>

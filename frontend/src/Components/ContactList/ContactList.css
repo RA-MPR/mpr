@@ -1,0 +1,20 @@
+.contact-list{
+    display: flex; 
+    flex-direction: column;
+    max-height: 100%;
+}
+
+.text-container {
+    overflow-wrap: break-word;
+  }
+
+.contact-list-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.clickable{
+    cursor: pointer;
+}
