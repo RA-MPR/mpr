@@ -1,65 +1,9 @@
 get:
   tags: [ event ]
   summary: Get list of events
-  description: Returns all Events.
+  description: Returns all events.
   operationId: getEvent
 
- responses:
-    200:
-      description: >
-        Success
-      content:
-        application/json:
-          schema:
-            id:
-              format: int
-              example: 1
-            date:
-              type: date
-              example: "2021-04-01"
-            time:
-              type: time
-              example: "15:00:00"
-            description:
-              format: string
-              example: "Lorem Ipsum ... "
-            reminder:
-              type: int
-              example: 1
-            company:
-              type: string
-              example: '2616685'             
-
-post:
-  tags: [ event ]
-  summary: Create a new event
-  description: Creates a new event.
-  operationId: postContact
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            id:
-              format: int
-              example: 1
-            date:
-              type: date
-              example: "2021-04-01"
-            time:
-              type: time
-              example: "15:00:00"
-            description:
-              type: string
-              example: "Lorem Ipsum ... "
-            reminder:
-              type: bool
-              example: 1
-            company:
-              type: string
-              example: '2616685'
 
   responses:
     200:
@@ -68,4 +12,47 @@ post:
       content:
         application/json:
           schema:
-              $ref: './schema.yml#/PostContact'
+            type: array
+            items:
+              allOf:
+                - $ref: './schema.yml#/Event'
+
+post:
+  tags: [ event ]
+  summary: Create a new event
+  description: Creates a new event.
+  operationId: PostEvent
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 'test'
+            date:
+              type: string
+              example: '2021-04-01'
+            time:
+              type: string
+              example: "15:00:00"
+            description:
+              type: string
+              example: 'Tea with client'
+            company:
+              type: int
+              example: 2616685
+            reminder:
+              type: boolean
+              example: 1
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+              $ref: './schema.yml#/PostEvent'
