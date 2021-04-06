@@ -159,7 +159,7 @@ const ContactList = ({className}) => {
                                 </TableCell>
                                 <TableCell align="center">
                                     <div className="text-container">
-                                        {contact.company}
+                                        {contact.company.name}
                                     </div>
                                 </TableCell>
                                 <TableCell align="center">
