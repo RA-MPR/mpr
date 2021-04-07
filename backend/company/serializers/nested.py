@@ -59,9 +59,19 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
 
     def update(self, company: models.Company, validated_data: dict):
         if "contact_address" in validated_data:
-            company.contact_address.update(validated_data.pop("contact_address"))
+            contact_address_data = validated_data.pop("contact_address")
+            if company.contact_address:
+                company.contact_address.update(contact_address_data)
+            else:
+                contact_address = models.Address.objects.create(**contact_address_data)
+                company.contact_address = contact_address
         if "billing_address" in validated_data:
-            company.billing_address.update(validated_data.pop("billing_address"))
+            billing_address_data = validated_data.pop("billing_address")
+            if company.billing_address:
+                company.billing_address.update(billing_address_data)
+            else:
+                billing_address = models.Address.objects.create(**billing_address_data)
+                company.billing_address = billing_address
         company.update(validated_data)
         return company
 
