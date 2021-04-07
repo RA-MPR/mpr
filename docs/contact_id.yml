@@ -12,3 +12,40 @@ get:
         application/json:
           schema:
             $ref: './schema.yml#/Contact'
+
+put:
+  tags: [ contact ]
+  summary: Update specific contact
+  description: Returns updated contact.
+  operationId: putContactID
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 'test'
+            surname:
+              type: string
+              example: 'test'
+            phone:
+              type: string
+              example: "+420212345678"
+            email:
+              type: string
+              example: 'test@mpr.io'
+            company:
+              type: int
+              example: 2616685
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+            $ref: './schema.yml#/PostContact'

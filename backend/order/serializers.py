@@ -43,6 +43,7 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
+    Invoice = InvoiceSerializer(many=True, required=False)
 
     class Meta:
         model = Order
@@ -51,4 +52,5 @@ class OrderDetailSerializer(serializers.ModelSerializer):
             "date",
             "contract_number",
             "sum",
+            "Invoice"
         )

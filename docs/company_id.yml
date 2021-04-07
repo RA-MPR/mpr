@@ -12,3 +12,76 @@ get:
         application/json:
           schema:
             $ref: './schema.yml#/Company'
+
+put:
+  tags: [ company ]
+  summary: Update specific company
+  description: Returns updated company.
+  operationId: putCompanyID
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            ico:
+              format: int
+              example: 2616685
+            name:
+              type: string
+              example: 'test'
+            phone_number:
+              type: string
+              example: '+420234694111'
+            ad_volume:
+              type: int
+              example: 100
+            status:
+              type: string
+              example: 'volna'
+            contact_adress:
+              type: object
+              properties:
+                id:
+                  format: int
+                  example: 1
+                street:
+                  type: string
+                  example: 'Radlická 3294/10'
+                zip_code:
+                  type: string
+                  example: '15000'
+                city:
+                  type: string
+                  example: 'Praha'
+                country:
+                  type: string
+                  example: 'Czech Republic'
+            billing_adress:
+              type: object
+              properties:
+                id:
+                  format: int
+                  example: 2
+                street:
+                  type: string
+                  example: 'Radlická 3294/10'
+                zip_code:
+                  type: string
+                  example: '15000'
+                city:
+                  type: string
+                  example: 'Praha'
+                country:
+                  type: string
+                  example: 'Czech Republic'
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+            $ref: './schema.yml#/PostCompany'

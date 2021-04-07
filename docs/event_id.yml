@@ -12,3 +12,43 @@ get:
         application/json:
           schema:
              $ref: './schema.yml#/Event'
+
+put:
+  tags: [ event ]
+  summary: Update specific order
+  description: Returns updated event.
+  operationId: putEventID
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 'test'
+            date:
+              type: date
+              example: '2021-04-01'
+            time:
+              type: time
+              example: "15:00:00"
+            description:
+              type: string
+              example: 'Tea with client'
+            company:
+              type: int
+              example: 2616685
+            reminder:
+              type: boolean
+              example: true
+
+  responses:
+    200:
+      description: >
+        Success
+      content:
+        application/json:
+          schema:
+              $ref: './schema.yml#/PostEvent'

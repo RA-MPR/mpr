@@ -1,4 +1,4 @@
-Company:
+ListCompany:
   title: Company
   type: object
   properties:
@@ -17,6 +17,35 @@ Company:
     status:
       type: string
       example: 'volna'
+    status_color:
+      type: string
+      example: 'cervena'
+    advertising_this_year:
+      type: int
+      example: 20000
+
+PostCompany:
+  title: Company
+  type: object
+  properties:
+    ico:
+      format: string
+      example: '2616685'
+    name:
+      type: string
+      example: 'test'
+    phone_number:
+      type: string
+      example: '+420234694111'
+    ad_volume:
+      type: int
+      example: 100
+    status:
+      type: string
+      example: 'volna'
+    status_color:
+      type: string
+      example: 'cervena'
     contact_adress:
       type: object
       properties:
@@ -53,6 +82,122 @@ Company:
         country:
           type: string
           example: 'Czech Republic'
+    advertising_this_year:
+      type: int
+      example: 20000
+
+Company:
+  title: Company
+  type: object
+  properties:
+    ico:
+      format: string
+      example: '2616685'
+    name:
+      type: string
+      example: 'test'
+    phone_number:
+      type: string
+      example: '+420234694111'
+    ad_volume:
+      type: int
+      example: 100
+    status:
+      type: string
+      example: 'volna'
+    status_color:
+      type: string
+      example: 'cervena'
+    contact_adress:
+      type: object
+      properties:
+        id:
+          format: int
+          example: 1
+        street:
+          type: string
+          example: 'Radlická 3294/10'
+        zip_code:
+          type: string
+          example: '15000'
+        city:
+          type: string
+          example: 'Praha'
+        country:
+          type: string
+          example: 'Czech Republic'
+    billing_adress:
+      type: object
+      properties:
+        id:
+          format: int
+          example: 2
+        street:
+          type: string
+          example: 'Radlická 3294/10'
+        zip_code:
+          type: string
+          example: '15000'
+        city:
+          type: string
+          example: 'Praha'
+        country:
+          type: string
+          example: 'Czech Republic'
+    advertising_this_year:
+      type: int
+      example: 20000
+    contacts:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            format: int
+            example: 1
+          name:
+            type: string
+            example: 'test'
+          surname:
+            type: string
+            example: 'test'
+          phone:
+            type: string
+            example: "+420212345678"
+          email:
+            type: string
+            example: 'test@mpr.io'
+    orders:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            format: int
+            example: 1
+          date:
+            type: date
+            example: "2021-04-03"
+          contract_number:
+            type: int
+            example: 2341
+          sum:
+            type: int
+            example: 300
+          Invoice:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  format: int
+                  example: 1
+                date:
+                  type: date
+                  example: "2021-04-03"
+                sum:
+                  type: int
+                  example: 100
 
 Contact:
   title: Contact
@@ -126,12 +271,12 @@ Event:
     description:
       type: string
       example: "Tea with client"
-    company:
-      type: string
-      example: '2616685'
     reminder:
       type: bool
       example: false
+    company:
+      type: string
+      example: '2616685'
 
 PostEvent:
   title: Event
@@ -178,3 +323,53 @@ Order:
     company:
       type: string
       example: '2616685'
+    Invoice:
+      type: array
+      items:
+        type : object
+        properties:
+          id:
+            format: int
+            example: 1
+          date:
+            type: date
+            example: "2021-04-03"
+          sum:
+            type: int
+            example: 100
+
+PutOrder:
+  title: Order
+  type: object
+  properties:
+    id:
+      format: int
+      example: 1
+    date:
+      type: date
+      example: "2021-04-03"
+    contract_number:
+      type: int
+      example: 2341
+    sum:
+      type: int
+      example: 350
+    company:
+      type: string
+      example: '2616685'
+
+
+
+Invoice:
+  title: Invoice
+  type: object
+  properties:
+    id:
+      format: int
+      example: 1
+    date:
+      type: date
+      example: "2021-04-03"
+    sum:
+      type: int
+      example: 300
