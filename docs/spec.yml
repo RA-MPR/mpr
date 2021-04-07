@@ -23,6 +23,10 @@ tags:
     x-displayName: Order
     description: >
         Resources for working with order.
+  - name: invoice
+    x-displayName: Invoice
+    description: >
+        Resources for working with invoice.
   - name: user
     x-displayName: User
     description: >
@@ -46,5 +50,9 @@ paths:
     $ref: './order.yml'
   /order/{id}:
     $ref: './order_id.yml'
+  /invoice:
+    $ref: './invoice.yml'
+  /invoice/{id}:
+    $ref: 'invoice_id.yml'
   /user:
     $ref: './user.yml'

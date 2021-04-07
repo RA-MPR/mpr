@@ -1,8 +1,8 @@
 get:
-  tags: [ order ]
-  summary: Get specific order
-  description: Returns order detail.
-  operationId: getOrderID
+  tags: [ invoice ]
+  summary: Get list of invoices
+  description: Returns all Invoices.
+  operationId: getInvoice
 
   responses:
     200:
@@ -11,13 +11,16 @@ get:
       content:
         application/json:
           schema:
-            $ref: './schema.yml#/Order'
+            type: array
+            items:
+              allOf:
+                - $ref: './schema.yml#/Invoice'
 
-put:
-  tags: [ order ]
-  summary: Update specific order
-  description: Returns updated order.
-  operationId: putOrderID
+post:
+  tags: [ invoice ]
+  summary: Create a new invoice
+  description: Creates a new invoice.
+  operationId: postInvoice
   requestBody:
     required: true
     content:
@@ -28,15 +31,12 @@ put:
             date:
               type: date
               example: "2021-04-03"
-            contract_number:
-              type: int
-              example: 2341
             sum:
               type: int
               example: 300
-            company_id:
+            order_id:
               type: int
-              example: 2616685
+              example: 1
 
   responses:
     200:
@@ -45,4 +45,4 @@ put:
       content:
         application/json:
           schema:
-            $ref: './schema.yml#/PutOrder'
+              $ref: './schema.yml#/Invoice'

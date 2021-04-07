@@ -14,7 +14,7 @@ get:
             type: array
             items:
               allOf:
-                - $ref: './schema.yml#/Company'
+                - $ref: './schema.yml#/ListCompany'
 
 post:
   tags: [ company ]
@@ -86,4 +86,4 @@ post:
       content:
         application/json:
           schema:
-              $ref: './schema.yml#/Company'
+              $ref: './schema.yml#/PostCompany'
