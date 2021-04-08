@@ -1,6 +1,5 @@
 .company-details-orders table {
-    border-collapse:separate;
-    border-spacing:0 15px;
+    border-spacing:0px;
 }
 
 .company-details-orders td
@@ -8,23 +7,72 @@
     box-shadow: none;
     padding-top: 5px;
     padding-bottom: 5px;
+    line-height: 24px;
 }
 .company-details-orders td:nth-child(1) {
-    width: 12% ;
+    width: 15% ;
 }
 
 .company-details-orders td:nth-child(2) {
-    width: 12% ;
+    width: 15% ;
 }
 
 .company-details-orders td:nth-child(3) {
-    width: 60% ;
+    width: 41% ;
 }
 
 .company-details-orders td:nth-child(4) {
-    width: 12% ;
+    width: 15% ;
+    text-align: right;
 }
 
 .company-details-orders td:nth-child(5) {
-    width: 4%;
+    width: 14%;
+    text-align: right;
+}
+
+.orderTableAdd {
+    display: none !important;
+}
+
+.showRow {
+    display: table-row !important; 
+    vertical-align: middle;
+    height: 50px !important;
+}
+
+.orderTableRow {
+    display: table-row !important; 
+    vertical-align: middle;
+    height: 50px !important;
+}
+
+.addNewRowTable {
+    border-radius: 10px !important;
+}
+
+.orderTable {
+    max-height: 350px !important;
+    overflow-y: auto !important;
+    border-radius: 10px !important;
+}
+
+.typeToggle {
+    height: 24px !important;
+    vertical-align: middle !important;
+}
+
+.typeToggle .MuiToggleButton-root {
+    color: grey !important;
+    border-radius: 4px !important;
+}
+
+.typeToggle .Mui-selected {
+    color: #109CF1 !important;
+    border-color: #109CF1 !important;
+    border-width: 1px !important;
+}
+
+.datePickerOrder .MuiSvgIcon-root {
+    fill: #109CF1 !important;
 }
