@@ -5,6 +5,8 @@
 
 .company-details {
     padding: 1%;
+    height: 82vh !important;
+    overflow-y: auto !important;
 }
 
 .company-details-header {
@@ -61,7 +63,6 @@
 
 .company-details table {
     border-collapse:separate;
-    border-spacing:0 15px;
 }
 
 .company-details-contact-persons td {

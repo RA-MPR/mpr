@@ -99,7 +99,7 @@ const CompanyDetails = ({ico, className, onClose}) => {
                         <Notes data={notes}/>
                     </div>
                     
-                    <Orders data={orders}/>
+                    <Orders data={orders} ico={company.ico} fetchOrder={fetchOrders} setOrder={setOrders}/>
                     
                 </div>
                 <div className="company-details-footer">
