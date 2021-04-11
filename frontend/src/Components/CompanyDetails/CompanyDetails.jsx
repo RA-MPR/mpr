@@ -3,8 +3,9 @@ import Orders from "./Orders"
 import ContactPersons from "./ContactPersons"
 import Notes from "./Notes"
 import CompanyInformations from "./CompanyInformations"
+import StatusChange from "./StatusChange"
 
-import Button from "@material-ui/core/Button"
+import { Button, IconButton } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
 import { Card, CardContent } from "@material-ui/core"
 
@@ -23,6 +24,7 @@ const CompanyDetails = ({ico, className, onClose}) => {
     const [orders, setOrders] = useState([]);
     const [events, setEvents] = useState([]);
     const [notes, setNotes] = useState([]);
+    const [statusChangeDialog, setStatusChangeDialog] = useState(false);
     
     const fetchCompany = async () => {
         return await axios.get('http://127.0.0.1:8000/company/'+ico).then(res => res.data);
@@ -69,6 +71,16 @@ const CompanyDetails = ({ico, className, onClose}) => {
     const handleBack = () => {
         onClose();
     }
+
+    const openChangeStatusDialog = () => {
+        setStatusChangeDialog(true);
+    }
+
+    const closeChangeStatusDialog = () => {
+        setStatusChangeDialog(false);
+    }
+
+
     if(ico === ""){
         return (
             <div id="companyDetail"></div>
@@ -80,7 +92,12 @@ const CompanyDetails = ({ico, className, onClose}) => {
                  <div className="company-details-header">
                     <div className="left">
                         <Typography id="company-name" variant="h3">{company.name}</Typography>
-                        <span className="company-status" style={{backgroundColor:company.status_color}} >{company.status} <EditIcon className="icon"/></span>
+                        <span className="company-status" style={{backgroundColor:company.status_color}}>
+                            {company.status}<IconButton onClick={openChangeStatusDialog} className="company-status-edit-button" >
+                             <EditIcon className="icon"/>
+                        </IconButton>
+                        </span>
+                        
                     </div>
                     <div>
                         <Button onClick={handleBack} className="company-details-cancel-button" >Zpět</Button>
@@ -106,7 +123,9 @@ const CompanyDetails = ({ico, className, onClose}) => {
                     {/* <span className="company-details-created-date">Přidáno: {created}</span> */}
                 </div>
             </CardContent>}
-
+            {company && <StatusChange ico={ico} companyName={company.name} 
+                companyStatus={company.status} companyStatusColor={company.status_color}
+                open={statusChangeDialog} onClose={closeChangeStatusDialog} />}
         </Card>
     )
 }

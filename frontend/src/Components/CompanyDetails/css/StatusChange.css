@@ -1,0 +1,40 @@
+.status-picker {
+    border-radius: 8px !important;
+    padding: 5px 20px 1px 20px;
+    margin-left: 54px;
+}
+
+.status-picker.MuiInput-underline::after,
+.status-picker.MuiInput-underline::before {
+    border-bottom: none !important;
+}
+
+.new-status-name {
+    margin-left: 54px !important;
+}
+#company-status-change .save-button,
+#company-status-change .add-button {
+    background-color: #109cf1 !important; 
+    padding: 7px 15px !important;
+    border-radius: 5px !important;
+}
+#company-status-change .cancel-button {
+    background-color: #F2F2F2 !important; 
+    color: #109cf1 !important; 
+    padding: 7px 15px !important;
+    border-radius: 5px !important;
+    margin-right: 10px !important;
+}
+#company-status-change .cancel-button,
+#company-status-change .save-button, 
+#company-status-change .add-button{
+    color: white;
+    text-transform: unset !important;
+    box-shadow: 0px 5px 4px #888888;
+}
+
+.new-status-colors-buttons Button {
+    color: white;
+    width: 90px !important;
+}
+
