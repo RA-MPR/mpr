@@ -95,7 +95,7 @@ const CompanyDetails = ({ico, className, onClose}) => {
                     <ContactPersons data={contacts}/>
 
                     <div className="grid">
-                        <Events data={events}/>
+                        <Events data={events} ico={ico} fetchEvents={fetchEvents} setEvents={setEvents}/>
                         <Notes data={notes}/>
                     </div>
                     
