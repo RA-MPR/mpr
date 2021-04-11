@@ -278,7 +278,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className}) 
                                 {company.ico}
                             </TableCell>
                             {onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
-                                {company.sales}
+                                {company.advertising_this_year !== null ? company.advertising_this_year : 0}
                             </TableCell>}
                             {!onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.user}
