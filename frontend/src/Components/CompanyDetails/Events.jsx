@@ -74,13 +74,6 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
         var date = parse(event.target.datePicker.value, "dd.MM.yyyy", new Date());
         var formattedDate = format(date, "yyyy-MM-dd");
 
-        console.log(event.target.eventName.value);
-        console.log(formattedDate);
-        console.log(event.target.timePicker.value+":00");
-        console.log(event.target.eventDesc.value);
-        console.log(ico);
-        console.log(checked);
-
         axios.post("http://127.0.0.1:8000/event/", {
             name: event.target.eventName.value,
             date: formattedDate,
@@ -156,7 +149,7 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
                                                         required
                                                     />
                                                 </div>
-                                                <div className="check-checked">
+                                                <div className="check-reminder">
                                                     <FormControlLabel
                                                         control={
                                                         <Checkbox
@@ -200,9 +193,9 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
                                                 <div className="description">
                                                     {event.description}
                                                 </div>
-                                                <div className="checked">
-                                                    {event.checked && <IconButton className="checked-button" size="small"><CheckIcon/></IconButton>}
-                                                    {!event.checked &&  <IconButton className="checked-button" size="small"><CloseIcon/></IconButton>}
+                                                <div className="reminder">
+                                                    {event.reminder && <IconButton className="checked-button" size="small"><CheckIcon/></IconButton>}
+                                                    {!event.reminder &&  <IconButton className="checked-button" size="small"><CloseIcon/></IconButton>}
                                                 </div>
                                             </div>                                        
                                         </TableCell>
