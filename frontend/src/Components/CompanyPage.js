@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 function CompanyPage() {
 
   const [detailIco, setDetailIco] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   const showNewCompanyForm = () =>{
     document.getElementById("companyList").classList.remove("show");
@@ -18,6 +19,7 @@ function CompanyPage() {
   }
 
   const showCompanyList = () =>{
+    setRefresh(!refresh);
     document.getElementById("companyNew").classList.remove("show");
     document.getElementById("companyDetail").classList.remove("show");
     document.getElementById("companyList").classList.add("show");
@@ -54,7 +56,7 @@ function CompanyPage() {
             <div className="company-main-screen">
               <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} className="company-module"/>
               <CompanyDetails ico={detailIco} className="company-module" onClose={showCompanyList}/>
-              <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} className="company-module show"/>
+              <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} className="company-module show"/>
             </div>
           </Paper>
         </Grid>
