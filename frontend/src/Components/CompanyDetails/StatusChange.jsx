@@ -10,7 +10,7 @@ import axios from "axios"
 
 import "./css/StatusChange.css"
 
-const StatusChange = ({ico, companyName, companyStatus, companyStatusColor, open, onClose}) => {
+const StatusChange = ({ico, companyName, companyStatus, companyStatusColor, open, onClose, refresh}) => {
 
 const [status, setStatus] = useState("Osloveno");
 const [statusColor, setStatusColor] = useState("orange");
@@ -55,8 +55,9 @@ const saveAndClose = () => {
             "status_color": statusColor
         });
     }
- 
-    close()
+    
+    refresh();
+    close();
 }
 
 const handleOnChangeStatus = (event) => {
