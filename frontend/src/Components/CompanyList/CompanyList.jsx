@@ -30,7 +30,7 @@ const columns = [
     {id: 'takeCompany', label: "Zabrat firmu"}
 ]
 
-const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
+const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className}) => {
     const [companiesFromServer, setCompaniesFromServer] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [onlyMyCompanies, setOnlyMyCompanies] = useState(true);
@@ -60,7 +60,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
             }
         }
         getCompanies();
-    },[])
+    },[onRefresh])
 
     useEffect(() => {
         const getCompanies = async () => {
@@ -278,7 +278,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, className}) => {
                                 {company.ico}
                             </TableCell>
                             {onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
-                                {company.sales}
+                                {company.advertising_this_year !== null ? company.advertising_this_year : 0}
                             </TableCell>}
                             {!onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.user}
