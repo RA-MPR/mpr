@@ -81,3 +81,16 @@
     display: table-row !important;
     vertical-align: middle;
 }
+
+.new-grid>.date, .new-grid>.time{
+    margin-top: 15px !important;
+}
+
+.check-reminder svg{
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.check-reminder {
+    margin-top: 15px !important;
+}
