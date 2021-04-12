@@ -3,6 +3,7 @@ import IconButton from "@material-ui/core/IconButton"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import { Table, TableBody, TableCell, TableContainer, TableRow } from "@material-ui/core"
+import ConfirmDialog from "./ConfirmDialog";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
@@ -13,6 +14,7 @@ import axios from "axios"
 import { React, useState, useEffect } from "react"
 
 import "./css/ContactPersons.css"
+
 
 const ContactPersons = ({data, clean, refresh, ico}) => {
 
@@ -32,6 +34,11 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
     const [newContactLastNameErrorMessage, setNewContactLastNameErrorMessage] = useState("");
     const [newContactEmailErrorMessage, setNewContactEmailErrorMessage] = useState("");
     const [newContactPhoneNumberErrorMessage, setNewContactPhoneNumberErrorMessage] = useState("");
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmTitle, setConfirmTitle] = useState("");
+    const [confirmText, setConfirmText] = useState("");
+    const [deleteID, setDeleteID] = useState();
 
 
     useEffect(() => {
@@ -54,6 +61,13 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
         setNewContactLastNameError(false);
         setNewContactLastNameErrorMessage("");
     }
+
+    const setConfirmData = (id, name) => {
+        setDeleteID(id);
+        setConfirmTitle("Opravdu odstranit kontaktní osobu?");
+        setConfirmText("Opravdu chcete odstranit " + name + " ze seznamu kontaktních osob?");
+        setConfirmOpen(true);
+      }
 
     const handleDelete = (id) => {
         axios.delete("http://127.0.0.1:8000/contact/" + id);
@@ -196,13 +210,22 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
                                 <TableCell>{person.name + " " + person.surname}</TableCell>
                                 <TableCell>{person.email}</TableCell>
                                 <TableCell>{person.phone}</TableCell>
-                                <TableCell><IconButton size="small" className="delete-button" onClick={() => handleDelete(person.id)}><DeleteIcon/></IconButton></TableCell>
+                                <TableCell>
+                                    <IconButton size="small" className="delete-button" 
+                                        onClick={() => setConfirmData( person.id, person.name + " " + person.surname)}>
+                                            <DeleteIcon/>
+                                    </IconButton>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table> 
             </TableContainer>
         </CardContent>
+        <ConfirmDialog title={confirmTitle} open={confirmOpen} setOpen={setConfirmOpen} 
+            onConfirm={() => handleDelete(deleteID)}>
+          {confirmText}
+        </ConfirmDialog>
       </Card>
     )
 }
