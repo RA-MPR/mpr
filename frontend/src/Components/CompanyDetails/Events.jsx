@@ -211,7 +211,8 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
                                                     </Typography>
                                                 </div>
                                                 <div className="date">
-                                                    {event.date + " " + event.time}
+                                                    {format(parse(event.date, "yyyy-MM-dd", new Date()), "dd.MM.yyyy") + ", " +
+                                                     format(parse(event.time, "HH:mm:ss", new Date()), "HH:mm")}
                                                 </div>
                                                 <div className="delete-button">
                                                     <IconButton size="small" onClick={() => {handleConfirmOpen(event.id)}}><DeleteIcon/></IconButton>
