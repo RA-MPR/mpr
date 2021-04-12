@@ -29,6 +29,8 @@ import csLocale from "date-fns/locale/cs";
 
 import axios from "axios";
 
+import ConfirmDialog from "./ConfirmDialog";
+
 import "./css/Events.css";
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from "@material-ui/pickers"
 
@@ -37,6 +39,13 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
     const [checked, setChecked] = useState(false);
+    const [deleteId, setDeleteId] = useState(-1);
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
+    const handleConfirmOpen = (eventId) => {
+        setDeleteId(eventId);
+        setConfirmOpen(true);
+    }
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -87,9 +96,26 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
         })
     }
 
+    const handleDeleteEvent = () => {
+        axios.delete("http://127.0.0.1:8000/event/"+deleteId)
+        .then(function (response){
+            loadNewData();
+        })
+    }
+
     return (
         <Card className="company-details-events comapny-details-card">
             <CardContent>
+                <ConfirmDialog
+                    title="Odstranění události!"
+                    open={confirmOpen}
+                    setOpen={setConfirmOpen}
+                    onConfirm={() =>
+                        handleDeleteEvent()
+                    }
+                >
+                    Chcete tuto událost odstranit ze systému?
+                </ConfirmDialog>
                 <Typography variant="h4">
                     Události
                     <IconButton className="plus-button" size="small" onClick={showNewEvent}><AddIcon/></IconButton>    
@@ -188,7 +214,7 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
                                                     {event.date + " " + event.time}
                                                 </div>
                                                 <div className="delete-button">
-                                                    <IconButton size="small"><DeleteIcon/></IconButton>
+                                                    <IconButton size="small" onClick={() => {handleConfirmOpen(event.id)}}><DeleteIcon/></IconButton>
                                                 </div>
                                                 <div className="description">
                                                     {event.description}
