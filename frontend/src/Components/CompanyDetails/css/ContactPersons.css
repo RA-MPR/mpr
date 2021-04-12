@@ -11,3 +11,21 @@
     flex-direction: row-reverse;
 }
 
+.company-details-contact-persons td {
+    box-shadow: none !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.company-details-contact-persons td:nth-child(1) {
+    padding-left: 5%;
+}
+.company-details-contact-persons td:nth-child(5) {
+    padding-right: 0;
+    margin-right: 0;
+}
+.company-details-contact-persons td:nth-child(6) {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+

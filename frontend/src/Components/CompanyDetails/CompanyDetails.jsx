@@ -26,6 +26,7 @@ const CompanyDetails = ({ico, className, onClose}) => {
     const [notes, setNotes] = useState([]);
     const [statusChangeDialog, setStatusChangeDialog] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [clean, setClean] = useState(false);
     
     const fetchCompany = async () => {
         return await axios.get('http://127.0.0.1:8000/company/'+ico).then(res => res.data);
@@ -70,6 +71,7 @@ const CompanyDetails = ({ico, className, onClose}) => {
     },[ico, refresh])
 
     const handleBack = () => {
+        setClean(!clean);
         onClose();
     }
 
@@ -119,7 +121,7 @@ const CompanyDetails = ({ico, className, onClose}) => {
                     <CompanyInformations companyICOData={company.ico} billingAddressData={company.billing_address} 
                         contactAddressData={company.contact_address} mainPhoneNumberData={company.phone_number}/>
                     
-                    <ContactPersons data={contacts}/>
+                    <ContactPersons data={contacts} clean={clean} ico={ico} refresh={refreshDetails}/>
 
                     <div className="grid">
                         <Events data={events} ico={ico} fetchEvents={fetchEvents} setEvents={setEvents}/>
