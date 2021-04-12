@@ -56,7 +56,8 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
     }
 
     const handleDelete = (id) => {
-
+        axios.delete("http://127.0.0.1:8000/contact/" + id);
+        refresh();
     }
 
     const handleOnNewContactNameChange = (event) => {
@@ -133,7 +134,7 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
                     "surname" : newContactLastName,
                     "phone" : newContactPhoneNumber,
                     "email" : newContactEmail,
-                    "company" : parseInt(ico)
+                    "company" : ico
                 }
                 axios.post("http://127.0.0.1:8000/contact/", data);
                 refresh();
@@ -195,7 +196,7 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
                                 <TableCell>{person.name + " " + person.surname}</TableCell>
                                 <TableCell>{person.email}</TableCell>
                                 <TableCell>{person.phone}</TableCell>
-                                <TableCell><IconButton size="small" className="delete-button" onClick={handleDelete(person.id)}><DeleteIcon/></IconButton></TableCell>
+                                <TableCell><IconButton size="small" className="delete-button" onClick={() => handleDelete(person.id)}><DeleteIcon/></IconButton></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
