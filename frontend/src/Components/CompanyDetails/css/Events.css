@@ -30,6 +30,12 @@
     border-spacing:0 15px;
 }
 
+.events-table{
+    max-height: 350px !important;
+    overflow-y: auto !important;
+    border-radius: 10px !important;
+}
+
 .grid>.name {
     grid-area: leftr1;
 }

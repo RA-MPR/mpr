@@ -121,7 +121,7 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
                     <IconButton className="plus-button" size="small" onClick={showNewEvent}><AddIcon/></IconButton>    
                 </Typography>
                 <form onSubmit={handleAddEvent}>
-                    <TableContainer>
+                    <TableContainer className="events-table">
                         <Table>
                             <TableBody>
                                 <TableRow key={"addEvent"} id="addEvent" className="eventAdd">
