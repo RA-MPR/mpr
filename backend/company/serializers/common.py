@@ -1,5 +1,6 @@
 from contact.serializers.nested import ContactDetailSerializer
 from order.serializers import OrderDetailSerializer
+from event.serializers import EventDetailSerializer
 from rest_framework import serializers
 
 from .nested import SimplifiedCompanySerializer, AddressSerializer
@@ -10,6 +11,7 @@ class CompanySerializer(SimplifiedCompanySerializer):
     contact_address = AddressSerializer()
     billing_address = AddressSerializer()
     contacts = ContactDetailSerializer(many=True, required=False)
+    events = EventDetailSerializer(many=True, required=False)
     orders = OrderDetailSerializer(many=True, required=False)
 
 

@@ -25,6 +25,7 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             "billing_address",
             "contacts",
             "orders",
+            "events",
             "advertising_this_year"
         )
         depth = 1

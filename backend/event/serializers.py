@@ -3,11 +3,11 @@ from rest_framework import serializers
 from . import models
 
 
-
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Event
         fields = "__all__"
+
     def create(self, validated_data: dict):
         event = models.Event.objects.create(**validated_data)
         event.save()
@@ -30,3 +30,16 @@ class EventSerializer(serializers.ModelSerializer):
             fields['date'].required = False
             fields['reminder'].required = False
         return fields
+
+
+class EventDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Event
+        fields = (
+            "id",
+            "name",
+            "date",
+            "time",
+            "description",
+            "reminder",
+        )
