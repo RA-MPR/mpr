@@ -55,7 +55,7 @@
     display: block;
 }
 
-.company-details Button {
+.company-details Button:not(.company-status-edit-button) {
     color: white;
     text-transform: unset !important;
     box-shadow: 0px 5px 4px #888888;
@@ -156,10 +156,26 @@ h3, h4 {
     margin-left: 5px;
 }
 .company-status{
-    padding: 4px 25px;
+    padding: 0px 25px !important;
     margin-bottom: 15px!;
     border-radius: 5px;
     color:white;
     font-size: 20px !important;
-    
+}
+
+.company-status-edit-button {
+    color:white !important;
+    padding: 5px 0px 5px 5px  !important;
+}
+
+.bright-status-text{
+    color: blue ;
+}
+.bright-status-borders{
+    box-shadow: inset 0px 0px 0px 2px blue ;
+    box-sizing: border-box ;
+}
+
+.hide {
+    display: none;
 }
