@@ -168,6 +168,14 @@ h3, h4 {
     padding: 5px 0px 5px 5px  !important;
 }
 
+.bright-status-text{
+    color: blue ;
+}
+.bright-status-borders{
+    box-shadow: inset 0px 0px 0px 2px blue ;
+    box-sizing: border-box ;
+}
+
 .hide {
     display: none;
 }

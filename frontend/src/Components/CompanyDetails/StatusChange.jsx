@@ -18,9 +18,14 @@ const customStatusPicker = useRef();
 
 const [newStatus, setNewStatus] = useState("Vlastní");
 
+const [newStatusError, setNewStatusError] = useState(false);
+const [newStatusErrorMessage, setNewStatusErrorMessage] = useState("");
+
 const knownStatuses = ["Osloveno", "Uzavřeno", "Odmítnuto"]
 
 const close = () => {
+    setNewStatusError(false);
+    setNewStatusErrorMessage("");
     onClose();
 }
 
@@ -45,19 +50,40 @@ useEffect(() => {
 const saveAndClose = () => {
 
     if(status === "Vlastní") {
-        axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
-            "status": newStatus,
-            "status_color": statusColor
-        });
+        if(newStatus.length > 0) {
+            axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
+                "status": newStatus,
+                "status_color": statusColor
+            });
+        } else {
+            setNewStatusError("true");
+            setNewStatusErrorMessage("Název vlastního statusu je povinen");
+            return;
+        }
+        
     } else {
         axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
             "status": status,
             "status_color": statusColor
         });
+
     }
     
     refresh();
     close();
+}
+
+const handleOnChange = (event) => {
+    let value = event.target.value;
+    setNewStatus(value);
+    if(value.length > 0) {
+        setNewStatusError(false);
+        setNewStatusErrorMessage("");
+        
+    } else {
+        setNewStatusError("true");
+        setNewStatusErrorMessage("Název vlastního statusu je povinen");
+    }
 }
 
 const handleOnChangeStatus = (event) => {
@@ -89,12 +115,12 @@ const handleOnChangeStatus = (event) => {
 
 return (
 
-        <Dialog id="company-status-change" open={open} fullWidth  maxWidth="md">
-            <DialogContent className="content"> 
+        <Dialog id="company-status-change" open={open} maxWidth="md">
+            <DialogContent className="content" style={{maxWidth: "700px"}}> 
                 <Typography variant="h3">Změna stavu</Typography>
                 <Grid container >
                     <Grid item xs={6}>
-                    <Typography variant="h5">{companyName}</Typography>
+                    <Typography variant="h4">{companyName}</Typography>
                         <Select className="status-picker" value={status} 
                             onChange={handleOnChangeStatus} style={{backgroundColor: statusColor}}>
                             <MenuItem selected value="Osloveno" style={{backgroundColor: "orange"}}>
@@ -106,68 +132,83 @@ return (
                             <MenuItem value="Odmítnuto" style={{backgroundColor: "red"}}>
                                 Odmítnuto
                             </MenuItem>
-                            <MenuItem value="Vlastní" >
+                            <MenuItem value="Vlastní" style={{backgroundColor: statusColor}} >
                                 {newStatus}
                             </MenuItem>
                         </Select>
                     </Grid>
                     <Grid item xs={6} container direction="row" alignItems="center" justify="flex-end">
-                        <Button onClick={onClose} className="cancel-button">Zrušit</Button>
-                        <Button onClick={saveAndClose} className="save-button">Uložit</Button>
+                        <Button onClick={onClose} className="cancel-button" size="large">Zrušit</Button>
+                        <Button onClick={saveAndClose} className="save-button" size="large">Uložit</Button>
                     </Grid>
                 </Grid>
-                <div id="custom-status" ref={customStatusPicker} className={!knownStatuses.includes(companyStatus)? "":"hide"}>
+                <div id="custom-status" ref={customStatusPicker} style={{flexBasis: "0 !important"}}
+                    className={!knownStatuses.includes(companyStatus)? "":"hide"}>
                     <Typography variant="h4">Nový stav</Typography>
                     <Grid container>
                         <Grid item xs={6}>
                             <Typography variant="h5">Název</Typography>
-                            <TextField value={newStatus} onChange={e => setNewStatus(e.target.value)} className="new-status-name"></TextField>
+                            <TextField value={newStatus} required onChange={handleOnChange} 
+                                className="new-status-name" error={newStatusError} 
+                                helperText={newStatusErrorMessage} ></TextField>
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="h5">Barva</Typography>
-                            <Grid container className="new-status-colors-buttons" spacing={1}>
+                            <Grid container item className="new-status-colors-buttons" spacing={1}>
                                 <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("white")} 
-                                        style={{backgroundColor: "white", color: "blue", border: "2px blue solid"}}>
+                                    <Button onClick={() => setStatusColor("white")}  size="small"
+                                        style={{backgroundColor: "white",
+                                                color: "blue", 
+                                                boxShadow: "inset 0px 0px 0px 2px blue",
+                                                boxSizing: "border-box"}}>
                                         Bílá
                                     </Button>
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("yellow")} 
-                                    style={{backgroundColor: "yellow", color: "blue"}}>
+                                    <Button onClick={() => setStatusColor("yellow")} size="small"
+                                        style={{backgroundColor: "yellow", color: "blue"}}>
                                         Žlutá
                                     </Button>
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("green")} style={{backgroundColor: "green"}}>
+                                    <Button onClick={() => setStatusColor("green")}  size="small"
+                                        style={{backgroundColor: "green"}}>
                                         Zelená
                                     </Button>
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("purple")} style={{backgroundColor: "purple"}}>
+                                    <Button onClick={() => setStatusColor("purple")}  size="small"
+                                        style={{backgroundColor: "purple"}}>
                                         Fialová
                                     </Button>
                                 </Grid>
-                                <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("orange")} style={{backgroundColor: "orange"}}>
-                                        Oranžová
-                                    </Button>
+                                <Grid container item className="new-status-colors-buttons" spacing={1}>
+                                    <Grid item xs={3}>
+                                        <Button onClick={() => setStatusColor("orange")}  size="small"
+                                            style={{backgroundColor: "orange"}}>
+                                            Oranžová
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button onClick={() => setStatusColor("red")}  size="small"
+                                            style={{backgroundColor: "red"}}>
+                                            Červená
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button onClick={() => setStatusColor("blue")}  size="small"
+                                            style={{backgroundColor: "blue"}}>
+                                            Modrá
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Button onClick={() => setStatusColor("pink")}  size="small"
+                                            style={{backgroundColor: "pink"}}>
+                                            Růžová
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("red")} style={{backgroundColor: "red"}}>
-                                        Červená
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("blue")} style={{backgroundColor: "blue"}}>
-                                        Modrá
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <Button onClick={() => setStatusColor("pink")} style={{backgroundColor: "pink"}}>
-                                        Růžová
-                                    </Button>
-                                </Grid>
+                                
                                 {/* <Grid item container direction="row" alignItems="center" justify="flex-end">
                                     <Button className="add-button">Přidat</Button>
                                 </Grid> */}

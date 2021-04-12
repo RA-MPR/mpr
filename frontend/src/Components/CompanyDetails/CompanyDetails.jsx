@@ -96,12 +96,15 @@ const CompanyDetails = ({ico, className, onClose}) => {
                  <div className="company-details-header">
                     <div className="left">
                         <Typography id="company-name" variant="h3">{company.name}</Typography>
-                        <span className="company-status" style={{backgroundColor:company.status_color}}>
+                        <span className={(company.status_color === "white" ? "bright-status-borders bright-status-text " : "")
+                                        + (company.status_color === "yellow" ? "bright-status-text " : "") 
+                                        + "company-status"} style={{backgroundColor:company.status_color}}>
                             {company.status}
                             <IconButton onClick={openChangeStatusDialog} 
                                 style={{ backgroundColor: 'transparent' }} 
                                 className="company-status-edit-button" >
-                                <EditIcon className="icon"/>
+                                <EditIcon className={(company.status_color === "white" | company.status_color === "yellow"  ? "bright-status-text " : "")
+                                 + "icon"}/>
                             </IconButton>
                         </span>
                         
