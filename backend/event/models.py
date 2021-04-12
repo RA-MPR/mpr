@@ -6,7 +6,7 @@ class Event(models.Model):
     date = models.DateField(auto_now=False)
     time = models.TimeField(auto_now=False)
     description = models.TextField(blank=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True,related_name="events")
     reminder = models.BooleanField(null=False, blank=False)
     def __str__(self):
         return f"{self.name}"

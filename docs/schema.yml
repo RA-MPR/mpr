@@ -198,6 +198,29 @@ Company:
                 sum:
                   type: int
                   example: 100
+    events:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            format: int
+            example: 1
+          name:
+            type: string
+            example: 'test'
+          date:
+            type: date
+            example: "2021-04-03"
+          time:
+            type: time
+            example: "15:00:00"
+          description:
+            type: string
+            example: "Tea with client"
+          reminder:
+            type: bool
+            example: false
 
 Contact:
   title: Contact
