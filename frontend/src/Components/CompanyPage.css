@@ -1,6 +1,7 @@
 .root {
     flex-grow: 1;
     padding-top: 10px;
+    background-color: #F5F6F8;
 }
 
 .paper {
@@ -17,7 +18,7 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    min-height: 82vh !important;
+    height: 84vh !important;
 }
 
 .company-module.show {

@@ -12,6 +12,19 @@
   padding-right: 100;
 }
 
+.toolbarContainer .MuiToggleButtonGroup-grouped	{
+  background-color: #109cf1;
+  color:white;
+}
+.toolbarContainer .MuiToggleButtonGroup-grouped:hover	{
+  background-color: #007bc7 !important;
+  color:white !important;
+}
+.toolbarContainer .Mui-selected {
+  background-color: #F5F6F8 !important;
+  color: #109cf1 !important;
+}
+
 .toggleButtonLink {
   text-decoration: none;
   padding-right: 10;
@@ -20,3 +33,12 @@
 .flexExpand {
   flex: 1 1 auto;
 }
+
+.logoAppBar {
+  text-decoration: none;
+  color: #109cf1;
+}
+.logoAppBar:hover {
+  color: #007bc7 !important;
+}
+

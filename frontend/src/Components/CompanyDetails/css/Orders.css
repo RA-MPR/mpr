@@ -49,12 +49,14 @@
 
 .addNewRowTable {
     border-radius: 10px !important;
+    margin-top: 10px;
 }
 
 .orderTable {
     max-height: 350px !important;
     overflow-y: auto !important;
     border-radius: 10px !important;
+    margin-top: 10px;
 }
 
 .typeToggle {

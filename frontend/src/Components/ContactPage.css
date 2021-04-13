@@ -1,6 +1,7 @@
 .root {
     flex-grow: 1;
     padding-top: 10px;
+    background-color: #F5F6F8;
 }
 
 .paper {
@@ -11,7 +12,9 @@
 .contact-main-screen {
     display: flex;
     flex-direction: column;
-    height: 80vh !important;
+    height: 84vh !important;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .contact-module {

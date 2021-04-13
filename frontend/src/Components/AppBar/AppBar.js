@@ -2,7 +2,7 @@ import React from "react";
 import "./AppBar.css";
 import { Link } from "react-router-dom";
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { AppBar, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     <div className="AppBar">
         <AppBar position="static" color="transparent">
           <Toolbar className="toolbarContainer">
-            <Link to="/"><BusinessCenterIcon style={{ fill: "black" }}/></Link>
+            <Typography variant="h5" className="logoAppBar" component={Link} to="/" onClick={() => setPage(0)}>Mazel+</Typography>
             <span className="flexExpand"></span>
             <ToggleButtonGroup
               value={page}

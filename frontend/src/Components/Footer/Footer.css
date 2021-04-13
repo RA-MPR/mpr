@@ -1,6 +1,8 @@
 .MuiBottomNavigation-root {
     height: 20px !important;
     padding-top: 10px;
+    background-color: #F5F6F8 !important;
+    padding-bottom: 20px;
 }
 
 .MuiBottomNavigationAction-wrapper {
