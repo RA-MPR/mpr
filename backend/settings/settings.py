@@ -42,10 +42,13 @@ INSTALLED_APPS = [
     "order.apps.OrderConfig",
     "invoice.apps.InvoiceConfig",
     "event.apps.EventConfig",
+    "users.apps.AuthConfig",
     "rest_framework",
     "phonenumber_field",
     'corsheaders',
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
