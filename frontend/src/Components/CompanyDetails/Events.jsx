@@ -116,7 +116,7 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
                 >
                     Chcete tuto událost odstranit ze systému?
                 </ConfirmDialog>
-                <Typography variant="h4">
+                <Typography variant="h5">
                     Události
                     <IconButton className="plus-button" size="small" onClick={showNewEvent}><AddIcon/></IconButton>    
                 </Typography>

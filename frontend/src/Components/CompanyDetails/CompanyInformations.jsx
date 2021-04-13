@@ -262,7 +262,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
             <CardContent>
                 <div className="grid">
                     <div className="ico">
-                        <Typography variant="h5">IČO</Typography>
+                        <Typography variant="h6">IČO</Typography>
                         {!infoEditing && <span className="company-details-info-field">{companyICO}</span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
                         value={newCompanyICO} error={icoError} helperText={icoErrorMessage} 
@@ -270,7 +270,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                     </div>
                     
                     <div className="main-phone-number">
-                        <Typography variant="h5">Hlavní kontaktní číslo</Typography>
+                        <Typography variant="h6">Hlavní kontaktní číslo</Typography>
                         {!infoEditing && <span className="company-details-info-field">{mainPhoneNumber} </span>}
                         {infoEditing && <TextField className="company-details-info-edit-field" 
                         value={newMainPhoneNumber} error={phoneNumberError} helperText={phoneNumberErrorMessage} 
@@ -278,7 +278,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                     </div>
                     
                     <div className="billing-address">
-                        <Typography variant="h5">Obchodní adresa</Typography>
+                        <Typography variant="h6">Obchodní adresa</Typography>
                         {!infoEditing && billingAddress && <span className="company-details-info-field">{billingAddress[1]+ " " 
                             +  billingAddress[2] + " " + billingAddress[3] + " " + billingAddress[4]}</span>}
                         {infoEditing && <div> 
@@ -296,7 +296,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                     </div>
                     
                     <div className="contact-address">
-                        <Typography variant="h5">Kontaktní adresa</Typography>
+                        <Typography variant="h6">Kontaktní adresa</Typography>
                         {!infoEditing && contactAddress && <span className="company-details-info-field">{contactAddress[1]+ " " 
                             +  contactAddress[2] + " " + contactAddress[3] + " " + contactAddress[4]}</span>}
                         {infoEditing && <div> 

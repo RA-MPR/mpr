@@ -159,7 +159,7 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
     return (
         <Card className="company-details-contact-persons comapny-details-card">
         <CardContent>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h5" gutterBottom>
                 Kontaktní osoby
                 <IconButton className="plus-button" size="small" onClick={handleAddNewContactPerson}><AddIcon/></IconButton>
             </Typography>

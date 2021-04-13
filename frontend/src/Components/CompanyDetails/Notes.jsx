@@ -7,7 +7,7 @@ const Notes = ({data}) => {
     return (
         <Card className="company-details-notes comapny-details-card">
             <CardContent className="company-details-notes-content">
-                    <Typography variant="h4">
+                    <Typography variant="h5">
                         Poznámky
                     </Typography>
 
