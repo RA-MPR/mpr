@@ -3,6 +3,10 @@ from rest_framework.test import APITestCase
 
 from contact.models import Contact
 from company.models import Company
+from order.models import Order
+from datetime import date
+from dateutil.relativedelta import relativedelta
+import json
 
 
 class CompanyRestTestCase(APITestCase):
@@ -29,6 +33,58 @@ class CompanyRestTestCase(APITestCase):
 
         instance = Contact.objects.create(**contact_data)
         cls.test_data_id = instance.id
+        cls.current_date = date.today()
+        cls.start_date = date.today() + relativedelta(months=-11)
+
+        a = cls.start_date.month
+        while a <= 12:
+            order_data = {
+                "company_id": "12345678",
+                "date": str(cls.start_date.year) + "-" + str(a) + "-12",
+                "contract_number": "122233",
+                "sum": 5000
+            }
+            Order.objects.create(**order_data)
+            order_data1 = {
+                "company_id": "12345678",
+                "date": str(cls.start_date.year) + "-" + str(a) + "-15",
+                "contract_number": "122233",
+                "sum": 3000
+            }
+            Order.objects.create(**order_data1)
+            order_data2 = {
+                "company_id": "12345678",
+                "date": str(cls.start_date.year-1) + "-" + str(a) + "-15",
+                "contract_number": "122233",
+                "sum": 1111
+            }
+            Order.objects.create(**order_data2)
+            a += 1
+        if cls.current_date.month < cls.start_date.month:
+            a = 1
+        while a <= cls.current_date.month:
+            order_data = {
+                "company_id": "12345678",
+                "date": str(cls.current_date.year) + "-" + str(a) + "-12",
+                "contract_number": "122233",
+                "sum": 5000
+            }
+            Order.objects.create(**order_data)
+            order_data1 = {
+                "company_id": "12345678",
+                "date": str(cls.current_date.year) + "-" + str(a) + "-15",
+                "contract_number": "122233",
+                "sum": 3000
+            }
+            Order.objects.create(**order_data1)
+            order_data2 = {
+                "company_id": "12345678",
+                "date": str(cls.current_date.year-1) + "-" + str(a) + "-15",
+                "contract_number": "122233",
+                "sum": 1111
+            }
+            Order.objects.create(**order_data2)
+            a += 1
 
     def test_create_company(self):
         contact_data = {
@@ -52,3 +108,10 @@ class CompanyRestTestCase(APITestCase):
         response = self.client.put(f"/contact/{id}/", altered_contact_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Contact.objects.get(id=id).name, "Josef")
+
+    def test_orders1(self):
+        response = self.client.get(f"/contact/" + str(self.test_data_id) + "/orders/")
+        self.assertEqual(response.status_code, 200)
+        j = json.loads(response.content)
+        for item in j:
+            self.assertEqual(item["total"], 8000)
