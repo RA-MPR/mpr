@@ -28,8 +28,9 @@ Visit http://localhost:1234/
 
 Integration testing
 -----------
-1. `docker-compose up` - start the project (to update your containers run with
-   `docker-compose up --build`)
+https://docs.cypress.io/guides/getting-started/writing-your-first-test#Add-a-test-file
+
+1. `docker-compose up` - start the project (run with `docker-compose up --build` to update your containers)
 2. `cd frontend`
 3. `npm run cypress:open` - open the Cypress GUI and run tests interactively
 4. `npm run cypress:test` - batch run all tests
