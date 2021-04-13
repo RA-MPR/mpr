@@ -11,7 +11,9 @@ Run migrations `docker exec -it mpr_backend_1 python manage.py migrate`
 
 Create Django superuser `docker exec -it mpr_backend_1 python3 manage.py createsuperuser`
 
-(Optional) Run company tests: `docker exec -it mpr_backend_1 python3 manage.py test company.tests` 
+(Optional) Run company tests: `docker exec -it mpr_backend_1 python3 manage.py test company.tests`
+
+(Optional) Test whether SMTP settings are correct: `docker exec -it mpr_backend_1 python3 manage.py sendtestemail`
 
 After this, you can sign to Django Admin which is available at http://0.0.0.0:8000/admin/
 
