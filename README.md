@@ -23,3 +23,12 @@ docker run -it --rm -p 1234:80 -v $(pwd)/docs/:/usr/share/nginx/html/docs -e SPE
 ```
 
 Visit http://localhost:1234/
+
+Integration testing
+-----------
+1. `docker-compose up` - start the project (to update your containers run with
+   `docker-compose up --build`)
+2. `cd frontend`
+3. `npm run cypress:open` - open the Cypress GUI and run tests interactively
+4. `npm run cypress:test` - batch run all tests
+5. You can find the screenshots and videos generated during testing in `frontend/cypress/screenshots`

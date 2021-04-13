@@ -27,3 +27,6 @@ static/
 
 # python temp files
 *.pyc
+
+/frontend/cypress/screenshots
+/frontend/cypress/videos
