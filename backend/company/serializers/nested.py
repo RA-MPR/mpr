@@ -1,6 +1,8 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 from .. import models
+from users.models import User
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -23,6 +25,7 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             "status_color",
             "contact_address",
             "billing_address",
+            "user",
             "contacts",
             "orders",
             "events",
@@ -37,14 +40,17 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             fields["ico"].required = False
             fields["contact_address"].required = False
             fields["billing_address"].required = False
+            fields["user"].required = False
 
         if request and getattr(request, "method", None) in ["PUT", "POST"]:
             # remove non-model field
+            fields["user"].required = False
             del fields["advertising_this_year"]
         return fields
 
     def create(self, validated_data: dict):
 
+        request = self.context.get("request", None)
         contact_address = None
         billing_address = None
         if "contact_address" in validated_data:
@@ -55,10 +61,17 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
         company = models.Company.objects.create(**validated_data)
         company.contact_address = contact_address
         company.billing_address = billing_address
+        company.user = request.user
         company.save()
         return company
 
     def update(self, company: models.Company, validated_data: dict):
+        if "user" in validated_data:
+            if validated_data.pop("user") is None:
+                company.user = None
+            else:
+                user = get_object_or_404(User, pk= validated_data.pop("user"))
+                company.user = user
         if "contact_address" in validated_data:
             contact_address_data = validated_data.pop("contact_address")
             if company.contact_address:

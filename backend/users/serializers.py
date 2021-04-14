@@ -40,3 +40,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+class UserSlimSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "email",
+        )
