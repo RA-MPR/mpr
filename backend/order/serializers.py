@@ -21,7 +21,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class OrderCreateSerializer(serializers.ModelSerializer):
     date = serializers.DateField(required=True, allow_null=False)
-    contract_number = serializers.IntegerField(required=True, allow_null=False)
+    contract_number = serializers.CharField(required=True, allow_null=False)
     sum = serializers.IntegerField(required=True, allow_null=False)
     company_id = serializers.IntegerField(required=True, allow_null=False)
 
@@ -32,7 +32,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
 class OrderUpdateSerializer(serializers.ModelSerializer):
     date = serializers.DateField(required=False, allow_null=True)
-    contract_number = serializers.IntegerField(required=False, allow_null=True)
+    contract_number = serializers.CharField(required=False, allow_null=True)
     sum = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
