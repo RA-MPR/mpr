@@ -1,6 +1,9 @@
 # pull official base image
 FROM python:3.8-slim
 
+# add because default Dockerfile failed in ARM process(Mato)
+#RUN apt-get update -y && apt install -y libpq-dev gcc make git
+
 # set work directory
 WORKDIR /usr/src/app
 

@@ -11,5 +11,6 @@ urlpatterns = [
     path('', include(contact_router.urls)),
     path("order/", include("order.urls")),
     path("invoice/", include("invoice.urls")),
+    path("user/", include("users.urls")),
     path('', include(event_router.urls)),
 ]
