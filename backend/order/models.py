@@ -1,5 +1,6 @@
 from django.db import models
 from company.models import Company
+from users.models import User
 
 
 class Order(models.Model):
@@ -7,6 +8,7 @@ class Order(models.Model):
     contract_number = models.CharField(null=False, blank=False, max_length=50)
     sum = models.PositiveIntegerField(null=False, blank=False)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=False, blank=False, related_name="orders")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
 
     class Meta:
         default_related_name = "Order"

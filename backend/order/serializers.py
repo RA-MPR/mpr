@@ -15,6 +15,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "contract_number",
             "sum",
             "company",
+            "user",
             "Invoice",
         )
 

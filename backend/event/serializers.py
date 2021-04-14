@@ -9,7 +9,8 @@ class EventSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data: dict):
-        event = models.Event.objects.create(**validated_data)
+        request = self.context.get("request", None)
+        event = models.Event.objects.create(**validated_data, user=request.user)
         event.save()
         return event
 
@@ -23,6 +24,7 @@ class EventSerializer(serializers.ModelSerializer):
     def get_fields(self, *args, **kwargs):
         fields = super(EventSerializer, self).get_fields(*args, **kwargs)
         request = self.context.get("request", None)
+        fields['user'].required = False
         if request and getattr(request, "method", None) == "PUT":
             fields['id'].required = False
             fields['name'].required = False

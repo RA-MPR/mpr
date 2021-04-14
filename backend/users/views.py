@@ -42,3 +42,5 @@ class UserCreateView(CreateAPIView):
             data,
             status=status.HTTP_201_CREATED,
         )
+
+# class UserEventView(ListAPIView):
