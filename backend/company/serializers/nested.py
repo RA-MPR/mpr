@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-
 from .. import models
 from users.models import User
 
@@ -25,8 +24,8 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             "status_color",
             "contact_address",
             "billing_address",
-            "user",
             "contacts",
+            "user",
             "orders",
             "events",
             "advertising_this_year"
@@ -67,10 +66,11 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
 
     def update(self, company: models.Company, validated_data: dict):
         if "user" in validated_data:
-            if validated_data.pop("user") is None:
+            request_user = validated_data.pop("user")
+            if request_user is None:
                 company.user = None
             else:
-                user = get_object_or_404(User, pk= validated_data.pop("user"))
+                user = get_object_or_404(User, email=request_user)
                 company.user = user
         if "contact_address" in validated_data:
             contact_address_data = validated_data.pop("contact_address")
