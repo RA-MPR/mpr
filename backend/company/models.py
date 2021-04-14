@@ -1,5 +1,6 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from users.models import User
 
 
 class Address(models.Model):
@@ -30,6 +31,7 @@ class Company(models.Model):
     ad_volume = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
     status_color = models.CharField(max_length=30, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name}"
