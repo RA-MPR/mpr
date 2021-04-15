@@ -22,7 +22,7 @@ const columns = [
     {id: 'phone', label: "Telefon"}
 ]
 
-const ContactList = ({className}) => {
+const ContactList = ({className, token}) => {
 
     const [contactsFromServer, setContactsFromServer] = useState([]);
     const [contacts, setContacts] = useState([]);
@@ -50,7 +50,7 @@ const ContactList = ({className}) => {
     }, [searchValue])
 
     const fetchContacts = async() => {
-        const data = await axios.get('http://127.0.0.1:8000/contact').then(res => res.data);
+        const data = await axios.get('http://127.0.0.1:8000/contact', {headers:{Authorization: "Token " + token}}).then(res => res.data);
         return data;
     }
 

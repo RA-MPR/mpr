@@ -34,7 +34,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import "./css/Events.css";
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from "@material-ui/pickers"
 
-const Events = ({data, ico, fetchEvents, setEvents}) => {
+const Events = ({data, ico, fetchEvents, setEvents, token}) => {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
@@ -90,14 +90,15 @@ const Events = ({data, ico, fetchEvents, setEvents}) => {
             description: event.target.eventDesc.value,
             company: ico,
             reminder: checked
-        }).then(function (response) {
+        },{headers:{Authorization: "Token " + token}})
+        .then(function (response) {
             hideNewEvent();
             loadNewData();
         })
     }
 
     const handleDeleteEvent = () => {
-        axios.delete("http://127.0.0.1:8000/event/"+deleteId)
+        axios.delete("http://127.0.0.1:8000/event/"+deleteId, {headers:{Authorization: "Token " + token}})
         .then(function (response){
             loadNewData();
         })

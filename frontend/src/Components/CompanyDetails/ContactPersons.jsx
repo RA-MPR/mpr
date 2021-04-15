@@ -16,7 +16,7 @@ import { React, useState, useEffect } from "react"
 import "./css/ContactPersons.css"
 
 
-const ContactPersons = ({data, clean, refresh, ico}) => {
+const ContactPersons = ({data, clean, refresh, ico, token}) => {
 
     const [newContact, setNewContact] = useState(false);
 
@@ -70,7 +70,7 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
       }
 
     const handleDelete = (id) => {
-        axios.delete("http://127.0.0.1:8000/contact/" + id);
+        axios.delete("http://127.0.0.1:8000/contact/" + id, {headers:{Authorization: "Token " + token}});
         refresh();
     }
 
@@ -150,7 +150,7 @@ const ContactPersons = ({data, clean, refresh, ico}) => {
                     "email" : newContactEmail,
                     "company" : ico
                 }
-                axios.post("http://127.0.0.1:8000/contact/", data);
+                axios.post("http://127.0.0.1:8000/contact/", data, {headers:{Authorization: "Token " + token}});
                 refresh();
                 closeNewContact();
             }

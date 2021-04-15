@@ -30,7 +30,7 @@ const columns = [
     {id: 'takeCompany', label: "Zabrat firmu"}
 ]
 
-const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className}) => {
+const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, token}) => {
     const [companiesFromServer, setCompaniesFromServer] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [onlyMyCompanies, setOnlyMyCompanies] = useState(true);
@@ -83,13 +83,8 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className}) 
         getCompanies();
     },[onlyMyCompanies, letterFilter, searchValue])
 
-    /*const fetchCompanies = async() => {
-        const data = testData;
-        return data;
-    }*/
-
     const fetchCompanies = async() => {
-        const data = await axios.get('http://127.0.0.1:8000/company').then(res => res.data);
+        const data = await axios.get('http://127.0.0.1:8000/company',{headers:{Authorization: "Token " + token}}).then(res => res.data);
         return data;
     }
 

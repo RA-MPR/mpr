@@ -17,7 +17,7 @@ import axios from "axios"
 
 import "./css/CompanyDetails.css"
 
-const CompanyDetails = ({ico, className, onClose}) => {
+const CompanyDetails = ({ico, className, onClose, token}) => {
 
     const [company, setCompany] = useState();
     const [contacts, setContacts] = useState([]);
@@ -29,23 +29,23 @@ const CompanyDetails = ({ico, className, onClose}) => {
     const [clean, setClean] = useState(false);
     
     const fetchCompany = async () => {
-        return await axios.get('http://127.0.0.1:8000/company/'+ico).then(res => res.data);
+        return await axios.get('http://127.0.0.1:8000/company/'+ico, {headers:{Authorization: "Token " + token}}).then(res => res.data);
     }
 
     const fetchContacts = async () => {
-        return await axios.get('http://127.0.0.1:8000/contact').then(res => res.data);
+        return await axios.get('http://127.0.0.1:8000/contact', {headers:{Authorization: "Token " + token}}).then(res => res.data);
     }
 
     const fetchOrders = async () => {
-        return await axios.get('http://127.0.0.1:8000/order').then(res => res.data);
+        return await axios.get('http://127.0.0.1:8000/order', {headers:{Authorization: "Token " + token}}).then(res => res.data);
     }
 
     const fetchEvents = async () => {
-        return await axios.get('http://127.0.0.1:8000/event').then(res => res.data);
+        return await axios.get('http://127.0.0.1:8000/event', {headers:{Authorization: "Token " + token}}).then(res => res.data);
     }
 
     const fetchNotes= async () => {
-        return await axios.get('http://127.0.0.1:8000/note').then(res => res.data);
+        return await axios.get('http://127.0.0.1:8000/note', {headers:{Authorization: "Token " + token}}).then(res => res.data);
     }
  
     const isMounted = useRef(false);
@@ -119,16 +119,16 @@ const CompanyDetails = ({ico, className, onClose}) => {
                 <div className="company-details-body">
                     
                     <CompanyInformations companyICOData={company.ico} billingAddressData={company.billing_address} 
-                        contactAddressData={company.contact_address} mainPhoneNumberData={company.phone_number}/>
+                        contactAddressData={company.contact_address} mainPhoneNumberData={company.phone_number} token={token}/>
                     
-                    <ContactPersons data={contacts} clean={clean} ico={ico} refresh={refreshDetails}/>
+                    <ContactPersons data={contacts} clean={clean} ico={ico} refresh={refreshDetails} token={token}/>
 
                     <div className="grid">
-                        <Events data={events} ico={ico} fetchEvents={fetchEvents} setEvents={setEvents}/>
+                        <Events data={events} ico={ico} fetchEvents={fetchEvents} setEvents={setEvents} token={token}/>
                         <Notes data={notes}/>
                     </div>
                     
-                    <Orders data={orders} ico={company.ico} fetchOrder={fetchOrders} setOrder={setOrders}/>
+                    <Orders data={orders} ico={company.ico} fetchOrder={fetchOrders} setOrder={setOrders} token={token}/>
                     
                 </div>
                 <div className="company-details-footer">
@@ -137,7 +137,8 @@ const CompanyDetails = ({ico, className, onClose}) => {
             </CardContent>}
             {company && <StatusChange ico={ico} companyName={company.name} 
                 companyStatus={company.status} companyStatusColor={company.status_color}
-                open={statusChangeDialog} onClose={closeChangeStatusDialog} refresh={refreshDetails} />}
+                open={statusChangeDialog} onClose={closeChangeStatusDialog} refresh={refreshDetails} 
+                token={token}/>}
         </Card>
     )
 }

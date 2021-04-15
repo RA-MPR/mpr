@@ -13,6 +13,9 @@ function CompanyPage() {
   const [detailIco, setDetailIco] = useState("");
   const [refresh, setRefresh] = useState(false);
 
+  //SUPERUSER TOKEN FOR TESTING
+  const [token,setToken] = useState("e8998b44fb91858489c28d07b2dee64b7db21f63");
+
   const showNewCompanyForm = () =>{
     document.getElementById("companyList").classList.remove("show");
     document.getElementById("companyNew").classList.add("show");
@@ -54,9 +57,9 @@ function CompanyPage() {
         <Grid item xs={8}>
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
-              <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} className="company-module"/>
-              <CompanyDetails ico={detailIco} className="company-module" onClose={showCompanyList}/>
-              <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} className="company-module show"/>
+              <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} className="company-module" token={token}/>
+              <CompanyDetails ico={detailIco} className="company-module" onClose={showCompanyList} token={token}/>
+              <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} className="company-module show" token={token}/>
             </div>
           </Paper>
         </Grid>

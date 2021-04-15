@@ -17,7 +17,7 @@ import AlertDialog from "./AlertDialog";
 import SuccessDialog from "./SuccessDialog";
 import StatusPicker from "./StatusPicker";
 
-function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
+function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
   const [openAlert, setOpenAlert] = React.useState(false);
 
   const [openSuccess, setOpenSuccess] = React.useState(false);
@@ -201,7 +201,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail }) {
         contact_address: contactAddress,
         billing_address: billingAddress,
         phone_number: phoneNumber,
-      })
+      },{headers:{Authorization: "Token " + token}})
       .then(function (response) {
         setResponseICO(response.data["ico"]);
         handleClickOpenSuccess();

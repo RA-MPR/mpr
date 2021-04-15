@@ -10,7 +10,7 @@ import axios from "axios"
 
 import "./css/StatusChange.css"
 
-const StatusChange = ({ico, companyName, companyStatus, companyStatusColor, open, onClose, refresh}) => {
+const StatusChange = ({ico, companyName, companyStatus, companyStatusColor, open, onClose, refresh, token}) => {
 
 const [status, setStatus] = useState("Osloveno");
 const [statusColor, setStatusColor] = useState("orange");
@@ -54,7 +54,7 @@ const saveAndClose = () => {
             axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
                 "status": newStatus,
                 "status_color": statusColor
-            });
+            }, {headers:{Authorization: "Token " + token}});
         } else {
             setNewStatusError("true");
             setNewStatusErrorMessage("Název vlastního statusu je povinen");
@@ -65,7 +65,7 @@ const saveAndClose = () => {
         axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
             "status": status,
             "status_color": statusColor
-        });
+        }, {headers:{Authorization: "Token " + token}});
 
     }
     
