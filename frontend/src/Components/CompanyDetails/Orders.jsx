@@ -34,7 +34,7 @@ import "./css/Orders.css";
 import ConfirmDialog from "./ConfirmDialog";
 import AlertDialog from "../CompanyNew/AlertDialog";
 
-const Orders = ({ data, ico, fetchOrder, setOrder }) => {
+const Orders = ({ data, ico, fetchOrder, setOrder, token}) => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const [type, setType] = React.useState(0);
@@ -122,7 +122,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder }) => {
           contract_number: event.target.orderNumber.value,
           sum: event.target.orderCost.value,
           company_id: ico,
-        })
+        }, {headers:{Authorization: "Token " + token}})
         .then(function (response) {
           loadNewData();
         });
@@ -135,7 +135,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder }) => {
             date: formattedDate,
             sum: event.target.orderCost.value,
             order_id: orderId,
-          })
+          }, {headers:{Authorization: "Token " + token}})
           .then(function (response) {
             loadNewData();
           });
@@ -145,7 +145,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder }) => {
 
   const handleDeleteOrder = (orderId) => {
     axios
-      .delete("http://127.0.0.1:8000/order/" + orderId)
+      .delete("http://127.0.0.1:8000/order/" + orderId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
       });
@@ -153,7 +153,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder }) => {
 
   const handleDeleteInvoice = (invoiceId) => {
     axios
-      .delete("http://127.0.0.1:8000/invoice/" + invoiceId)
+      .delete("http://127.0.0.1:8000/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
       });

@@ -9,7 +9,7 @@ import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
-const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData}) => {
+const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token}) => {
 
     const [billingAddressZipError, setBillingAddressZipError] = useState(false);
     const [contactAddressZipError, setContactAddressZipError] = useState(false);
@@ -216,7 +216,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                 ]);
             }
 
-            axios.put('http://0.0.0.0:8000/company/'+companyICO+"/", data);
+            axios.put('http://0.0.0.0:8000/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}});
             setMainPhoneNumber(newMainPhoneNumber);
             setCompanyICO(newCompanyICO);
 
