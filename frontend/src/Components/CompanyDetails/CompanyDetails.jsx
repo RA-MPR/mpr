@@ -17,7 +17,7 @@ import axios from "axios"
 
 import "./css/CompanyDetails.css"
 
-const CompanyDetails = ({ico, className, onClose, token}) => {
+const CompanyDetails = ({ico, className, onClose, token, refreshUpcoming}) => {
 
     const [company, setCompany] = useState();
     const [contacts, setContacts] = useState([]);
@@ -124,7 +124,7 @@ const CompanyDetails = ({ico, className, onClose, token}) => {
                     <ContactPersons data={contacts} clean={clean} ico={ico} refresh={refreshDetails} token={token}/>
 
                     <div className="grid">
-                        <Events data={events} ico={ico} fetchEvents={fetchEvents} setEvents={setEvents} token={token}/>
+                        <Events data={events} ico={ico} fetchEvents={fetchEvents} setEvents={setEvents} token={token} refreshUpcoming={refreshUpcoming}/>
                         <Notes data={notes}/>
                     </div>
                     

@@ -1,6 +1,7 @@
 import { Grid, Paper } from "@material-ui/core";
 // eslint-disable-next-line
 import ContactList from "./ContactList/ContactList";
+import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 
 import {useState } from "react";
 
@@ -9,7 +10,7 @@ import "./ContactPage.css";
 function ContactPage() {
 
     //SUPERUSER TOKEN FOR TESTING
-    const [token,setToken] = useState("e8998b44fb91858489c28d07b2dee64b7db21f63");
+    const [token,setToken] = useState("37525b66a65e32e06f14d692a91b1d28df8b1175");
 
     return (
         <div className="root">
@@ -29,7 +30,7 @@ function ContactPage() {
                 </Grid>
                 <Grid item xs={12}>
                 <Paper style={{ padding: 16 }}>
-                    <h1>připomínky</h1>
+                <UpcomingEvents token={token} />
                 </Paper>
                 </Grid>
             </Grid>
