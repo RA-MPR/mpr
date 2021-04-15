@@ -1,8 +1,8 @@
 from contact.serializers.nested import ContactDetailSerializer
-from order.serializers import OrderDetailSerializer
 from event.serializers import EventDetailSerializer
-from users.serializers import UserSerializer, UserSlimSerializer
+from order.serializers import OrderDetailSerializer
 from rest_framework import serializers
+from users.serializers import UserSlimSerializer
 
 from .nested import SimplifiedCompanySerializer, AddressSerializer
 from .. import models
@@ -51,3 +51,22 @@ class CompanyListSerializer(serializers.ModelSerializer):
             "advertising_this_year"
         )
         depth = 0
+
+
+class CompanyUserSerializer(serializers.ModelSerializer):
+    contact_address = AddressSerializer()
+    billing_address = AddressSerializer()
+
+    class Meta:
+        model = models.Company
+        fields = (
+            "ico",
+            "name",
+            "phone_number",
+            "ad_volume",
+            "contact_address",
+            "billing_address",
+            "status",
+            "status_color",
+        )
+        depth = 1

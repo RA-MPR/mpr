@@ -45,3 +45,16 @@ class EventDetailSerializer(serializers.ModelSerializer):
             "description",
             "reminder",
         )
+
+
+class EventListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Event
+        fields = (
+            "id",
+            "name",
+            "date",
+            "time",
+            "description",
+            "reminder",
+        )
