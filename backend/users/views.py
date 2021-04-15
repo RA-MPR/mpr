@@ -1,3 +1,7 @@
+from company.models import Company
+from company.serializers.common import CompanyUserSerializer
+from event.models import Event
+from event.serializers import EventSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView
@@ -42,3 +46,28 @@ class UserCreateView(CreateAPIView):
             data,
             status=status.HTTP_201_CREATED,
         )
+
+
+class UserEventView(ListAPIView):
+    serializer_class = EventSerializer
+
+    lookup_url_kwarg = "id"
+
+    def get_queryset(self):
+        all_event = Event.objects.filter(user=self.request.user.id)
+
+        return all_event
+
+
+class UserCompanyView(ListAPIView):
+    serializer_class = CompanyUserSerializer
+
+    lookup_url_kwarg = "id"
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            all_company = Company.objects.all()
+        else:
+            all_company = Company.objects.filter(user=self.request.user.id)
+
+        return all_company

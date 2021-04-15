@@ -24,21 +24,21 @@ class OrderView(ListCreateAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        order = self.perform_create(serializer)
+        order = self.perform_create(serializer, request.user)
 
         return Response(
             OrderSerializer(order).data,
             status=status.HTTP_201_CREATED,
         )
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer, user):
         date = serializer.validated_data.get("date", None)
         contract_number = serializer.validated_data.get("contract_number", None)
         sum = serializer.validated_data.get("sum", None)
         company_id = serializer.validated_data.get("company_id", None)
 
         company = get_object_or_404(Company, ico=company_id)
-        return serializer.save(date=date, contract_number=contract_number, sum=sum, company=company)
+        return serializer.save(date=date, contract_number=contract_number, sum=sum, company=company, user=user)
 
 
 class OrderByIdView(RetrieveUpdateDestroyAPIView):
