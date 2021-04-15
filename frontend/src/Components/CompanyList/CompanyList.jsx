@@ -254,7 +254,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
                                 {index+1}
                             </TableCell>
                             {!onlyMyCompanies && <TableCell align="center">
-                                {(company.user === "" || company.user === undefined) ? 
+                                {company.user === null ? 
                                     <Button onClick={takeCompany} size="small" className="company-list-take">Zabrat</Button> : 
                                     <Button size="small" disabled className="company-list-take disabled">Zabrano</Button>}
                             </TableCell>}
@@ -276,7 +276,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
                                 {company.advertising_this_year !== null ? company.advertising_this_year : 0}
                             </TableCell>}
                             {!onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
-                                {company.user}
+                                {company.user === null ? "" : company.user.name}
                             </TableCell>}
                             {onlyMyCompanies && <TableCell align="center">
                                 <IconButton onClick={giveUpCompany} size="small" className="company-list-close"><CloseIcon/></IconButton>
