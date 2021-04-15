@@ -1,0 +1,66 @@
+.upcoming-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upcomingevents-table{
+    max-height: 360px !important;
+    overflow-y: auto !important;
+    border-radius: 10px !important;
+}
+
+.upcomingevents-table table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.upcomingevents-table .eventsgrid {
+    display: grid;
+    width: 100%;
+    grid-template-areas: 
+        "leftr1 rightr1 bt1"
+        "leftr2 rightr2 bt2";
+    grid-template-columns: 45% 45% 10%;
+    align-items: center;
+}
+
+.upcomingevents-table tr {
+    background-color: #F2F2F2;
+}
+.upcomingevents-table .close {
+    background-color: #FDC6C1 !important;
+}
+
+.eventsgrid>.name {
+    grid-area: leftr1;
+}
+.eventsgrid>.date {
+    grid-area: rightr1;
+    text-align: right;
+}
+.eventsgrid>.time {
+    grid-area: rightr2;
+    text-align: right;
+}
+
+.eventsgrid>.delete-button>button{
+    box-shadow: none !important;
+    color: black;
+}
+.eventsgrid>.description {
+    grid-area: leftr2;
+}
+.eventsgrid>.reminder {
+    grid-area: bt2;
+}
+
+.eventsgrid>.reminder>button{
+    box-shadow: none !important;
+    color: #109CF1 !important;
+    border: 1px solid #109CF1 !important;
+    box-sizing: border-box !important;
+    border-radius: 4px !important;
+    height: 25px;
+    width: 25px;
+}

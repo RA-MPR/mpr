@@ -7,14 +7,16 @@ import CompanyList from "./CompanyList/CompanyList";
 import CompanyDetails from "./CompanyDetails/CompanyDetails";
 import "./CompanyPage.css";
 import { useEffect, useRef, useState } from "react";
+import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 
 function CompanyPage() {
 
   const [detailIco, setDetailIco] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [upcomingRefresh, setUpcomingRefresh] = useState(false);
 
   //SUPERUSER TOKEN FOR TESTING
-  const [token,setToken] = useState("e8998b44fb91858489c28d07b2dee64b7db21f63");
+  const [token,setToken] = useState("37525b66a65e32e06f14d692a91b1d28df8b1175");
 
   const showNewCompanyForm = () =>{
     document.getElementById("companyList").classList.remove("show");
@@ -58,7 +60,7 @@ function CompanyPage() {
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
               <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} className="company-module" token={token}/>
-              <CompanyDetails ico={detailIco} className="company-module" onClose={showCompanyList} token={token}/>
+              <CompanyDetails ico={detailIco} className="company-module" onClose={showCompanyList} token={token} refreshUpcoming={setUpcomingRefresh}/>
               <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} className="company-module show" token={token}/>
             </div>
           </Paper>
@@ -71,7 +73,7 @@ function CompanyPage() {
           </Grid>
           <Grid item xs={12}>
             <Paper style={{ padding: 16 }}>
-              <h1>připomínky</h1>
+            <UpcomingEvents token={token} onRefresh={upcomingRefresh} />
             </Paper>
           </Grid>
         </Grid>
