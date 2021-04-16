@@ -3,7 +3,7 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIV
 
 from order.models import Order
 from company.models import Company
-from order.serializers import OrderSerializer, OrderCreateSerializer, OrderUpdateSerializer
+from order.serializers import OrderSerializer, OrderCreateSerializer, OrderUpdateSerializer, OrderDetailSerializer
 from rest_framework.response import Response
 
 
@@ -27,7 +27,7 @@ class OrderView(ListCreateAPIView):
         order = self.perform_create(serializer, request.user)
 
         return Response(
-            OrderSerializer(order).data,
+            OrderCreateSerializer(order).data,
             status=status.HTTP_201_CREATED,
         )
 
@@ -42,7 +42,7 @@ class OrderView(ListCreateAPIView):
 
 
 class OrderByIdView(RetrieveUpdateDestroyAPIView):
-    serializer_class = OrderSerializer
+    serializer_class = OrderDetailSerializer
     queryset = Order.objects.all()
     lookup_url_kwarg = "id"
 
