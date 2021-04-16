@@ -6,8 +6,9 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from users.models import User
-from users.serializers import UserSerializer, UserCreateSerializer
+from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSerializer
 
 
 class UserView(ListAPIView):
@@ -68,3 +69,14 @@ class UserCompanyView(ListAPIView):
         all_company = Company.objects.filter(user=self.request.user.id)
 
         return all_company
+
+
+class UserAdminView(APIView):
+    serializer_class = UserAdminSerializer
+
+    def get(self, request):
+        data = {"is_admin": request.user.is_superuser}
+        return Response(
+            data,
+            status=status.HTTP_200_OK,
+        )
