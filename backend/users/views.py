@@ -1,5 +1,6 @@
 from company.models import Company
 from company.serializers.common import CompanyUserSerializer
+from django.db.models import Sum
 from event.models import Event
 from event.serializers import EventSerializer
 from rest_framework import status
@@ -12,10 +13,15 @@ from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSer
 
 
 class UserView(ListAPIView):
-    def get_serializer_class(self):
-        return UserSerializer
-
     queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = UserSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def get_queryset(self):
+        return User.objects.annotate(sign_orders=Sum("Order__sum"), paid_invoice=Sum("Invoice__sum"))
 
 
 class UserCreateView(CreateAPIView):
@@ -39,7 +45,9 @@ class UserCreateView(CreateAPIView):
 
         user = serializer.save()
         data["email"] = user.email
-        data["full_name"] = user.full_name
+        data["name"] = user.name
+        data["surname"] = user.surname
+        data["phone"] = str(user.phone)
         token = Token.objects.get(user=user).key
         data["token"] = token
 
@@ -91,7 +99,6 @@ class UserAdminView(APIView):
     serializer_class = UserAdminSerializer
 
     def get(self, request):
-
         user = get_object_or_404(User, id=self.request.user.id)
         data = {"is_admin": user.is_superuser}
         return Response(
