@@ -36,6 +36,7 @@ const CompanyDetails = ({
   const [refresh, setRefresh] = useState(false);
   const [clean, setClean] = useState(false);
   const [giveUpOpen, setGiveUpOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const fetchCompany = async () => {
     return await axios
@@ -80,15 +81,16 @@ const CompanyDetails = ({
   const isMounted = useRef(false);
   useEffect(() => {
     const getData = async () => {
-      setCompany(await fetchCompany());
-      const contactData = await fetchContacts();
-      setContacts(contactData.filter((contact) => contact.company.ico === ico));
-      const ordersData = await fetchOrders();
-      setOrders(ordersData.filter((order) => order.company === ico));
-      const eventsData = await fetchEvents();
-      setEvents(eventsData.filter((event) => event.company == ico));
-      // const notesData = await fetchNotes();
-      // setNotes(notesData.filter(note => note.company.ico == ico));
+        const companyData = await fetchCompany();
+        setCompany(companyData);
+        const contactData = await fetchContacts();
+        setContacts(contactData.filter(contact => contact.company.ico === ico));
+        const ordersData = await fetchOrders();
+        setOrders(ordersData.filter(order => order.company === ico));
+        const eventsData = await fetchEvents();
+        setEvents(eventsData.filter(event => event.company == ico));
+        setNotes(companyData.notes);
+        console.log(companyData.notes);
     };
     console.log("STAHUJEM DATA");
     getData();
@@ -192,6 +194,8 @@ const CompanyDetails = ({
                   contactAddressData={company.contact_address}
                   mainPhoneNumberData={company.phone_number}
                   token={token}
+                  noteEditingHandler={setEditing} 
+                  notes={notes}
                 />
 
                 <ContactPersons
@@ -212,7 +216,9 @@ const CompanyDetails = ({
                     setUpcomingRefresh={setUpcomingRefresh}
                     refreshEvents={refreshEvents}
                   />
-                  <Notes data={notes} />
+                  <Notes data={notes} 
+                    edit={editing} 
+                    setNotes={setNotes}/>
                 </div>
 
                 <Orders
@@ -224,7 +230,7 @@ const CompanyDetails = ({
                 />
               </div>
               <div className="company-details-footer">
-                {/* <span className="company-details-created-date">Přidáno: {created}</span> */}
+                <span className="company-details-created-date">Přidáno: {company.create_date}</span>
               </div>
             </CardContent>
           )}

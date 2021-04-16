@@ -13,3 +13,9 @@
     flex: 1 1 auto;
     margin-bottom: 55px;
 }
+
+.note-edit-box .MuiInput-underline::before,
+.note-edit-box .MuiInput-underline::after
+{
+    border-bottom: 0px !important;
+}

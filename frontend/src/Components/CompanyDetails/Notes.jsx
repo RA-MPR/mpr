@@ -1,9 +1,25 @@
 import { Card, CardContent } from "@material-ui/core"
 import Typography from "@material-ui/core/Typography"
+import { TextareaAutosize, TextField } from "@material-ui/core"
+
+import { useState, useEffect } from "react";
 
 import "./css/Notes.css"
 
-const Notes = ({data}) => {
+const Notes = ({data, edit, setNotes}) => {
+    
+    const [noteText, setNoteText] = useState("");
+
+    useEffect(() => {
+        setNoteText(data);
+    })
+
+
+    const handleNotechange = (value) => {
+        setNoteText(value);
+        setNotes(value);
+    }
+
     return (
         <Card className="company-details-notes comapny-details-card">
             <CardContent className="company-details-notes-content">
@@ -12,9 +28,8 @@ const Notes = ({data}) => {
                     </Typography>
 
                 <div className="notes-box">
-                    {data.map(note => (
-                        <p>- {note.content}</p>
-                    ))}
+                    {!edit &&  <div style={{whiteSpace: "pre-wrap"}}>{data}</div>}
+                    {edit && <TextField className="note-edit-box" multiline value={noteText} onChange={(e) => handleNotechange(e.target.value)} style={{width: "100%", height: "100%"}} />}
                 </div>
 
             </CardContent>
