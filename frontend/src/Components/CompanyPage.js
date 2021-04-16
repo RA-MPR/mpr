@@ -5,36 +5,32 @@ import CompanyNew from "./CompanyNew/CompanyNew";
 import CompanyList from "./CompanyList/CompanyList";
 // eslint-disable-next-line
 import CompanyDetails from "./CompanyDetails/CompanyDetails";
+
 import "./CompanyPage.css";
 import { useEffect, useRef, useState } from "react";
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 
-function CompanyPage() {
+import {useHistory} from "react-router-dom";
 
-  const [detailIco, setDetailIco] = useState("");
+function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
+ 
+  const history = useHistory();
+
   const [refresh, setRefresh] = useState(false);
   const [upcomingRefresh, setUpcomingRefresh] = useState(false);
 
-  //SUPERUSER TOKEN FOR TESTING
-  const [token,setToken] = useState("37525b66a65e32e06f14d692a91b1d28df8b1175");
-
   const showNewCompanyForm = () =>{
-    document.getElementById("companyList").classList.remove("show");
-    document.getElementById("companyNew").classList.add("show");
+    history.push('/company/new');
   }
 
   const showCompanyList = () =>{
     setRefresh(!refresh);
-    document.getElementById("companyNew").classList.remove("show");
-    document.getElementById("companyDetail").classList.remove("show");
-    document.getElementById("companyList").classList.add("show");
+    history.push('/');
   }
 
   const showCompanyDetail = (ico) =>{
     if(ico === detailIco){
-      document.getElementById("companyNew").classList.remove("show");
-      document.getElementById("companyList").classList.remove("show");
-      document.getElementById("companyDetail").classList.add("show");
+      history.push('/company/detail');
     }else{
       setDetailIco(ico);
     }
@@ -43,9 +39,9 @@ function CompanyPage() {
   const isMounted = useRef(false);
   useEffect(() => {
     if(isMounted.current){
-      document.getElementById("companyNew").classList.remove("show");
-      document.getElementById("companyList").classList.remove("show");
-      document.getElementById("companyDetail").classList.add("show");
+
+      console.log(detailIco);
+      history.push('/company/detail');
     }else{
       isMounted.current = true;
     }
@@ -59,9 +55,9 @@ function CompanyPage() {
         <Grid item xs={8}>
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
-              <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} className="company-module" token={token}/>
-              <CompanyDetails ico={detailIco} className="company-module" onClose={showCompanyList} token={token} refreshUpcoming={setUpcomingRefresh}/>
-              <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} className="company-module show" token={token}/>
+              {componentToShow === "companyNew" && <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} token={token}/>}
+              {componentToShow === "companyDetail" && <CompanyDetails ico={detailIco} onClose={showCompanyList} token={token} refreshUpcoming={setUpcomingRefresh}/>}
+              {componentToShow === "companyList" && <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} token={token}/>}
             </div>
           </Paper>
         </Grid>

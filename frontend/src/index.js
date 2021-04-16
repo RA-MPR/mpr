@@ -9,8 +9,7 @@ import NotFound from "./Components/NotFound/NotFound";
 
 import "./index.css";
 
-import CompanyPage from "./Components/CompanyPage";
-import ContactPage from "./Components/ContactPage";
+import App from "./App";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,24 +24,7 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   //<React.StrictMode>
-  <ThemeProvider theme={theme}>
-    <Router>
-      <AppBar />
-      <Switch>
-        <Route path="/calendar">
-          <div>Calendar</div>
-        </Route>
-        <Route path="/contacts" component={ContactPage}></Route>
-        <Route path="/matrix">
-          <div>Místo pro matici rizik</div>
-        </Route>
-        <Route path="/" exact component={CompanyPage}></Route>
-        <Route component={NotFound}></Route>
-      </Switch>
-      <Footer />
-    </Router>
-  </ThemeProvider>
-  /*</React.StrictMode>*/,
+  <App/>,
   document.getElementById("root")
 );
 
