@@ -7,10 +7,9 @@ import {useState } from "react";
 
 import "./ContactPage.css";
 
-function ContactPage() {
+function ContactPage({token}) {
 
-    //SUPERUSER TOKEN FOR TESTING
-    const [token,setToken] = useState("37525b66a65e32e06f14d692a91b1d28df8b1175");
+    
 
     return (
         <div className="root">
