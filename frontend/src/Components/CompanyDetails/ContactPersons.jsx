@@ -206,7 +206,7 @@ const ContactPersons = ({data, clean, refresh, ico, token}) => {
                 <Table>
                     <TableBody>
                         {data.map(person => (
-                            <TableRow>
+                            <TableRow key={person.id}>
                                 <TableCell>{person.name + " " + person.surname}</TableCell>
                                 <TableCell>{person.email}</TableCell>
                                 <TableCell>{person.phone}</TableCell>

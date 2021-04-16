@@ -6,17 +6,16 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  Checkbox,
 } from "@material-ui/core";
 
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 
-import { format, parse, formatDistanceToNowStrict } from "date-fns";
+import { format, parse, formatDistanceStrict } from "date-fns";
 
 import axios from "axios";
 
@@ -24,11 +23,12 @@ import "./UpcomingEvents.css";
 
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 
-const UpcomingEvents = ({ onRefresh, token, user }) => {
+const UpcomingEvents = ({ upcomingRefresh, token, setRefreshEvents, user }) => {
   const [data, setData] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
   const [deleteID, setDeleteID] = React.useState(null);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [active, setActive] = React.useState(false); //event bude mít field active (true/false)
 
   const showNewEventDialog = () => {
     console.log("TODO Show new event");
@@ -52,7 +52,7 @@ const UpcomingEvents = ({ onRefresh, token, user }) => {
 
   React.useEffect(() => {
     fetchData();
-  }, [refresh, onRefresh]);
+  }, [refresh, upcomingRefresh]);
 
   const handleAddEvent = () => {
     console.log("TODO handleAddEvent");
@@ -69,29 +69,22 @@ const UpcomingEvents = ({ onRefresh, token, user }) => {
         headers: { Authorization: "Token " + token },
       })
       .then(() => {
-        setRefresh(true);
+        setRefresh((prev) => !prev);
+        if (setRefreshEvents) setRefreshEvents((prev) => !prev);
       });
   };
 
-  const isClose = (date) => {
-    var count = formatDistanceToNowStrict(
-      parse(date, "yyyy-MM-dd", new Date()),
+  const isClose = (date, time) => {
+    var count = formatDistanceStrict(
+      parse(date + " " + time, "yyyy-MM-dd HH:mm:ss", new Date()),
+      new Date(),
       {
         unit: "day",
         addSuffix: true,
       }
     );
-    if (
-      count.includes("seconds") ||
-      count.includes("minutes") ||
-      count.includes("hours") ||
-      count.includes("ago")
-    ) {
+    if (count.includes("ago")) {
       return true;
-    } else {
-      if (count.replace(/\D/g, "") <= 2) {
-        return true;
-      }
     }
     return false;
   };
@@ -123,7 +116,7 @@ const UpcomingEvents = ({ onRefresh, token, user }) => {
               {data.map((event) => (
                 <TableRow
                   key={event.id}
-                  className={isClose(event.date) ? "close" : ""}
+                  className={isClose(event.date, event.time) ? "close" : ""}
                 >
                   <TableCell>
                     <div className="eventsgrid">
@@ -154,16 +147,12 @@ const UpcomingEvents = ({ onRefresh, token, user }) => {
                       </div>
                       <div className="description">{event.description}</div>
                       <div className="reminder">
-                        {event.reminder && (
-                          <IconButton className="checked-button" size="small">
-                            <CheckIcon />
-                          </IconButton>
-                        )}
-                        {!event.reminder && (
-                          <IconButton className="checked-button" size="small">
-                            <CloseIcon />
-                          </IconButton>
-                        )}
+                        <Checkbox
+                          className="activeCheck"
+                          checked={active}
+                          color="primary"
+                          onChange={() => setActive(!active)}
+                        />
                       </div>
                     </div>
                   </TableCell>

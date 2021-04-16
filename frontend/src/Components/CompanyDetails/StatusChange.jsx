@@ -54,7 +54,7 @@ const saveAndClose = () => {
             axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
                 "status": newStatus,
                 "status_color": statusColor
-            }, {headers:{Authorization: "Token " + token}});
+            }, {headers:{Authorization: "Token " + token}}).then(refresh());
         } else {
             setNewStatusError("true");
             setNewStatusErrorMessage("Název vlastního statusu je povinen");
@@ -65,11 +65,9 @@ const saveAndClose = () => {
         axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
             "status": status,
             "status_color": statusColor
-        }, {headers:{Authorization: "Token " + token}});
+        }, {headers:{Authorization: "Token " + token}}).then(refresh());
 
     }
-    
-    refresh();
     close();
 }
 
@@ -116,11 +114,11 @@ const handleOnChangeStatus = (event) => {
 return (
 
         <Dialog id="company-status-change" open={open} maxWidth="md">
-            <DialogContent className="content" style={{maxWidth: "700px"}}> 
-                <Typography variant="h3">Změna stavu</Typography>
+            <DialogContent className="content" style={{minWidth: "500px"}}> 
+                <Typography variant="h4">Změna stavu</Typography>
                 <Grid container >
                     <Grid item xs={6}>
-                    <Typography variant="h4">{companyName}</Typography>
+                    <Typography variant="h5">{companyName}</Typography>
                         <Select className="status-picker" value={status} 
                             onChange={handleOnChangeStatus} style={{backgroundColor: statusColor}}>
                             <MenuItem selected value="Osloveno" style={{backgroundColor: "orange"}}>
@@ -137,7 +135,7 @@ return (
                             </MenuItem>
                         </Select>
                     </Grid>
-                    <Grid item xs={6} container direction="row" alignItems="center" justify="flex-end">
+                    <Grid item xs={6} container direction="row" alignItems="center" justify="flex-end" style={{ marginTop: "20px"}}>
                         <Button onClick={onClose} className="cancel-button" size="large">Zrušit</Button>
                         <Button onClick={saveAndClose} className="save-button" size="large">Uložit</Button>
                     </Grid>

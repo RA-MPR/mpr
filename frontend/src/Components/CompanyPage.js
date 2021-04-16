@@ -18,6 +18,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
 
   const [refresh, setRefresh] = useState(false);
   const [upcomingRefresh, setUpcomingRefresh] = useState(false);
+  const [refreshEvents, setRefreshEvents] = useState(false);
 
   const showNewCompanyForm = () =>{
     history.push('/company/new');
@@ -56,7 +57,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
               {componentToShow === "companyNew" && <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} token={token}/>}
-              {componentToShow === "companyDetail" && <CompanyDetails ico={detailIco} onClose={showCompanyList} token={token} refreshUpcoming={setUpcomingRefresh}/>}
+              {componentToShow === "companyDetail" && <CompanyDetails ico={detailIco} onClose={showCompanyList} token={token} setUpcomingRefresh={setUpcomingRefresh} refreshEvents={refreshEvents}/>}
               {componentToShow === "companyList" && <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} token={token}/>}
             </div>
           </Paper>
@@ -69,7 +70,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
           </Grid>
           <Grid item xs={12}>
             <Paper style={{ padding: 16 }}>
-            <UpcomingEvents token={token} onRefresh={upcomingRefresh} />
+            <UpcomingEvents token={token} upcomingRefresh={upcomingRefresh} setRefreshEvents={setRefreshEvents}/>
             </Paper>
           </Grid>
         </Grid>
