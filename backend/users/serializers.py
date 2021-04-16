@@ -49,3 +49,11 @@ class UserSlimSerializer(serializers.ModelSerializer):
             "email",
             "full_name",
         )
+
+
+class UserAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "is_superuser",
+        )
