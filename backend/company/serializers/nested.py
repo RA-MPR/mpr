@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from .. import models
+from datetime import date
 from users.models import User
 
 
@@ -43,6 +44,9 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
 
         if request and getattr(request, "method", None) in ["PUT", "POST"]:
             # remove non-model field
+            fields["notes"].required = False
+            fields["create_date"].required = False
+            fields["modification_date"].required = False
             fields["user"].required = False
             del fields["advertising_this_year"]
         return fields
@@ -58,6 +62,8 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             billing_address = models.Address.objects.create(**validated_data.pop("billing_address"))
 
         company = models.Company.objects.create(**validated_data)
+        company.create_date = date.today()
+        company.modification_date = date.today()
         company.contact_address = contact_address
         company.billing_address = billing_address
         company.user = request.user
@@ -86,6 +92,7 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             else:
                 billing_address = models.Address.objects.create(**billing_address_data)
                 company.billing_address = billing_address
+        company.modification_date = date.today()
         company.update(validated_data)
         return company
 

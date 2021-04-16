@@ -28,6 +28,9 @@ class Company(models.Model):
         Address, on_delete=models.CASCADE, blank=True, null=True, related_name="company_billing"
     )
     phone_number = PhoneNumberField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    create_date = models.DateField(null=True, blank=True)
+    modification_date = models.DateField(null=True, blank=True)
     ad_volume = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
     status_color = models.CharField(max_length=30, blank=True, null=True)
