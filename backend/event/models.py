@@ -10,6 +10,7 @@ class Event(models.Model):
     description = models.TextField(blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, related_name="events")
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    is_active = models.BooleanField(null=False, blank=False, default=True)
     reminder = models.BooleanField(null=False, blank=False)
 
     def __str__(self):

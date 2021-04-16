@@ -4,11 +4,11 @@ from event.models import Event
 from event.serializers import EventSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.models import User
-from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSerializer
+from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSerializer, UserEventQuerySerializer
 
 
 class UserView(ListAPIView):
@@ -55,8 +55,23 @@ class UserEventView(ListAPIView):
     lookup_url_kwarg = "id"
 
     def get_queryset(self):
-        all_event = Event.objects.filter(user=self.request.user.id)
 
+        user = get_object_or_404(User, id=self.request.user.id)
+
+        query_params = UserEventQuerySerializer(data=self.request.query_params)
+        query_params.is_valid(raise_exception=True)
+        validated_data = dict(query_params.validated_data)
+        print(validated_data)
+
+        if validated_data.get("date"):
+            all_event = Event.objects.filter(user=user, date=validated_data.get("date"))
+            return all_event
+
+        if validated_data.get("is_active"):
+            all_event = Event.objects.filter(user=user, is_active=True)
+            return all_event
+
+        all_event = Event.objects.filter(user=user)
         return all_event
 
 
@@ -66,7 +81,8 @@ class UserCompanyView(ListAPIView):
     lookup_url_kwarg = "id"
 
     def get_queryset(self):
-        all_company = Company.objects.filter(user=self.request.user.id)
+        user = get_object_or_404(User, id=self.request.user.id)
+        all_company = Company.objects.filter(user=user)
 
         return all_company
 
@@ -75,7 +91,9 @@ class UserAdminView(APIView):
     serializer_class = UserAdminSerializer
 
     def get(self, request):
-        data = {"is_admin": request.user.is_superuser}
+
+        user = get_object_or_404(User, id=self.request.user.id)
+        data = {"is_admin": user.is_superuser}
         return Response(
             data,
             status=status.HTTP_200_OK,
