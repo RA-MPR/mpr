@@ -57,3 +57,7 @@ class UserAdminSerializer(serializers.ModelSerializer):
         fields = (
             "is_superuser",
         )
+
+class UserEventQuerySerializer(serializers.Serializer):
+    date = serializers.DateField(required=False)
+    is_active = serializers.BooleanField(required=False)

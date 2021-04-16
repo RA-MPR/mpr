@@ -31,6 +31,7 @@ class EventSerializer(serializers.ModelSerializer):
             fields['time'].required = False
             fields['date'].required = False
             fields['reminder'].required = False
+            fields['is_active'].required = False
         return fields
 
 
@@ -43,6 +44,7 @@ class EventDetailSerializer(serializers.ModelSerializer):
             "date",
             "time",
             "description",
+            "is_active",
             "reminder",
         )
 
@@ -56,5 +58,6 @@ class EventListSerializer(serializers.ModelSerializer):
             "date",
             "time",
             "description",
+            "is_active",
             "reminder",
         )
