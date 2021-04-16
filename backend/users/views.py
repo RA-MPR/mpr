@@ -65,9 +65,6 @@ class UserCompanyView(ListAPIView):
     lookup_url_kwarg = "id"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            all_company = Company.objects.all()
-        else:
-            all_company = Company.objects.filter(user=self.request.user.id)
+        all_company = Company.objects.filter(user=self.request.user.id)
 
         return all_company

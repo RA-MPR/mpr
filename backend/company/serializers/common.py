@@ -22,8 +22,11 @@ class CompanySerializer(SimplifiedCompanySerializer):
             "name",
             "phone_number",
             "ad_volume",
+            "notes",
             "status",
             "status_color",
+            "create_date",
+            "modification_date",
             "contact_address",
             "billing_address",
             "contacts",
@@ -48,6 +51,7 @@ class CompanyListSerializer(serializers.ModelSerializer):
             "user",
             "status",
             "status_color",
+            "modification_date",
             "advertising_this_year"
         )
         depth = 0
@@ -66,6 +70,7 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "ad_volume",
             "contact_address",
             "billing_address",
+            "modification_date",
             "status",
             "status_color",
         )
