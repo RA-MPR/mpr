@@ -17,6 +17,7 @@ import CompanyListHeader from './CompanyListHeader'
 import CompanyListFooter from './CompanyListFooter'
 import './CompanyList.css';
 
+import StatusChange from "../CompanyDetails/StatusChange";
 
 const columns = [
     {id: 'id', label: ""},
@@ -38,6 +39,13 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
     const [orderDirection, setOrderDirection] = useState('desc');
     const [orderBy, setOrderBy] = useState('ico');
     const [searchValue, setSearchValue] = useState("");
+    const [refresh, setRefresh] = useState(false);
+
+    const [companyICO, setCompanyICO] = useState(null);
+    const [companyName, setCompanyName] = useState(null);
+    const [companyStatus, setCompanyStatus] = useState(null);
+    const [companyStatusColor, setCompanyStatusColor] = useState(null);
+    const [statusDialogOpen, setStatusDialogOpen] = useState(false);
 
     useEffect(() => {
         const getCompanies = async () => {
@@ -60,7 +68,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
             }
         }
         getCompanies();
-    },[onRefresh])
+    },[onRefresh, refresh])
 
     useEffect(() => {
         const getCompanies = async () => {
@@ -105,10 +113,6 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
             e.target.parentNode.classList.add("active");
         }
         setOnlyMyCompanies(!onlyMyCompanies);
-    }
-
-    const giveUpCompany = () => {
-        console.log("TODO Give up company")
     }
 
     const takeCompany = () => {
@@ -173,6 +177,14 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
         return sortedRowArray.map((el) => el[0]);
     }
 
+    const openStatusChange = (ico, name, status, statusColor) => {
+        setCompanyICO(ico);
+        setCompanyName(name);
+        setCompanyStatus(status);
+        setCompanyStatusColor(statusColor);
+        setStatusDialogOpen(true);
+    }
+
     return (
         <div id="companyList" className={className + " company-list"}>
         <CompanyListHeader onSearch={onSearch} onToggle={toggleButton} onClickAdd={onAddCompany}></CompanyListHeader>
@@ -235,7 +247,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
                                 {columns[6].label}
                             </TableSortLabel>
                         </TableCell>}
-                        {!onlyMyCompanies && <TableCell width="15%" align="center" key={columns[7].id}>
+                        {!onlyMyCompanies && <TableCell width="18%" align="center" key={columns[7].id}>
                             <TableSortLabel 
                                 active={columns[7].id === orderBy}
                                 direction = {columns[7].id === orderBy ? orderDirection : 'asc'}
@@ -244,7 +256,6 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
                                 {columns[7].label}
                             </TableSortLabel>
                         </TableCell>}
-                        {onlyMyCompanies && <TableCell width="3%"/>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -258,7 +269,7 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
                                     <Button onClick={takeCompany} size="small" className="company-list-take">Zabrat</Button> : 
                                     <Button size="small" disabled className="company-list-take disabled">Zabrano</Button>}
                             </TableCell>}
-                            {onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
+                            {onlyMyCompanies && <TableCell className="clickable" onClick={() => openStatusChange(company.ico, company.name, company.status, company.status_color)} align="center">
                                 <span className="company-list-status" style={{backgroundColor: company.status_color}}>{company.status}</span>
                             </TableCell>}
                             <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
@@ -278,14 +289,21 @@ const CompanyList = ({onAddCompany, onShowCompanyDetail, onRefresh, className, t
                             {!onlyMyCompanies && <TableCell className="clickable" onClick={() => onShowCompanyDetail(company.ico)} align="center">
                                 {company.user === null ? "" : company.user.name}
                             </TableCell>}
-                            {onlyMyCompanies && <TableCell align="center">
-                                <IconButton onClick={giveUpCompany} size="small" className="company-list-close"><CloseIcon/></IconButton>
-                            </TableCell>}
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
+        <StatusChange
+              ico={companyICO}
+              companyName={companyName}
+              companyStatus={companyStatus}
+              companyStatusColor={companyStatusColor}
+              open={statusDialogOpen}
+              onClose={() => setStatusDialogOpen(false)}
+              refresh={() => setRefresh((prev) => !prev)}            
+              token={token}
+            />
         <CompanyListFooter onLetterClick={letterClicked}></CompanyListFooter>
         </div>
     )
