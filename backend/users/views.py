@@ -3,6 +3,8 @@ from company.serializers.common import CompanyUserSerializer
 from django.db.models import Sum
 from event.models import Event
 from event.serializers import EventSerializer
+from contact.models import Contact
+from contact.serializers.common import ContactGetSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView, get_object_or_404
@@ -67,7 +69,6 @@ class UserEventView(ListAPIView):
         query_params = UserEventQuerySerializer(data=self.request.query_params)
         query_params.is_valid(raise_exception=True)
         validated_data = dict(query_params.validated_data)
-        print(validated_data)
 
         if validated_data.get("date"):
             all_event = Event.objects.filter(user=user, date=validated_data.get("date"))
@@ -101,3 +102,20 @@ class UserAdminView(APIView):
             data,
             status=status.HTTP_200_OK,
         )
+
+
+class UserContactView(ListAPIView):
+    serializer_class = ContactGetSerializer
+
+    def get_queryset(self):
+
+        user = get_object_or_404(User, id=self.request.user.id)
+
+        wanted_items = set()
+        all_company = Company.objects.filter(user=user)
+        for company in all_company:
+            all_contacts = Contact.objects.filter(company=company)
+            for item in all_contacts:
+                wanted_items.add(item.pk)
+
+        return Contact.objects.filter(pk__in=wanted_items)
