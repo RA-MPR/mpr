@@ -9,7 +9,7 @@ import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
-const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token}) => {
+const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes}) => {
 
     const [billingAddressZipError, setBillingAddressZipError] = useState(false);
     const [contactAddressZipError, setContactAddressZipError] = useState(false);
@@ -130,6 +130,8 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         setIcoErrorMessage("");
         setIcoError(false);
         setInfoEditing(false);
+
+        noteEditingHandler(false);
     }
 
     const handleSave = () => {
@@ -142,7 +144,8 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest) {
             let data = {
                 "ico": newCompanyICO,
-                "phone_number": newMainPhoneNumber                
+                "phone_number": newMainPhoneNumber,
+                "notes": notes                
             }
 
             // Firma nemala zadanu obchodnu adresu
@@ -221,13 +224,14 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
             setCompanyICO(newCompanyICO);
 
             setInfoEditing(false);
-            
+            noteEditingHandler(false);
         }
     }
 
     const handleEdit = () => {
         setNewMainPhoneNumber(mainPhoneNumber);
         setNewCompanyICO(companyICO);
+        noteEditingHandler(true);
 
         if(billingAddress) {
             setNewBillingAddressStreet(billingAddress[1]);
