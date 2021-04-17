@@ -18,6 +18,7 @@ import axios from "axios";
 import "./css/CompanyDetails.css";
 
 import ConfirmDialog from "./ConfirmDialog";
+import { format } from "date-fns";
 
 const CompanyDetails = ({
   ico,
@@ -37,6 +38,7 @@ const CompanyDetails = ({
   const [clean, setClean] = useState(false);
   const [giveUpOpen, setGiveUpOpen] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [ addDate, setAddDate] = useState("");
 
   const fetchCompany = async () => {
     return await axios
@@ -90,7 +92,9 @@ const CompanyDetails = ({
         const eventsData = await fetchEvents();
         setEvents(eventsData.filter(event => event.company == ico));
         setNotes(companyData.notes);
-        console.log(companyData.notes);
+        if(companyData.create_date) {
+          setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));
+        }
     };
     console.log("STAHUJEM DATA");
     getData();
@@ -230,7 +234,7 @@ const CompanyDetails = ({
                 />
               </div>
               <div className="company-details-footer">
-                <span className="company-details-created-date">Přidáno: {company.create_date}</span>
+                <span className="company-details-created-date">Přidáno: {addDate}</span>
               </div>
             </CardContent>
           )}
