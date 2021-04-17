@@ -60,8 +60,6 @@ class UserCreateView(CreateAPIView):
 class UserEventView(ListAPIView):
     serializer_class = EventSerializer
 
-    lookup_url_kwarg = "id"
-
     def get_queryset(self):
 
         user = get_object_or_404(User, id=self.request.user.id)
@@ -85,8 +83,6 @@ class UserEventView(ListAPIView):
 
 class UserCompanyView(ListAPIView):
     serializer_class = CompanyUserSerializer
-
-    lookup_url_kwarg = "id"
 
     def get_queryset(self):
         user = get_object_or_404(User, id=self.request.user.id)
