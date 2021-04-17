@@ -107,6 +107,9 @@ const handleOnChangeStatus = (event) => {
             setStatus("Vlastní");
             setStatusColor("white");
             break;
+
+        default:
+            break;
   
     }
 }

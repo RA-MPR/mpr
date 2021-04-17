@@ -23,12 +23,16 @@ import "./UpcomingEvents.css";
 
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 
-const UpcomingEvents = ({ upcomingRefresh, token, setRefreshEvents, user }) => {
+const UpcomingEvents = ({
+  upcomingRefresh,
+  token,
+  setRefreshEvents,
+  height,
+}) => {
   const [data, setData] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
   const [deleteID, setDeleteID] = React.useState(null);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const [active, setActive] = React.useState(false); //event bude mít field active (true/false)
 
   const showNewEventDialog = () => {
     console.log("TODO Show new event");
@@ -36,14 +40,14 @@ const UpcomingEvents = ({ upcomingRefresh, token, setRefreshEvents, user }) => {
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:8000/event", {
+      .get("http://127.0.0.1:8000/user/events?is_active=True", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
         res.data.sort(function (a, b) {
           return (
-            parse(a.date, "yyyy-MM-dd", new Date()) -
-            parse(b.date, "yyyy-MM-dd", new Date())
+            parse(a.date + " " + a.time, "yyyy-MM-dd HH:mm:ss", new Date()) -
+            parse(b.date + " " + b.time, "yyyy-MM-dd HH:mm:ss", new Date())
           );
         });
         setData(res.data);
@@ -68,6 +72,21 @@ const UpcomingEvents = ({ upcomingRefresh, token, setRefreshEvents, user }) => {
       .delete("http://127.0.0.1:8000/event/" + deleteID, {
         headers: { Authorization: "Token " + token },
       })
+      .then(() => {
+        setRefresh((prev) => !prev);
+        if (setRefreshEvents) setRefreshEvents((prev) => !prev);
+      });
+  };
+
+  const handleDisableEvent = (id) => {
+    axios
+      .put(
+        "http://127.0.0.1:8000/event/" + id +"/",
+        { is_active: "False" },
+        {
+          headers: { Authorization: "Token " + token },
+        }
+      )
       .then(() => {
         setRefresh((prev) => !prev);
         if (setRefreshEvents) setRefreshEvents((prev) => !prev);
@@ -110,7 +129,10 @@ const UpcomingEvents = ({ upcomingRefresh, token, setRefreshEvents, user }) => {
         </IconButton>
       </div>
       <form onSubmit={handleAddEvent}>
-        <TableContainer className="upcomingevents-table">
+        <TableContainer
+          className="upcomingevents-table"
+          style={{ maxHeight: height }}
+        >
           <Table>
             <TableBody>
               {data.map((event) => (
@@ -149,9 +171,9 @@ const UpcomingEvents = ({ upcomingRefresh, token, setRefreshEvents, user }) => {
                       <div className="reminder">
                         <Checkbox
                           className="activeCheck"
-                          checked={active}
+                          checked={!event.is_active}
                           color="primary"
-                          onChange={() => setActive(!active)}
+                          onClick={() => handleDisableEvent(event.id)}
                         />
                       </div>
                     </div>

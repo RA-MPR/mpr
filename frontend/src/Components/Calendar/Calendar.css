@@ -1,21 +1,27 @@
-.upcoming-header{
+.dialogEventsDay .MuiDialog-paperWidthSm {
+    width: 400px;
+}
+.eventsDayContent {
+    margin-top: -24px;
+}
+.eventsday-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-.upcomingevents-table{
+.eventsday-table{
     max-height: 360px;
     overflow-y: auto !important;
     border-radius: 10px !important;
 }
-
-.upcomingevents-table table {
+.eventsday-table table {
     border-collapse: separate;
     border-spacing: 0 10px;
 }
-
-.upcomingevents-table .eventsgrid {
+.eventsday-table tr {
+    background-color: #F2F2F2;
+}
+.eventsday-table .eventsgrid {
     display: grid;
     width: 100%;
     grid-template-areas: 
@@ -24,14 +30,6 @@
     grid-template-columns: 45% 45% 10%;
     align-items: center;
 }
-
-.upcomingevents-table tr {
-    background-color: #F2F2F2;
-}
-.upcomingevents-table .close {
-    background-color: #FDC6C1 !important;
-}
-
 .eventsgrid>.name {
     grid-area: leftr1;
 }

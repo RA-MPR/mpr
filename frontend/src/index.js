@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import AppBar from "./Components/AppBar/AppBar";
-import Footer from "./Components/Footer/Footer";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import NotFound from "./Components/NotFound/NotFound";
+import { createMuiTheme } from "@material-ui/core";
 
 import "./index.css";
 
 import App from "./App";
 
-const theme = createMuiTheme({
+createMuiTheme({
   palette: {
      primary: {
         main: "#109cf1" // This is an orange looking color
