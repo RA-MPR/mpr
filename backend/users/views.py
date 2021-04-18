@@ -1,7 +1,10 @@
 from company.models import Company
 from company.serializers.common import CompanyUserSerializer
+from django.db.models import Sum
 from event.models import Event
 from event.serializers import EventSerializer
+from contact.models import Contact
+from contact.serializers.common import ContactGetSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView, CreateAPIView, get_object_or_404
@@ -12,10 +15,15 @@ from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSer
 
 
 class UserView(ListAPIView):
-    def get_serializer_class(self):
-        return UserSerializer
-
     queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = UserSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def get_queryset(self):
+        return User.objects.annotate(sign_orders=Sum("Order__sum"), paid_invoice=Sum("Invoice__sum"))
 
 
 class UserCreateView(CreateAPIView):
@@ -39,7 +47,9 @@ class UserCreateView(CreateAPIView):
 
         user = serializer.save()
         data["email"] = user.email
-        data["full_name"] = user.full_name
+        data["name"] = user.name
+        data["surname"] = user.surname
+        data["phone"] = str(user.phone)
         token = Token.objects.get(user=user).key
         data["token"] = token
 
@@ -52,8 +62,6 @@ class UserCreateView(CreateAPIView):
 class UserEventView(ListAPIView):
     serializer_class = EventSerializer
 
-    lookup_url_kwarg = "id"
-
     def get_queryset(self):
 
         user = get_object_or_404(User, id=self.request.user.id)
@@ -61,7 +69,6 @@ class UserEventView(ListAPIView):
         query_params = UserEventQuerySerializer(data=self.request.query_params)
         query_params.is_valid(raise_exception=True)
         validated_data = dict(query_params.validated_data)
-        print(validated_data)
 
         if validated_data.get("date"):
             all_event = Event.objects.filter(user=user, date=validated_data.get("date"))
@@ -78,8 +85,6 @@ class UserEventView(ListAPIView):
 class UserCompanyView(ListAPIView):
     serializer_class = CompanyUserSerializer
 
-    lookup_url_kwarg = "id"
-
     def get_queryset(self):
         user = get_object_or_404(User, id=self.request.user.id)
         all_company = Company.objects.filter(user=user)
@@ -91,10 +96,26 @@ class UserAdminView(APIView):
     serializer_class = UserAdminSerializer
 
     def get(self, request):
-
         user = get_object_or_404(User, id=self.request.user.id)
         data = {"is_admin": user.is_superuser}
         return Response(
             data,
             status=status.HTTP_200_OK,
         )
+
+
+class UserContactView(ListAPIView):
+    serializer_class = ContactGetSerializer
+
+    def get_queryset(self):
+
+        user = get_object_or_404(User, id=self.request.user.id)
+
+        wanted_items = set()
+        all_company = Company.objects.filter(user=user)
+        for company in all_company:
+            all_contacts = Contact.objects.filter(company=company)
+            for item in all_contacts:
+                wanted_items.add(item.pk)
+
+        return Contact.objects.filter(pk__in=wanted_items)

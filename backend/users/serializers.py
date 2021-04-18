@@ -4,13 +4,18 @@ from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    sign_orders = serializers.IntegerField()
+    paid_invoice = serializers.IntegerField()
+
     class Meta:
         model = User
         fields = (
+            "name",
+            "surname",
             "email",
-            "full_name",
-            "is_superuser",
-            "date_joined",
+            "phone",
+            "sign_orders",
+            "paid_invoice",
         )
 
 
@@ -19,7 +24,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("email", "full_name", "password", "password2",)
+        fields = ("email", "name", "surname", "phone", "password", "password2",)
         extra_kwargs = {
             "password": {'write_only': True}
         }
@@ -27,7 +32,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def save(self):
         user = User(
             email=self.validated_data["email"],
-            full_name=self.validated_data["full_name"]
+            name=self.validated_data["name"],
+            surname=self.validated_data["surname"],
+            phone=self.validated_data["phone"],
         )
         password = self.validated_data["password"]
         password2 = self.validated_data["password2"]
@@ -47,7 +54,8 @@ class UserSlimSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "email",
-            "full_name",
+            "name",
+            "surname",
         )
 
 
@@ -57,6 +65,7 @@ class UserAdminSerializer(serializers.ModelSerializer):
         fields = (
             "is_superuser",
         )
+
 
 class UserEventQuerySerializer(serializers.Serializer):
     date = serializers.DateField(required=False)

@@ -19,6 +19,7 @@ const App = () => {
 
   const { token, setToken, removeToken } = useToken();
 
+
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -30,9 +31,11 @@ const App = () => {
     },
   });
 
+
   if (!token) {
     return <Login setToken={setToken} />;
   }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -76,6 +79,7 @@ const App = () => {
         </Switch>
         <Footer />
       </Router>
+
     </ThemeProvider>
   );
 };

@@ -24,20 +24,20 @@ class InvoiceView(ListCreateAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        invoice = self.perform_create(serializer)
+        invoice = self.perform_create(serializer, request.user)
 
         return Response(
             InvoiceSerializer(invoice).data,
             status=status.HTTP_201_CREATED,
         )
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer, user):
         date = serializer.validated_data.get("date", None)
         sum = serializer.validated_data.get("sum", None)
         order_id = serializer.validated_data.get("order_id", None)
 
         order = get_object_or_404(Order, id=order_id)
-        return serializer.save(date=date, sum=sum, order=order)
+        return serializer.save(date=date, sum=sum, order=order, user=user)
 
 
 class InvoiceByIdView(RetrieveUpdateDestroyAPIView):
