@@ -60,6 +60,7 @@ class CompanyListSerializer(serializers.ModelSerializer):
 class CompanyUserSerializer(serializers.ModelSerializer):
     contact_address = AddressSerializer()
     billing_address = AddressSerializer()
+    advertising_this_year = serializers.IntegerField()
 
     class Meta:
         model = models.Company
@@ -73,5 +74,6 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "modification_date",
             "status",
             "status_color",
+            "advertising_this_year",
         )
         depth = 1
