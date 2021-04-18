@@ -1,6 +1,8 @@
 from django.db import models
 from company.models import Company
 from users.models import User
+from django.db.models import Func
+
 
 
 class Order(models.Model):
@@ -12,3 +14,9 @@ class Order(models.Model):
 
     class Meta:
         default_related_name = "Order"
+
+
+class Month(Func):
+    function = 'EXTRACT'
+    template = '%(function)s(MONTH from %(expressions)s)'
+    output_field = models.IntegerField()

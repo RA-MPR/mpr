@@ -3,6 +3,7 @@ from company.serializers.common import CompanyUserSerializer
 from django.db.models import Sum
 from event.models import Event
 from event.serializers import EventSerializer
+from order.models import Order, Month
 from contact.models import Contact
 from contact.serializers.common import ContactGetSerializer
 from rest_framework import status
@@ -13,6 +14,9 @@ from rest_framework.views import APIView
 from users.models import User
 from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSerializer, UserEventQuerySerializer
 
+from django.db.models import Sum
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 class UserView(ListAPIView):
     queryset = User.objects.all()
@@ -119,3 +123,65 @@ class UserContactView(ListAPIView):
                 wanted_items.add(item.pk)
 
         return Contact.objects.filter(pk__in=wanted_items)
+
+
+class UserOrderView(ListAPIView):
+
+    def fillListOrder(self, start, end, res, d, data):
+        while start <= end:
+            if start not in res:
+                data.append({
+                    "month": start,
+                    "total": 0,
+                })
+            else:
+                data.append({
+                    "month": start,
+                    "total": d[str(start)]
+                })
+
+            start += 1
+
+    def get(self, request):
+        user = get_object_or_404(User, id=self.request.user.id)
+
+        f = date.today() + relativedelta(months=-11)
+        f = f.replace(day=1)
+        end_date = date.today() + relativedelta(months=1)
+        end_date = end_date.replace(day=1)
+
+        summary = (Order.objects
+                   .filter(user=user.id)
+                   .filter(date__gte=f)
+                   .filter(date__lt=end_date)
+                   .annotate(month=Month('date'))
+                   .values('month')
+                   .annotate(total=Sum('sum'))
+                   .order_by())
+
+        if len(summary) == 12:
+            return Response(
+                summary,
+                status=status.HTTP_200_OK,
+            )
+
+        res = [sub['month'] for sub in summary]
+        d = {}
+
+        for item in summary:
+            d[str(item['month'])] = item['total']
+
+        start = f.month
+        end = date.today().month
+        data = []
+
+        self.fillListOrder(start, 12, res, d, data)
+
+        if end < f.month:
+            start = 1
+            self.fillListOrder(start, end, res, d, data)
+
+        return Response(
+            data,
+            status=status.HTTP_200_OK,
+        )

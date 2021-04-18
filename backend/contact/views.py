@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-
 from .models import Contact
 from .serializers.common import ContactGetSerializer, ContactSerializer
 
@@ -11,3 +10,4 @@ class ContactViewSet(viewsets.ModelViewSet):
         if self.request.method == "GET":
             return ContactGetSerializer
         return ContactSerializer
+
