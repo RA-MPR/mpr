@@ -50,7 +50,6 @@ const Events = ({
   const [checked, setChecked] = useState(false);
   const [deleteId, setDeleteId] = useState(-1);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [active, setActive] = useState(false); //event bude mít field active (true/false)
 
   const handleConfirmOpen = (eventId) => {
     setDeleteId(eventId);
@@ -123,6 +122,21 @@ const Events = ({
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
+        loadNewData();
+        setUpcomingRefresh((prev) => !prev);
+      });
+  };
+
+  const handleStatusEvent = (id, active) => {
+    axios
+      .put(
+        "http://127.0.0.1:8000/event/" + id +"/",
+        { is_active: active },
+        {
+          headers: { Authorization: "Token " + token },
+        }
+      )
+      .then(() => {
         loadNewData();
         setUpcomingRefresh((prev) => !prev);
       });
@@ -276,9 +290,9 @@ const Events = ({
                         <div className="reminder">
                           <Checkbox
                             className="activeCheck"
-                            checked={active}
+                            checked={!event.is_active}
                             color="primary"
-                            onChange={() => setActive(!active)}
+                            onChange={() => handleStatusEvent(event.id, !event.is_active)}
                           />
                         </div>
                       </div>

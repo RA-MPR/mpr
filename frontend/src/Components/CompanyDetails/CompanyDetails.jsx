@@ -11,7 +11,7 @@ import { Card, CardContent } from "@material-ui/core";
 
 import EditIcon from "@material-ui/icons/Edit";
 
-import { React, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect } from "react";
 
 import axios from "axios";
 
@@ -72,15 +72,6 @@ const CompanyDetails = ({
       .then((res) => res.data);
   };
 
-  const fetchNotes = async () => {
-    return await axios
-      .get("http://127.0.0.1:8000/note", {
-        headers: { Authorization: "Token " + token },
-      })
-      .then((res) => res.data);
-  };
-
-  const isMounted = useRef(false);
   useEffect(() => {
     const getData = async () => {
         const companyData = await fetchCompany();

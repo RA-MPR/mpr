@@ -1,0 +1,23 @@
+.root {
+    flex-grow: 1;
+    padding-top: 10px;
+    background-color: #F5F6F8;
+}
+
+.paper {
+    text-align: center;
+    padding: 2;
+}
+
+.calendar-main-screen {
+    display: flex;
+    flex-direction: column;
+    height: 84vh !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.calendar-module {
+    display: flex !important; 
+    flex-direction: column;
+}
