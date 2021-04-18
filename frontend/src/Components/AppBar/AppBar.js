@@ -5,11 +5,13 @@ import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
+import axios from "axios";
 
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-function App({ removeToken }) {
+function App({ token, removeToken }) {
   const [page, setPage] = React.useState(0);
+  const [admin, setAdmin] = React.useState(false);
   const [logoutOpen, setLogoutOpen] = React.useState(false);
   const history = useHistory();
 
@@ -21,6 +23,23 @@ function App({ removeToken }) {
     history.push("/");
     removeToken();
   }
+
+  const fetchAdmin = async () => {
+    await axios
+      .get("http://127.0.0.1:8000/user/admin", {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((res) => {
+        setAdmin(res.data["is_admin"]);
+      });
+  };
+
+  React.useEffect(() => {
+    const getAdmin = async () => {
+      const admin = await fetchAdmin();
+    };
+    getAdmin();
+  }, []);
 
   return (
     <>
@@ -103,9 +122,32 @@ function App({ removeToken }) {
                     Kontaktní osoby
                   </ToggleButton>
                 )}
+                {window.location.pathname === "/users" && admin && (
+                  <ToggleButton
+                    selected
+                    value={3}
+                    component={Link}
+                    to="/users"
+                  >
+                    Obchodníci
+                  </ToggleButton>
+                )}
+                {window.location.pathname !== "/users" && admin && (
+                  <ToggleButton
+                    selected={false}
+                    value={3}
+                    component={Link}
+                    to="/users"
+                  >
+                    Obchodníci
+                  </ToggleButton>
+                )}
               </ToggleButtonGroup>
-              <IconButton onClick={() =>setLogoutOpen(true)} style={{ marginLeft: "10px" }}>
-                <ExitToAppIcon/>
+              <IconButton
+                onClick={() => setLogoutOpen(true)}
+                style={{ marginLeft: "10px" }}
+              >
+                <ExitToAppIcon />
               </IconButton>
             </div>
           </Toolbar>

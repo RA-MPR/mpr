@@ -20,13 +20,15 @@ import "./css/CompanyDetails.css";
 import ConfirmDialog from "./ConfirmDialog";
 import { format } from "date-fns";
 
+import { useHistory } from "react-router-dom";
+
 const CompanyDetails = ({
   ico,
   className,
   onClose,
   token,
   setUpcomingRefresh,
-  refreshEvents
+  refreshEvents,
 }) => {
   const [company, setCompany] = useState();
   const [contacts, setContacts] = useState([]);
@@ -37,8 +39,29 @@ const CompanyDetails = ({
   const [refresh, setRefresh] = useState(false);
   const [clean, setClean] = useState(false);
   const [giveUpOpen, setGiveUpOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [editing, setEditing] = useState(false);
-  const [ addDate, setAddDate] = useState("");
+  const [addDate, setAddDate] = useState("");
+  const [admin, setAdmin] = useState(false);
+
+  const history = useHistory();
+
+  const fetchAdmin = async () => {
+    await axios
+      .get("http://127.0.0.1:8000/user/admin", {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((res) => {
+        setAdmin(res.data["is_admin"]);
+      });
+  };
+
+  useEffect(() => {
+    const getAdmin = async () => {
+      const admin = await fetchAdmin();
+    };
+    getAdmin();
+  }, []);
 
   const fetchCompany = async () => {
     return await axios
@@ -74,18 +97,18 @@ const CompanyDetails = ({
 
   useEffect(() => {
     const getData = async () => {
-        const companyData = await fetchCompany();
-        setCompany(companyData);
-        const contactData = await fetchContacts();
-        setContacts(contactData.filter(contact => contact.company.ico === ico));
-        const ordersData = await fetchOrders();
-        setOrders(ordersData.filter(order => order.company === ico));
-        const eventsData = await fetchEvents();
-        setEvents(eventsData.filter(event => event.company == ico));
-        setNotes(companyData.notes);
-        if(companyData.create_date) {
-          setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));
-        }
+      const companyData = await fetchCompany();
+      setCompany(companyData);
+      const contactData = await fetchContacts();
+      setContacts(contactData.filter((contact) => contact.company.ico === ico));
+      const ordersData = await fetchOrders();
+      setOrders(ordersData.filter((order) => order.company === ico));
+      const eventsData = await fetchEvents();
+      setEvents(eventsData.filter((event) => event.company == ico));
+      setNotes(companyData.notes);
+      if (companyData.create_date) {
+        setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));
+      }
     };
     console.log("STAHUJEM DATA");
     getData();
@@ -109,8 +132,24 @@ const CompanyDetails = ({
   };
 
   const handleGiveUp = () => {
-      console.log("Give up company");
-  }
+    axios
+      .put("http://127.0.0.1:8000/company/" + company.ico +"/", {user: null},{
+        headers: { Authorization: "Token " + token },
+      })
+      .then(function (response) {
+        history.replace("/");
+      });
+  };
+
+  const handleDeleteCompany = () => {
+    axios
+      .delete("http://127.0.0.1:8000/company/" + company.ico, {
+        headers: { Authorization: "Token " + token },
+      })
+      .then(function (response) {
+        history.replace("/");
+      });
+  };
 
   if (ico === "") {
     console.log("ICO je prazdne");
@@ -119,16 +158,24 @@ const CompanyDetails = ({
     return (
       <>
         {company && (
-        <ConfirmDialog
-          title={"Vzdát se firmy"}
-          open={giveUpOpen}
-          setOpen={setGiveUpOpen}
-          onConfirm={() =>
-            handleGiveUp()
-          }
-        >
-         { "Opravdu se chcete vzdát firmy " + company.name + "?" } 
-        </ConfirmDialog>
+          <ConfirmDialog
+            title={"Vzdát se firmy"}
+            open={giveUpOpen}
+            setOpen={setGiveUpOpen}
+            onConfirm={() => handleGiveUp()}
+          >
+            {"Opravdu se chcete vzdát firmy " + company.name + "?"}
+          </ConfirmDialog>
+        )}
+        {company && (
+          <ConfirmDialog
+            title={"Smazat firmu"}
+            open={deleteOpen}
+            setOpen={setDeleteOpen}
+            onConfirm={() => handleDeleteCompany()}
+          >
+            {"Opravdu chcete smazat firmu " + company.name + "?"}
+          </ConfirmDialog>
         )}
         <Card id="companyDetail" className={className + " company-details "}>
           {company && (
@@ -174,12 +221,20 @@ const CompanyDetails = ({
                   >
                     Zpět
                   </Button>
-                  <Button onClick={() => setGiveUpOpen(true)} className="company-details-cancel-button">
+                  <Button
+                    onClick={() => setGiveUpOpen(true)}
+                    className="company-details-cancel-button"
+                  >
                     Odepnout
                   </Button>
-                  <Button className="company-details-delete-button">
-                    Smazat
-                  </Button>
+                  {admin && (
+                    <Button
+                      onClick={() => setDeleteOpen(true)}
+                      className="company-details-delete-button"
+                    >
+                      Smazat
+                    </Button>
+                  )}
                 </div>
               </div>
               <div className="company-details-body">
@@ -189,7 +244,7 @@ const CompanyDetails = ({
                   contactAddressData={company.contact_address}
                   mainPhoneNumberData={company.phone_number}
                   token={token}
-                  noteEditingHandler={setEditing} 
+                  noteEditingHandler={setEditing}
                   notes={notes}
                 />
 
@@ -211,9 +266,7 @@ const CompanyDetails = ({
                     setUpcomingRefresh={setUpcomingRefresh}
                     refreshEvents={refreshEvents}
                   />
-                  <Notes data={notes} 
-                    edit={editing} 
-                    setNotes={setNotes}/>
+                  <Notes data={notes} edit={editing} setNotes={setNotes} />
                 </div>
 
                 <Orders
@@ -225,7 +278,9 @@ const CompanyDetails = ({
                 />
               </div>
               <div className="company-details-footer">
-                <span className="company-details-created-date">Přidáno: {addDate}</span>
+                <span className="company-details-created-date">
+                  Přidáno: {addDate}
+                </span>
               </div>
             </CardContent>
           )}

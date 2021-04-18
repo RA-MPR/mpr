@@ -13,10 +13,13 @@ import CalendarPage from "./Components/CalendarPage";
 
 import useToken from "./Components/Auth/useToken";
 import Login from "./Components/Auth/Login";
+import UserPage from "./Components/UserPage";
+
+import axios from "axios";
 
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
-
+  const [admin, setAdmin] = useState(false);
   const { token, setToken, removeToken } = useToken();
 
   const theme = createMuiTheme({
@@ -30,6 +33,23 @@ const App = () => {
     },
   });
 
+  const fetchAdmin = async () => {
+    await axios
+      .get("http://127.0.0.1:8000/user/admin", {
+        headers: { Authorization: "Token " + token },
+      })
+      .then((res) => {
+        setAdmin(res.data["is_admin"]);
+      });
+  };
+
+  React.useEffect(() => {
+    const getAdmin = async () => {
+      const admin = await fetchAdmin();
+    };
+    getAdmin();
+  }, []);
+
   if (!token) {
     return <Login setToken={setToken} />;
   }
@@ -37,7 +57,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <AppBar removeToken={removeToken} />
+        <AppBar token={token} removeToken={removeToken} />
         <Switch>
           <Route path="/calendar">
             <CalendarPage token={token} />
@@ -76,6 +96,11 @@ const App = () => {
               componentToShow="companyDetail"
             />
           </Route>
+          { admin ? <Route path="/users" exact>
+            <UserPage
+              token={token}
+            />
+          </Route> : "" }
           <Route component={NotFound}></Route>
         </Switch>
         <Footer />
