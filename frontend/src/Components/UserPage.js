@@ -2,24 +2,17 @@ import { Grid, Paper } from "@material-ui/core";
 // eslint-disable-next-line
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 
-import {useState } from "react";
+import "./UserPage.css";
 
-import "./CalendarPage.css";
-import EventsOfTheDay from "./Calendar/EventsOfTheDay";
-
-function CalendarPage({token}) {
-    const [openDay, setOpenDay] = useState(false);
-    
-    const date = "2021-04-29"; //expected format of date for eventsoftheday
+function UserPage({token}) {
 
     return (
         <div className="root">
-            <EventsOfTheDay date={date} token={token} open={openDay} setOpen={setOpenDay}/>
             <Grid container justify="center" spacing={2} style={{width:"100%"}}>
             <Grid item xs={8}>
                 <Paper style={{ padding: 16 }}>
-                <div className="calendar-main-screen">
-                    Kalendář
+                <div className="user-main-screen">
+                    Seznam obchodníků
                 </div>
                 </Paper>
             </Grid>
@@ -35,4 +28,4 @@ function CalendarPage({token}) {
     );
 }
 
-export default CalendarPage;
+export default UserPage;
