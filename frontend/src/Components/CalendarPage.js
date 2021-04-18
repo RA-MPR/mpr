@@ -26,7 +26,7 @@ function CalendarPage({token}) {
             <Grid item xs={3}>
                 <Grid item xs={12}>
                 <Paper style={{ padding: 16 }}>
-                <UpcomingEvents token={token} height="790px"/>
+                <UpcomingEvents token={token} height="735px"/>
                 </Paper>
                 </Grid>
             </Grid>

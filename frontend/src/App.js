@@ -19,7 +19,6 @@ const App = () => {
 
   const { token, setToken, removeToken } = useToken();
 
-
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -31,22 +30,24 @@ const App = () => {
     },
   });
 
-
   if (!token) {
     return <Login setToken={setToken} />;
   }
 
-
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <AppBar removeToken={removeToken}/>
+        <AppBar removeToken={removeToken} />
         <Switch>
           <Route path="/calendar">
             <CalendarPage token={token} />
           </Route>
           <Route path="/contacts">
-            <ContactPage token={token} />
+            <ContactPage
+              token={token}
+              detailIco={detailIco}
+              setDetailIco={setDetailIco}
+            />
           </Route>
           <Route path="/matrix">
             <div>Místo pro matici rizik</div>
@@ -79,7 +80,6 @@ const App = () => {
         </Switch>
         <Footer />
       </Router>
-
     </ThemeProvider>
   );
 };
