@@ -126,7 +126,6 @@ class UserContactView(ListAPIView):
 
 
 class UserOrderView(ListAPIView):
-    lookup_url_kwarg = "id"
 
     def fillListOrder(self, start, end, res, d, data):
         while start <= end:
@@ -143,8 +142,8 @@ class UserOrderView(ListAPIView):
 
             start += 1
 
-    def get(self, request, id):
-        user = get_object_or_404(User, pk=id)
+    def get(self, request):
+        user = get_object_or_404(User, id=self.request.user.id)
 
         f = date.today() + relativedelta(months=-11)
         f = f.replace(day=1)
