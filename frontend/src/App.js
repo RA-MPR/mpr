@@ -17,7 +17,7 @@ const App = () => {
     const [detailIco, setDetailIco] = useState("");
 
     //SUPERUSER TOKEN FOR TESTING
-    const [token,setToken] = useState("97547bc7c4f22ba4d4365f70889ce812d9445f02");
+    const [token,setToken] = useState("e8998b44fb91858489c28d07b2dee64b7db21f63");
 
     const theme = createMuiTheme({
         palette: {
@@ -39,7 +39,11 @@ const App = () => {
                     <div>Calendar</div>
                     </Route>
                     <Route path="/contacts">
-                        <ContactPage token={token}/>
+                        <ContactPage 
+                            token={token}
+                            detailIco={detailIco}
+                            setDetailIco={setDetailIco}
+                            />
                     </Route>
                     <Route path="/matrix">
                     <div>Místo pro matici rizik</div>

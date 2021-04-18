@@ -12,6 +12,7 @@ import './ContactList.css';
 
 import axios from 'axios';
 
+import {useHistory} from "react-router-dom";
 
 const columns = [
     {id: 'id', label: ""},
@@ -22,7 +23,9 @@ const columns = [
     {id: 'phone', label: "Telefon"}
 ]
 
-const ContactList = ({className, token}) => {
+const ContactList = ({className, token, detailIco, setDetailIco}) => {
+
+    const history = useHistory();
 
     const [contactsFromServer, setContactsFromServer] = useState([]);
     const [contacts, setContacts] = useState([]);
@@ -90,6 +93,15 @@ const ContactList = ({className, token}) => {
         return sortedRowArray.map((el) => el[0]);
     }
 
+    const handleShowCompanyDetail = (ico) => {
+        if(ico === detailIco){
+            history.push('/company/detail');
+        }else{
+            setDetailIco(ico);
+            history.push('/company/detail');
+        }
+    }
+
     return (
         <div id="contactList" className={className + " contact-list"}>
             <ContactListHeader onSearch={onSearch} />
@@ -148,24 +160,24 @@ const ContactList = ({className, token}) => {
                     <TableBody>
                         {sortRowInfo(contacts, getComparator(orderDirection, orderBy)).map((contact, index) => (
                             <TableRow hover key={index}>
-                                <TableCell align="center">
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
                                     {index+1}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
                                     {contact.name}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
                                     {contact.surname}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
                                     <div className="text-container">
                                         {contact.company.name}
                                     </div>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
                                     {contact.email}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
                                     {contact.phone}
                                 </TableCell>
                             </TableRow>
