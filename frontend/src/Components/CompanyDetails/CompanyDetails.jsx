@@ -28,6 +28,7 @@ const CompanyDetails = ({
   onClose,
   token,
   setUpcomingRefresh,
+  setRefreshOrders,
   refreshEvents,
 }) => {
   const [company, setCompany] = useState();
@@ -275,6 +276,7 @@ const CompanyDetails = ({
                   fetchOrder={fetchOrders}
                   setOrder={setOrders}
                   token={token}
+                  setRefreshOrders={setRefreshOrders}
                 />
               </div>
               <div className="company-details-footer">

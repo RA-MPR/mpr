@@ -9,6 +9,7 @@ import CompanyDetails from "./CompanyDetails/CompanyDetails";
 import "./CompanyPage.css";
 import { useEffect, useRef, useState } from "react";
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
+import Graph from "./Graph/Graph";
 
 import {useHistory} from "react-router-dom";
 
@@ -19,6 +20,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
   const [refresh, setRefresh] = useState(false);
   const [upcomingRefresh, setUpcomingRefresh] = useState(false);
   const [refreshEvents, setRefreshEvents] = useState(false);
+  const [refreshOrders, setRefreshOrders] = useState(false);
 
   const showNewCompanyForm = () =>{
     history.push('/company/new');
@@ -57,7 +59,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
               {componentToShow === "companyNew" && <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} token={token}/>}
-              {componentToShow === "companyDetail" && <CompanyDetails ico={detailIco} onClose={showCompanyList} token={token} setUpcomingRefresh={setUpcomingRefresh} refreshEvents={refreshEvents}/>}
+              {componentToShow === "companyDetail" && <CompanyDetails ico={detailIco} onClose={showCompanyList} token={token} setUpcomingRefresh={setUpcomingRefresh} refreshEvents={refreshEvents} setRefreshOrders={setRefreshOrders}/>}
               {componentToShow === "companyList" && <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} token={token}/>}
             </div>
           </Paper>
@@ -65,12 +67,12 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
         <Grid item xs={3}>
           <Grid item xs={12}>
             <Paper style={{ padding: 16 }}>
-              <h1>Graf</h1>
+              <Graph token={token} upcomingRefresh={refreshOrders}/>
             </Paper>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ paddingTop: "10px" }}>
             <Paper style={{ padding: 16 }}>
-            <UpcomingEvents token={token} upcomingRefresh={upcomingRefresh} setRefreshEvents={setRefreshEvents}/>
+              <UpcomingEvents token={token} upcomingRefresh={refreshOrders} setRefreshEvents={setRefreshEvents} height="50vh"/>
             </Paper>
           </Grid>
         </Grid>

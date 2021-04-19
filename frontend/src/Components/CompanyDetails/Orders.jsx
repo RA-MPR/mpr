@@ -34,7 +34,7 @@ import "./css/Orders.css";
 import ConfirmDialog from "./ConfirmDialog";
 import AlertDialog from "../CompanyNew/AlertDialog";
 
-const Orders = ({ data, ico, fetchOrder, setOrder, token}) => {
+const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const [type, setType] = React.useState(0);
@@ -125,6 +125,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token}) => {
         }, {headers:{Authorization: "Token " + token}})
         .then(function (response) {
           loadNewData();
+          setRefreshOrders((prev) => !prev);
         });
     } else {
       var orderId = setOrderIDInvoice(data, event.target.orderNumber.value);
@@ -148,6 +149,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token}) => {
       .delete("http://127.0.0.1:8000/order/" + orderId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
+        setRefreshOrders((prev) => !prev);
       });
   };
 
