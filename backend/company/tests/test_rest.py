@@ -4,12 +4,17 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from ..models import Address, Company
+from users.models import User
 
 
 class CompanyRestTestCase(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
+        user_data = {
+            "email": "pepa.uzivatel@seznam.cz",
+        }
+        user = User.objects.create(**user_data)
         address_data = {
             "street": "Radlická 3294/10",
             "zip_code": "15000",
@@ -23,7 +28,8 @@ class CompanyRestTestCase(APITestCase):
             "phone_number": "+420234694111",
             "ad_volume": 100,
             "contact_address": address,
-            "billing_address": address
+            "billing_address": address,
+            "user": user
         }
         company = Company.objects.create(**company_data)
 
@@ -40,9 +46,11 @@ class CompanyRestTestCase(APITestCase):
             "date": "2021-04-04",
             "contract_number": 123,
             "sum": 1000,
-            "company": company
+            "company": company,
+            "user": user
         }
         Order.objects.create(**order_data)
+        cls.user = user
 
     def test_create_company(self):
         company_data = {
@@ -65,6 +73,7 @@ class CompanyRestTestCase(APITestCase):
         }
 
         current_count = Company.objects.count()
+        self.client.force_authenticate(user=self.user)
         response = self.client.post("/company/", company_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Company.objects.count(), current_count + 1)
@@ -75,12 +84,14 @@ class CompanyRestTestCase(APITestCase):
         altered_company_data = {
             "name": "Seznam_1",
         }
+        self.client.force_authenticate(user=self.user)
         response = self.client.put(f"/company/{ico}/", altered_company_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Company.objects.get(ico=ico).name, "Seznam_1")
 
     def test_company_contact(self):
         ico = "26168685"
+        self.client.force_authenticate(user=self.user)
         response = self.client.get(f"/company/{ico}/")
         contact = response.data["contacts"][0]
         self.assertEqual(contact["name"], "Studijní")
@@ -90,12 +101,14 @@ class CompanyRestTestCase(APITestCase):
         contact = Company.objects.get(ico=ico).contacts.first()
         contact.delete()
 
+        self.client.force_authenticate(user=self.user)
         response = self.client.get(f"/company/{ico}/")
         contacts = response.data["contacts"]
         self.assertEqual(len(contacts), 0)
 
     def test_company_order(self):
         ico = "26168685"
+        self.client.force_authenticate(user=self.user)
         response = self.client.get(f"/company/{ico}/")
         order = response.data["orders"][0]
-        self.assertEqual(order["contract_number"], 123)
+        self.assertEqual(order["contract_number"], '123')

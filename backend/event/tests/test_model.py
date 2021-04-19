@@ -2,19 +2,24 @@ from django.test import TestCase
 
 from event.models import Event
 from company.models import Company
-
+from users.models import User
 
 class EventModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        user_data = {
+            "email": "pepa.uzivatel@seznam.cz",
+        }
+        user = User.objects.create(**user_data)
         company_data = {
             "ico": "12345678",
             "name": "Seznam",
             "phone_number": "+420234694111",
             "ad_volume": 100,
             "contact_address": None,
-            "billing_address": None
+            "billing_address": None,
+            "user": user,
         }
         Company.objects.create(**company_data)
         company = Company.objects.get(ico="12345678")
@@ -25,11 +30,13 @@ class EventModelTestCase(TestCase):
             "description": "Lorem Ipsum ...",
             "reminder": True,
             "company": company,
+            "user": user,
         }
 
         instance = Event.objects.create(**event_data)
 
         cls.test_data_id = instance.id
+        cls.user = user
 
     def test_insert(self):
         event = Event.objects.get(id=self.test_data_id)
@@ -43,6 +50,7 @@ class EventModelTestCase(TestCase):
             "name": "Coffee",
             "date": "2021-05-30",
             "description": "Coffee with client",
+            "user": self.user,
         }
         event.update(altered_event_data)
         self.assertEqual(event.name, "Coffee")
