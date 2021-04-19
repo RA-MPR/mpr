@@ -1,6 +1,6 @@
 from company.models import Company
 from company.serializers.common import CompanyUserSerializer
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from event.models import Event
 from event.serializers import EventSerializer
 from order.models import Order, Month
@@ -14,8 +14,7 @@ from rest_framework.views import APIView
 from users.models import User
 from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSerializer, UserEventQuerySerializer
 
-from django.db.models import Sum
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
 class UserView(ListAPIView):
@@ -89,11 +88,14 @@ class UserEventView(ListAPIView):
 class UserCompanyView(ListAPIView):
     serializer_class = CompanyUserSerializer
 
+    def list(self, request, *args, **kwargs):
+        serializer = CompanyUserSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
     def get_queryset(self):
         user = get_object_or_404(User, id=self.request.user.id)
-        all_company = Company.objects.filter(user=user)
-
-        return all_company
+        year_ago = datetime.now() + relativedelta(years=-1)
+        return Company.objects.annotate(advertising_this_year=Sum("orders__sum", filter=Q(orders__date__gt=year_ago))).filter(user=user)
 
 
 class UserAdminView(APIView):
