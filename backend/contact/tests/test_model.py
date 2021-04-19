@@ -2,19 +2,25 @@ from django.test import TestCase
 
 from contact.models import Contact
 from company.models import Company
+from users.models import User
 
 
 class ContactModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        user_data = {
+            "email" : "pepa.uzivatel@seznam.cz",
+        }
+        user = User.objects.create(**user_data)
         company_data = {
             "ico": "12345678",
             "name": "Seznam",
             "phone_number": "+420234694111",
             "ad_volume": 100,
             "contact_address": None,
-            "billing_address": None
+            "billing_address": None,
+            "user": user,
         }
         Company.objects.create(**company_data)
         company = Company.objects.get(ico="12345678")
@@ -23,7 +29,7 @@ class ContactModelTestCase(TestCase):
             "surname" : "Novotny",
             "phone" : "+420725245123",
             "email" : "novotny@comp.cz",
-            "company" : company
+            "company" : company,
         }
 
         instance = Contact.objects.create(**contact_data)

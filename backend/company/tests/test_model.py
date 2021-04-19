@@ -4,6 +4,7 @@ from company.models import Address, Company
 from dateutil.relativedelta import relativedelta
 from django.test import TestCase
 from order.models import Order
+from users.models import User
 
 from company.views import CompanyViewSet
 
@@ -12,6 +13,10 @@ class CompanyModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        user_data = {
+            "email": "pepa.uzivatel@seznam.cz",
+        }
+        user = User.objects.create(**user_data)
         address_data = {
             "street": "Radlická 3294/10",
             "zip_code": "15000",
@@ -25,7 +30,8 @@ class CompanyModelTestCase(TestCase):
             "phone_number": "+420234694111",
             "ad_volume": 100,
             "contact_address": address,
-            "billing_address": address
+            "billing_address": address,
+            "user": user,
         }
         company = Company.objects.create(**company_data)
 
@@ -33,9 +39,11 @@ class CompanyModelTestCase(TestCase):
             "date": datetime.now().strftime("%Y-%m-%d"),
             "contract_number": 123,
             "sum": 1000,
-            "company": company
+            "company": company,
+            "user": user
         }
         Order.objects.create(**order_data)
+        cls.user = user
 
     def test_insert(self):
         """Test if Company model was created during setUp"""
@@ -52,6 +60,7 @@ class CompanyModelTestCase(TestCase):
             "name": "Seznam1",
             "phone_number": "+420111222333",
             "ad_volume": 200,
+            "user": self.user,
         }
         company.update(altered_company_data)
         self.assertEqual(company.name, "Seznam1")
