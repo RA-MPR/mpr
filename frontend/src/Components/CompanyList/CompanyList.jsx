@@ -273,13 +273,14 @@ const CompanyList = ({
     axios
       .put(
         "http://127.0.0.1:8000/company/" + companyICO + "/",
-        { user: "True" },
+        { update_user: "True" },
         {
           headers: { Authorization: "Token " + token },
         }
       )
       .then(function (response) {
         setTakeOpen(false);
+        setRefresh((prev) => !prev);
       });
   };
 
