@@ -29,7 +29,7 @@ import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 
 
 const EventsOfTheDay = (props) => {
-  const { date, open, setOpen, token } = props;
+  const { date, open, setOpen, token, refreshCalendar } = props;
 
   const [data, setData] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
@@ -54,7 +54,7 @@ const EventsOfTheDay = (props) => {
 
   React.useEffect(() => {
     fetchData();
-  }, [refresh]);
+  }, [refresh, open]);
 
   const handleConfirmOpen = (itemID) => {
     setDeleteID(itemID);
@@ -68,6 +68,7 @@ const EventsOfTheDay = (props) => {
       })
       .then(() => {
         setRefresh((prev) => !prev);
+        refreshCalendar();
       });
   };
   const handleStatusEvent = (id, active) => {
@@ -81,6 +82,7 @@ const EventsOfTheDay = (props) => {
       )
       .then(() => {
         setRefresh((prev) => !prev);
+        refreshCalendar();
       });
   };
 
