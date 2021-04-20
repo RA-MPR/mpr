@@ -10,7 +10,7 @@ import EventDialog from "./Calendar/EventDialog";
 import Calendar from "./Calendar/Calendar"
 
 function CalendarPage({token}) {
-    const [openDay, setOpenDay] = useState(true);
+    const [openDay, setOpenDay] = useState(false);
     const [refreshOrders, setRefreshOrders] = useState(false);
     const [refresh ,setRefresh] = useState(false);
     const [date, setDate] = useState("2021-04-29");
