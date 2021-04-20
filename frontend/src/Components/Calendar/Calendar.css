@@ -1,9 +1,19 @@
 .dialogEventsDay .MuiDialog-paperWidthSm {
     width: 400px;
 }
+
+.dialog-event-form .MuiDialog-paperWidthSm {
+    width: 400px;
+}
+
 .eventsDayContent {
     margin-top: -24px;
 }
+
+.event-form-content{
+    margin-top: -24px;
+}
+
 .eventsday-header{
     display: flex;
     justify-content: space-between;
@@ -56,4 +66,10 @@
 .eventsgrid .activeCheck{
     height: 25px;
     margin-left: -5px;
+}
+
+.switch-buttons{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }
