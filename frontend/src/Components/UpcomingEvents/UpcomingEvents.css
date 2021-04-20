@@ -28,8 +28,15 @@
 .upcomingevents-table tr {
     background-color: #F2F2F2;
 }
+.upcomingevents-table tr :hover {
+    background-color: #b1b1b1;
+}
 .upcomingevents-table .close {
     background-color: #FDC6C1 !important;
+}
+
+.upcomingevents-table .close :hover {
+    background-color: #fa9e95 !important;
 }
 
 .eventsgrid>.name {

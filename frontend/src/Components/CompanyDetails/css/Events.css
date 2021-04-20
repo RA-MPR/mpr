@@ -18,6 +18,9 @@
     grid-template-columns: 50% 50%;
     align-items: center;
 }
+.event-row :hover {
+    background-color: #b1b1b1;
+}
 
 .new-event-buttons{
     margin-top: 15px;

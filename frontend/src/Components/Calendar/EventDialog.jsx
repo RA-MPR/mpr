@@ -27,7 +27,7 @@ import { format, parse } from "date-fns";
 
 import csLocale from "date-fns/locale/cs";
 
-const EventDialog = ({date, open, setOpen, isEditing, eventId, token}) => {
+const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEvents}) => {
 
     const [companies, setCompanies] = useState([]);
     const [selectedName, setSelectedName] = useState("");
@@ -122,6 +122,7 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token}) => {
             ).then(() => {
                 setOpen(false);
                 clearValues();
+                if(refreshEvents) refreshEvents((prev) => !prev);
             });
         }else{
             axios.post("http://127.0.0.1:8000/event/",{
@@ -135,6 +136,7 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token}) => {
             ).then(() => {
                 setOpen(false);
                 clearValues();
+                if(refreshEvents) refreshEvents((prev) => !prev);
             });
         }
     }
@@ -144,7 +146,7 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token}) => {
             <Dialog open={open} onClose={() => setOpen(false)} className="dialog-event-form">
                 <form onSubmit={handleSave}>
                     <DialogTitle >
-                        Nová událost
+                        { !isEditing ? "Nová událost" : "Upravit událost" }
                     </DialogTitle>
                     <DialogContent className="event-form-content">
                         <TextField
