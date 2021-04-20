@@ -43,5 +43,10 @@ services:
       - backend
       - frontend
 
+  sendria:
+    image: msztolcman/sendria:v2.2.2.0
+    ports:
+      - 1080:1080
+
 volumes:
   postgres_data:
