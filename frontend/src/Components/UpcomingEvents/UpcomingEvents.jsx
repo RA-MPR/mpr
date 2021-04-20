@@ -22,6 +22,7 @@ import axios from "axios";
 import "./UpcomingEvents.css";
 
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
+import EventDialog from "../Calendar/EventDialog";
 
 const UpcomingEvents = ({
   upcomingRefresh,
@@ -34,8 +35,20 @@ const UpcomingEvents = ({
   const [deleteID, setDeleteID] = React.useState(null);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
 
+  const [eventId, setEventId] = React.useState(-1);
+  const [editing, setEditing] = React.useState(false);
+  const [openForm, setOpenForm] = React.useState(false);
+
   const showNewEventDialog = () => {
-    console.log("TODO Show new event");
+    setEditing(false);
+    setEventId(-1);
+    setOpenForm(true);
+  };
+
+  const showEditEventDialog = (item) => {
+    setEditing(true);
+    setEventId(item.id);
+    setOpenForm(true);
   };
 
   async function fetchData() {
@@ -58,10 +71,6 @@ const UpcomingEvents = ({
     fetchData();
   }, [refresh, upcomingRefresh]);
 
-  const handleAddEvent = () => {
-    console.log("TODO handleAddEvent");
-  };
-
   const handleConfirmOpen = (itemID) => {
     setDeleteID(itemID);
     setConfirmOpen(true);
@@ -81,7 +90,7 @@ const UpcomingEvents = ({
   const handleDisableEvent = (id) => {
     axios
       .put(
-        "http://127.0.0.1:8000/event/" + id +"/",
+        "http://127.0.0.1:8000/event/" + id + "/",
         { is_active: "False" },
         {
           headers: { Authorization: "Token " + token },
@@ -118,6 +127,14 @@ const UpcomingEvents = ({
       >
         Chcete tuto událost odstranit ze systému?
       </ConfirmDialog>
+      <EventDialog
+        eventId={eventId}
+        isEditing={editing}
+        token={token}
+        open={openForm}
+        setOpen={setOpenForm}
+        refreshEvents={setRefresh}
+      />
       <div className="upcoming-header">
         <Typography variant="h5">Připomínky</Typography>
         <IconButton
@@ -128,62 +145,65 @@ const UpcomingEvents = ({
           <AddIcon style={{ fill: "white" }} />
         </IconButton>
       </div>
-      <form onSubmit={handleAddEvent}>
-        <TableContainer
-          className="upcomingevents-table"
-          style={{ maxHeight: height }}
-        >
-          <Table>
-            <TableBody>
-              {data.map((event) => (
-                <TableRow
-                  key={event.id}
-                  className={isClose(event.date, event.time) ? "close" : ""}
-                >
-                  <TableCell>
-                    <div className="eventsgrid">
-                      <div className="name">
-                        <Typography variant="h6">{event.name}</Typography>
-                      </div>
-                      <div className="date">
-                        {format(
-                          parse(event.date, "yyyy-MM-dd", new Date()),
-                          "dd.MM.yyyy"
-                        ) +
-                          ", " +
-                          format(
-                            parse(event.time, "HH:mm:ss", new Date()),
-                            "HH:mm"
-                          )}
-                      </div>
-                      <div>
-                        <IconButton
-                          className="delete-button"
-                          size="small"
-                          onClick={() => {
-                            handleConfirmOpen(event.id);
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </div>
-                      <div className="description">{event.description}</div>
-                      <div className="reminder">
-                        <Checkbox
-                          className="activeCheck"
-                          checked={!event.is_active}
-                          color="primary"
-                          onClick={() => handleDisableEvent(event.id)}
-                        />
-                      </div>
+      <TableContainer
+        className="upcomingevents-table"
+        style={{ maxHeight: height }}
+      >
+        <Table>
+          <TableBody>
+            {data.map((event) => (
+              <TableRow
+                key={event.id}
+                className={isClose(event.date, event.time) ? "close" : ""}
+                onClick={() => showEditEventDialog(event)}
+              >
+                <TableCell>
+                  <div className="eventsgrid">
+                    <div className="name">
+                      <Typography variant="h6">{event.name}</Typography>
                     </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </form>
+                    <div className="date">
+                      {format(
+                        parse(event.date, "yyyy-MM-dd", new Date()),
+                        "dd.MM.yyyy"
+                      ) +
+                        ", " +
+                        format(
+                          parse(event.time, "HH:mm:ss", new Date()),
+                          "HH:mm"
+                        )}
+                    </div>
+                    <div>
+                      <IconButton
+                        className="delete-button"
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleConfirmOpen(event.id);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                    <div className="description">{event.description}</div>
+                    <div className="reminder">
+                      <Checkbox
+                        className="activeCheck"
+                        checked={!event.is_active}
+                        color="primary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDisableEvent(event.id);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

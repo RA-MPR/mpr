@@ -9,7 +9,7 @@ import {
   TableRow,
   TableCell,
   Checkbox,
-  Divider
+  Divider,
 } from "@material-ui/core";
 
 import axios from "axios";
@@ -26,15 +26,21 @@ import "./Calendar.css";
 
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 
-
+import EventDialog from "./EventDialog";
 
 const EventsOfTheDay = (props) => {
-  const { date, open, setOpen, token, refreshCalendar } = props;
+
+  const { date, open, setOpen, token, refreshCalendar, refreshEvents } = props;
+
 
   const [data, setData] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
   const [deleteID, setDeleteID] = React.useState(null);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
+
+  const [eventId, setEventId] = React.useState(-1);
+  const [editing, setEditing] = React.useState(false);
+  const [openForm, setOpenForm] = React.useState(false);
 
   async function fetchData() {
     await axios
@@ -54,7 +60,9 @@ const EventsOfTheDay = (props) => {
 
   React.useEffect(() => {
     fetchData();
+    refreshEvents((prev) => !prev);
   }, [refresh, open]);
+
 
   const handleConfirmOpen = (itemID) => {
     setDeleteID(itemID);
@@ -86,6 +94,18 @@ const EventsOfTheDay = (props) => {
       });
   };
 
+  const showNewEventDialog = () => {
+    setEditing(false);
+    setEventId(-1);
+    setOpenForm(true);
+  };
+
+  const showEditEventDialog = (item) => {
+    setEditing(true);
+    setEventId(item.id);
+    setOpenForm(true);
+  };
+
   return (
     <>
       <ConfirmDialog
@@ -96,7 +116,19 @@ const EventsOfTheDay = (props) => {
       >
         Chcete tuto událost odstranit ze systému?
       </ConfirmDialog>
-      <Dialog open={open} onClose={() => setOpen(false)} className="dialogEventsDay">
+      <EventDialog
+        eventId={eventId}
+        isEditing={editing}
+        token={token}
+        open={openForm}
+        setOpen={setOpenForm}
+        refreshEvents={setRefresh}
+      />
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        className="dialogEventsDay"
+      >
         <DialogTitle
           style={{ textTransform: "capitalize" }}
           id="alert-dialog-title"
@@ -113,16 +145,20 @@ const EventsOfTheDay = (props) => {
             <IconButton
               className="plus-button"
               size="small"
+              onClick={() => showNewEventDialog()}
             >
               <AddIcon style={{ fill: "white" }} />
             </IconButton>
           </div>
-          <Divider/>
+          <Divider />
           <TableContainer className="eventsday-table">
             <Table>
               <TableBody>
                 {data.map((event) => (
-                  <TableRow key={event.id}>
+                  <TableRow
+                    key={event.id}
+                    onClick={(e) => showEditEventDialog(event)}
+                  >
                     <TableCell>
                       <div className="eventsgrid">
                         <div className="name">
@@ -143,7 +179,8 @@ const EventsOfTheDay = (props) => {
                           <IconButton
                             className="delete-button"
                             size="small"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               handleConfirmOpen(event.id);
                             }}
                           >
@@ -156,9 +193,10 @@ const EventsOfTheDay = (props) => {
                             className="activeCheck"
                             checked={!event.is_active}
                             color="primary"
-                            onClick={() =>
-                              handleStatusEvent(event.id, !event.is_active)
-                            }
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStatusEvent(event.id, !event.is_active);
+                            }}
                           />
                         </div>
                       </div>

@@ -31,6 +31,9 @@
 .eventsday-table tr {
     background-color: #F2F2F2;
 }
+.eventsday-table tr :hover {
+    background-color: #b1b1b1;
+}
 .eventsday-table .eventsgrid {
     display: grid;
     width: 100%;
