@@ -29,7 +29,9 @@ import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 import EventDialog from "./EventDialog";
 
 const EventsOfTheDay = (props) => {
-  const { date, open, setOpen, token, refreshEvents } = props;
+
+  const { date, open, setOpen, token, refreshCalendar, refreshEvents } = props;
+
 
   const [data, setData] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
@@ -59,7 +61,8 @@ const EventsOfTheDay = (props) => {
   React.useEffect(() => {
     fetchData();
     refreshEvents((prev) => !prev);
-  }, [refresh]);
+  }, [refresh, open]);
+
 
   const handleConfirmOpen = (itemID) => {
     setDeleteID(itemID);
@@ -73,6 +76,7 @@ const EventsOfTheDay = (props) => {
       })
       .then(() => {
         setRefresh((prev) => !prev);
+        refreshCalendar();
       });
   };
   const handleStatusEvent = (id, active) => {
@@ -86,6 +90,7 @@ const EventsOfTheDay = (props) => {
       )
       .then(() => {
         setRefresh((prev) => !prev);
+        refreshCalendar();
       });
   };
 

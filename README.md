@@ -17,6 +17,8 @@ Create Django superuser `docker exec -it mpr_backend_1 python3 manage.py creates
 
 After this, you can sign to Django Admin which is available at http://0.0.0.0:8000/admin/
 
+You can see any outgoing emails in Sendria at http://0.0.0.0:1080
+
 Backend documentation
 ---------------------
 

@@ -7,21 +7,26 @@ import {useState } from "react";
 import "./CalendarPage.css";
 import EventsOfTheDay from "./Calendar/EventsOfTheDay";
 import EventDialog from "./Calendar/EventDialog";
+import Calendar from "./Calendar/Calendar"
 
 function CalendarPage({token}) {
     const [openDay, setOpenDay] = useState(true);
     const [refreshOrders, setRefreshOrders] = useState(false);
-
-    const date = "2021-04-29"; //expected format of date for eventsoftheday
+    const [refresh ,setRefresh] = useState(false);
+    const [date, setDate] = useState("2021-04-29");
+  
+   const refreshCalendar = () => {
+        setRefresh(!refresh);
+    }
 
     return (
         <div className="root">
-            <EventsOfTheDay date={date} token={token} open={openDay} setOpen={setOpenDay} refreshEvents={setRefreshOrders}/>
+            <EventsOfTheDay date={date} token={token} open={openDay} setOpen={setOpenDay} refreshEvents={setRefreshOrders} refreshCalendar={refreshCalendar}/>
             <Grid container justify="center" spacing={2} style={{width:"100%"}}>
             <Grid item xs={8}>
                 <Paper style={{ padding: 16 }}>
                 <div className="calendar-main-screen">
-                    Kalendář
+                    <Calendar token={token} openEventsOfTheDay={setOpenDay} date={setDate} refresh={refresh} />
                 </div>
                 </Paper>
             </Grid>
