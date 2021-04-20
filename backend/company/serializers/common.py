@@ -31,6 +31,7 @@ class CompanySerializer(SimplifiedCompanySerializer):
             "billing_address",
             "contacts",
             "user",
+            "update_user",
             "orders",
             "events",
             "advertising_this_year"

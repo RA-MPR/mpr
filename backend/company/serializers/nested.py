@@ -71,6 +71,11 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
         return company
 
     def update(self, company: models.Company, validated_data: dict):
+        request = self.context.get("request", None)
+        if "update_user" in validated_data:
+            update_user = validated_data.pop("update_user")
+            if update_user is True:
+                company.user = request.user
         if "user" in validated_data:
             request_user = validated_data.pop("user")
             if request_user is None:

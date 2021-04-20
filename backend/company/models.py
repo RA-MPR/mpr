@@ -35,6 +35,7 @@ class Company(models.Model):
     status = models.CharField(max_length=50, blank=True, null=True)
     status_color = models.CharField(max_length=30, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    update_user = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.name}"
