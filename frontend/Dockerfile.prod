@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . ./
-RUN find src -regex '.*\.jsx?' -exec sed -i 's~http://127.0.0.1:8000/~https://mpr.zarybnicky.com/api/~g' {} \;
+RUN find src -regex '.*\.jsx?' -print -exec sed -i 's~http://127.0.0.1:8000/~https://mpr.zarybnicky.com/api/~g' {} \;
 RUN npm run build
 
 # production env
