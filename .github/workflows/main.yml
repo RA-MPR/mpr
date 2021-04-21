@@ -1,4 +1,4 @@
-name: Deploy to 
+name: Build & deploy
 
 on:
   push:
@@ -22,6 +22,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
   build-frontend:
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Build and push frontend
@@ -32,6 +33,7 @@ jobs:
           push: true
 
   build-backend:
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Build and push backend
