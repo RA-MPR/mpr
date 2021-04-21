@@ -55,6 +55,9 @@ jobs:
     needs: [build-frontend, build-backend]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: RSync to prod
         uses: burnett01/rsync-deployments@4.1
         with:
