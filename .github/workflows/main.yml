@@ -79,5 +79,5 @@ jobs:
           stack_file_name: docker-compose.prod.yml
           keep_files: 5
           args: up -d
-          docker_prune: 'true'
+          docker_prune: 'false'
           pull_images_first: 'true'
