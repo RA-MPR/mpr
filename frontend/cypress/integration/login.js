@@ -1,12 +1,11 @@
 describe('Login', function() {
+	beforeEach(() => {
+		cy.viewport(1440, 738)
+		cy.visit('http://0.0.0.0:3000/')
+		cy.on('uncaught:exception', (err, runnable) => { return false })
+	  })
 
 	it('Login - admin', function() {
-
-		cy.on('uncaught:exception', (err, runnable) => { return false })
-
-		cy.viewport(1342, 976)
-		cy.visit('http://0.0.0.0:3000/')
-
 		cy.get('#email').type('admin@test.io')
         .should('have.value', 'admin@test.io')
 

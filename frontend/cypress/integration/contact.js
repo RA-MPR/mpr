@@ -1,17 +1,24 @@
-describe('Edit company', function() {
+describe('Contact tests', function() {
+	beforeEach(() => {
+		cy.viewport(1440, 738)
+		cy.visit('http://0.0.0.0:3000/')
+		cy.on('uncaught:exception', (err, runnable) => { return false })
 
-    it('Edit company and save changes', function() {
-  
-        cy.on('uncaught:exception', (err, runnable) => { return false })
-    
-        cy.viewport(1342, 976)
-        cy.visit('http://0.0.0.0:3000/')
-    
-        //login
-        cy.get('#email').type('admin@test.io')
-        cy.get('#password').type('poiuztre')
-        cy.get('.MuiGrid-root > .MuiGrid-root > div > #login > .MuiButton-label').click()
+		//login
+		cy.get('#email').type('admin@test.io')
+		cy.get('#password').type('poiuztre')
+		cy.get('.MuiGrid-root > .MuiGrid-root > div > #login > .MuiButton-label').click()
+	  })
+	
+	  afterEach(() => {
+		cy.wait(2000)
+		//logout
+		cy.visit('http://0.0.0.0:3000/')
+		cy.get('div:nth-child(3) > .MuiButtonBase-root > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
+    	cy.get('.MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(2) > .MuiButton-label').click()
+	  })
 
+    it('Add contact person', function() {
         cy.contains('Test1').click()
         cy.url().should('eq', 'http://0.0.0.0:3000/company/detail')
 
@@ -40,6 +47,15 @@ describe('Edit company', function() {
         cy.contains('Pavel Novák')
         cy.contains('novak@email.com')
         cy.contains('+420223456789')
+    })
+
+    it('Remove contact person', function() {
+        cy.contains('Test1').click()
+        cy.url().should('eq', 'http://0.0.0.0:3000/company/detail')
+
+        cy.get('.MuiTableCell-root > .MuiIconButton-sizeSmall > .MuiIconButton-label > .MuiSvgIcon-root > path').click()
+ 
+        cy.get('.MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(2) > .MuiButton-label').click()
     })
  
 }) 
