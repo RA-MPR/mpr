@@ -15,11 +15,8 @@ import useToken from "./Components/Auth/useToken";
 import Login from "./Components/Auth/Login";
 import UserPage from "./Components/UserPage";
 
-import axios from "axios";
-
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
-  const [admin, setAdmin] = useState(false);
   const { token, setToken, removeToken } = useToken();
 
   const theme = createMuiTheme({
@@ -32,23 +29,6 @@ const App = () => {
       },
     },
   });
-
-  const fetchAdmin = async () => {
-    await axios
-      .get("/api/user/admin", {
-        headers: { Authorization: "Token " + token },
-      })
-      .then((res) => {
-        setAdmin(res.data["is_admin"]);
-      });
-  };
-
-  React.useEffect(() => {
-    const getAdmin = async () => {
-      await fetchAdmin();
-    };
-    getAdmin();
-  }, []);
 
   if (!token) {
     return <Login setToken={setToken} />;
@@ -96,11 +76,11 @@ const App = () => {
               componentToShow="companyDetail"
             />
           </Route>
-          { admin ? <Route path="/users" exact>
+          <Route path="/users" exact>
             <UserPage
               token={token}
             />
-          </Route> : "" }
+          </Route>
           <Route component={NotFound}></Route>
         </Switch>
         <Footer />
