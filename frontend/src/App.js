@@ -33,23 +33,6 @@ const App = () => {
     },
   });
 
-  const fetchAdmin = async () => {
-    await axios
-      .get("http://127.0.0.1:8000/user/admin", {
-        headers: { Authorization: "Token " + token },
-      })
-      .then((res) => {
-        setAdmin(res.data["is_admin"]);
-      });
-  };
-
-  React.useEffect(() => {
-    const getAdmin = async () => {
-      const admin = await fetchAdmin();
-    };
-    getAdmin();
-  }, []);
-
   if (!token) {
     return <Login setToken={setToken} />;
   }
@@ -96,11 +79,11 @@ const App = () => {
               componentToShow="companyDetail"
             />
           </Route>
-          { admin ? <Route path="/users" exact>
+          <Route path="/users" exact>
             <UserPage
               token={token}
             />
-          </Route> : "" }
+          </Route>
           <Route component={NotFound}></Route>
         </Switch>
         <Footer />
