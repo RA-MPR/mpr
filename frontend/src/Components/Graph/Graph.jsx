@@ -16,9 +16,7 @@ const Graph = ({ upcomingRefresh, token }) => {
   const [actualQuarter, setActualQuarter] = React.useState(
     getQuarter(new Date())
   );
-  const [actualMonth, setActualMonth] = React.useState(
-    getMonth(new Date())
-  );
+
 
   const monthsByQuarters = [
     [1, 2, 3],
@@ -44,12 +42,11 @@ const Graph = ({ upcomingRefresh, token }) => {
   React.useEffect(() => {
     fetchData();
     setActualQuarter(getQuarter(new Date()));
-    setActualMonth(getMonth(new Date()));
   }, [upcomingRefresh]);
 
   const data = {
     labels: serverData.slice(-months).map((a, index) => {
-      if (months == 3)
+      if (Number(months) === 3)
         return cs.localize.month(
           monthsByQuarters[actualQuarter - 1][index] - 1
         );
@@ -60,7 +57,7 @@ const Graph = ({ upcomingRefresh, token }) => {
         data: serverData
           .slice(-months)
           .filter((a) => {
-            if (months == 3)
+            if (Number(months) === 3)
               return monthsByQuarters[actualQuarter - 1].includes(a.month);
             else return true;
           })
@@ -82,7 +79,7 @@ const Graph = ({ upcomingRefresh, token }) => {
           serverData
             .slice(-3)
             .filter((a) => {
-              if (months == 3)
+              if (Number(months) === 3)
                 return monthsByQuarters[actualQuarter - 1].includes(a.month);
               else return true;
             })
@@ -101,7 +98,7 @@ const Graph = ({ upcomingRefresh, token }) => {
     tooltips: {
       callbacks: {
         title: function (tooltipItem, data) {
-          if (months == 3)
+          if (Number(months) === 3)
             return capitalize(data["labels"][tooltipItem[0]["index"]]);
           else
             return capitalize(
@@ -162,7 +159,7 @@ const Graph = ({ upcomingRefresh, token }) => {
       </div>
       <Divider />
       <div className="graph-body">
-        {months == 3 && (
+        {Number(months) === 3 && (
           <>
             <div className="narrow">
               <Bar
@@ -177,7 +174,7 @@ const Graph = ({ upcomingRefresh, token }) => {
             </div>
           </>
         )}
-        {months == 12 && (
+        {Number(months) === 12 && (
           <div className="wide">
             <Bar data={data} options={options} width={400} height={200} />
           </div>
