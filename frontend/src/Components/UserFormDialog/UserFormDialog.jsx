@@ -17,38 +17,26 @@ import DateFnsUtils from "@date-io/date-fns";
 
 import csLocale from "date-fns/locale/cs";
 
-const UserFormDialog = ({ open, setOpen, isEditing, userId, token, refreshUsers}) => {
+const UserFormDialog = ({ open, setOpen, token, refreshUsers}) => {
 
     const [selectedName, setSelectedName] = useState("");
     const [selectedSurname, setSelectedSurname] = useState("");
     const [selectedEmail, setSelectedEmail] = useState("");
     const [selectedPassword, setSelectedPassword] = useState("");
     const [selectedPasswordCheck, setSelectedPasswordCheck] = useState("");
- 
-    useEffect(() => {
-        const getData = async() => {
-            if(isEditing && eventId > 0){
-                const userToEdit = await fetchUser();
-                setEditValues(userToEdit);
-            }            
-        }
-        getData();
+    const [selectedPhone, setSelectedPhone] = useState("");
 
-    }, [isEditing, eventId]);
+    const [passwordError, setPasswordError] = useState(false);
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState("")
+    const [emailError, setEmailError] = useState(false);
+    const [emailErrorMessage, setEmailErrorMessage] = useState("")
+    const [phoneError, setPhoneError] = useState(false);
+    const [phoneErrorMessage, setPhoneErrorMessage] = useState("")
 
-    const fetchUser = async() => {
-        return axios.get("/api/usert/"+eventUser,
-        {headers: { Authorization: "Token " + token }}).then((res) => res.data);
-    }
-
-    const setEditValues = (userToEdit) => {
-        if(userToEdit !== undefined && userToEdit !== null){
-            setSelectedName(userToEdit.name);
-        }
-    }
 
     const clearValues = () => {
         setSelectedName("");
+        setSelectedSurname("");
     }
 
     const handleNameChange = (event) => {
@@ -61,6 +49,24 @@ const UserFormDialog = ({ open, setOpen, isEditing, userId, token, refreshUsers}
     
     const handleEmailChange = (event) => {
         setSelectedEmail(event.target.value);
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        setEmailError(false);
+        setEmailErrorMessage("");
+        if(!event.target.value.match(re)){
+            setEmailError(true);
+            setEmailErrorMessage("Email je ve špatném tvaru");
+        }
+    }
+
+    const handlePhoneChange = (event) => {
+        setSelectedPhone(event.target.value);
+        const re = /^(\+420)?[1-9][0-9]{2}[0-9]{3}[0-9]{3}$/;
+        setPhoneError(false);
+        setPhoneErrorMessage("");
+        if(!event.target.value.match(re)){
+            setPhoneError(true);
+            setPhoneErrorMessage("Telefónni číslo je ve špatném tvaru");
+        }
     }
 
     const handlePasswordChange = (event) => {
@@ -69,31 +75,35 @@ const UserFormDialog = ({ open, setOpen, isEditing, userId, token, refreshUsers}
 
     const handlePasswordCheckChange = (event) => {
         setSelectedPasswordCheck(event.target.value);
+        setPasswordError(false);
+        setPasswordErrorMessage("");
+        if(selectedPassword !== event.target.value) {
+            setPasswordError(true);
+            setPasswordErrorMessage("Heslá se nezhodují");
+        }
     }
 
     const handleSave = (event) => {
         event.preventDefault();
 
-        if(isEditing){
-            axios.put("/api/user/" + userId + "/",{
+        let error = emailError || passwordError;
+
+        if(!error) {
+
+            axios.post("/api/user/register/",{
                 name: selectedName,
-                surname: selectedSurname
+                surname: selectedSurname,
+                password: selectedPassword,
+                password2: selectedPassword,
+                phone: selectedPhone,
+                email: selectedEmail
             },{headers: { Authorization: "Token " + token }}
             ).then(() => {
                 setOpen(false);
                 clearValues();
-                if(refreshEvents) refreshEvents((prev) => !prev);
+                if(refreshUsers) refreshUsers((prev) => !prev);
             });
-        }else{
-            axios.post("/api/user/",{
-                name: selectedName,
-                surname: selectedSurname
-            },{headers: { Authorization: "Token " + token }}
-            ).then(() => {
-                setOpen(false);
-                clearValues();
-                if(refreshEvents) refreshEvents((prev) => !prev);
-            });
+            
         }
     }
 
@@ -102,7 +112,7 @@ const UserFormDialog = ({ open, setOpen, isEditing, userId, token, refreshUsers}
             <Dialog open={open} onClose={() => setOpen(false)} className="dialog-user-form">
                 <form onSubmit={handleSave}>
                     <DialogTitle >
-                        { !isEditing ? "Nový užívatel" : "Upravit uživatele" }
+                        Nový užívatel
                     </DialogTitle>
                     <DialogContent className="user-form-content">
                         <TextField
@@ -122,14 +132,26 @@ const UserFormDialog = ({ open, setOpen, isEditing, userId, token, refreshUsers}
                         <TextField
                             fullWidth
                             label="Email"
+                            error={emailError}
+                            helperText={emailErrorMessage}
                             required
                             value={selectedEmail}
                             margin='normal'
                             onChange={handleEmailChange}/>
                         <TextField
                             fullWidth
+                            label="Telefón"
+                            error={phoneError}
+                            helperText={phoneErrorMessage}
+                            required
+                            value={selectedPhone}
+                            margin='normal'
+                            onChange={handlePhoneChange}/>
+                        <TextField
+                            fullWidth
                             label="Heslo"
                             required
+                            error={passwordError}
                             type="password"
                             value={selectedPassword}
                             margin='normal'
@@ -138,6 +160,8 @@ const UserFormDialog = ({ open, setOpen, isEditing, userId, token, refreshUsers}
                             fullWidth
                             label="Potvrzení hesla"
                             required
+                            error={passwordError}
+                            helperText={passwordErrorMessage}
                             type="password"
                             value={selectedPasswordCheck}
                             margin='normal'
