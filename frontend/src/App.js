@@ -15,11 +15,8 @@ import useToken from "./Components/Auth/useToken";
 import Login from "./Components/Auth/Login";
 import UserPage from "./Components/UserPage";
 
-import axios from "axios";
-
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
-  const [admin, setAdmin] = useState(false);
   const { token, setToken, removeToken } = useToken();
 
   const theme = createMuiTheme({
