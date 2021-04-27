@@ -117,7 +117,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
     if (type == 0) {
       axios
-        .post("http://127.0.0.1:8000/order/", {
+        .post("/api/order/", {
           date: formattedDate,
           contract_number: event.target.orderNumber.value,
           sum: event.target.orderCost.value,
@@ -132,7 +132,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
       console.log(orderId);
       if (orderId != null) {
         axios
-          .post("http://127.0.0.1:8000/invoice/", {
+          .post("/api/invoice/", {
             date: formattedDate,
             sum: event.target.orderCost.value,
             order_id: orderId,
@@ -146,7 +146,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const handleDeleteOrder = (orderId) => {
     axios
-      .delete("http://127.0.0.1:8000/order/" + orderId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/order/" + orderId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
         setRefreshOrders((prev) => !prev);
@@ -155,7 +155,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const handleDeleteInvoice = (invoiceId) => {
     axios
-      .delete("http://127.0.0.1:8000/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
       });

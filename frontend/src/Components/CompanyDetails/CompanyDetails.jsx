@@ -49,7 +49,7 @@ const CompanyDetails = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("http://127.0.0.1:8000/user/admin", {
+      .get("/api/user/admin", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -66,7 +66,7 @@ const CompanyDetails = ({
 
   const fetchCompany = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/company/" + ico, {
+      .get("/api/company/" + ico, {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -74,7 +74,7 @@ const CompanyDetails = ({
 
   const fetchContacts = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/contact", {
+      .get("/api/contact", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -82,7 +82,7 @@ const CompanyDetails = ({
 
   const fetchOrders = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/order", {
+      .get("/api/order", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -90,7 +90,7 @@ const CompanyDetails = ({
 
   const fetchEvents = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/event", {
+      .get("/api/event", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -134,7 +134,7 @@ const CompanyDetails = ({
 
   const handleGiveUp = () => {
     axios
-      .put("http://127.0.0.1:8000/company/" + company.ico +"/", {user: null},{
+      .put("/api/company/" + company.ico +"/", {user: null},{
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -144,7 +144,7 @@ const CompanyDetails = ({
 
   const handleDeleteCompany = () => {
     axios
-      .delete("http://127.0.0.1:8000/company/" + company.ico, {
+      .delete("/api/company/" + company.ico, {
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {

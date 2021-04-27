@@ -34,7 +34,7 @@ const UserList = ({className, token, onEdit, onAdd}) => {
 
     const fetchAdmin = async () => {
         await axios
-        .get("http://127.0.0.1:8000/user/admin", {
+        .get("/api/user/admin", {
         headers: { Authorization: "Token " + token },
         })
         .then((res) => {
@@ -75,7 +75,7 @@ const UserList = ({className, token, onEdit, onAdd}) => {
     }, [searchValue])
 
     const fetchUsers = async() => {
-        const data = await axios.get('http://127.0.0.1:8000/user/', {headers:{Authorization: "Token " + token}}).then(res => res.data);
+        const data = await axios.get('/api/user/', {headers:{Authorization: "Token " + token}}).then(res => res.data);
         return data;
     }
 

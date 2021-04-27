@@ -54,12 +54,12 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
     }, [isEditing, eventId]);
 
     const fetchEvent = async() => {
-        return axios.get("http://127.0.0.1:8000/event/"+eventId,
+        return axios.get("/api/event/"+eventId,
         {headers: { Authorization: "Token " + token }}).then((res) => res.data);
     }
 
     const fetchCompanies = async() => {
-        return axios.get("http://127.0.0.1:8000/user/companies",
+        return axios.get("/api/user/companies",
         {headers: { Authorization: "Token " + token }}).then((res) => res.data);
     }
 
@@ -111,7 +111,7 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
         event.preventDefault();
 
         if(isEditing){
-            axios.put("http://127.0.0.1:8000/event/" + eventId + "/",{
+            axios.put("/api/event/" + eventId + "/",{
                 name: selectedName,
                 description: selectedDesc,
                 date: format(parse(event.target.datePicker.value, "dd.MM.yyyy", new Date()), "yyyy-MM-dd"),
@@ -125,7 +125,7 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
                 if(refreshEvents) refreshEvents((prev) => !prev);
             });
         }else{
-            axios.post("http://127.0.0.1:8000/event/",{
+            axios.post("/api/event/",{
                 name: selectedName,
                 description: selectedDesc,
                 date: format(parse(event.target.datePicker.value, "dd.MM.yyyy", new Date()), "yyyy-MM-dd"),

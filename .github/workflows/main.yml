@@ -12,6 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -78,6 +88,6 @@ jobs:
           deploy_path: /root/mpr
           stack_file_name: docker-compose.prod.yml
           keep_files: 5
-          args: up -d
+          args: --env-file .env up -d
           docker_prune: 'false'
           pull_images_first: 'true'

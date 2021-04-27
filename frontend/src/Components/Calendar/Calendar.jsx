@@ -8,7 +8,7 @@ const Calendar = ({token, refresh, openEventsOfTheDay, date}) => {
     const [events,setEvents] = useState([]);
 
     const fetchData = async () => {
-        const eventsData = await axios.get("http://127.0.0.1:8000/user/events", {
+        const eventsData = await axios.get("/api/user/events", {
             headers: { Authorization: "Token " + token },
           });
         let allEvents = [];

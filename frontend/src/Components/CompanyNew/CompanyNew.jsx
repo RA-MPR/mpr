@@ -193,7 +193,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
     }
 
     axios
-      .post("http://127.0.0.1:8000/company/", {
+      .post("/api/company/", {
         ico: ico,
         name: event.target.name.value,
         status: statusText,
