@@ -12,8 +12,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: NPM install cache
-        uses: c-hive/gha-npm-cache@v1
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
