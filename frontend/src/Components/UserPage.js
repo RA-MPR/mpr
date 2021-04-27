@@ -3,15 +3,13 @@ import { Grid, Paper } from "@material-ui/core";
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 import UserList from "./UserList/UserList"; 
 import UserFormDialog from "./UserFormDialog/UserFormDialog";
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState} from 'react'
 
 import "./UserPage.css";
 
 function UserPage({token}) {
 
-    const [userToEdit, setUserToEdit] = useState('');
     const [showDialog, setShowDialog] = useState(false);
-    const [editing, setEditing] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
     const showAddForm = () => {
@@ -28,8 +26,7 @@ function UserPage({token}) {
             <Grid item xs={8}>
                 <Paper style={{ padding: 16 }}>
                     <div className="user-main-screen">
-                        <UserFormDialog isEditing={editing} userId={userToEdit} token={token}
-                             setOpen={setShowDialog} open={showDialog}  refreshUsers={setRefresh} />
+                        <UserFormDialog token={token} setOpen={setShowDialog} open={showDialog}  refreshUsers={setRefresh} />
                         <UserList className="user-module" token={token} onAdd={showAddForm} onEdit={showEditForm} refresh={refresh}/>
                     </div>
                 </Paper>
