@@ -182,25 +182,25 @@ const UserList = ({className, token, onEdit, onAdd}) => {
                     <TableBody>
                         {sortRowInfo(users, getComparator(orderDirection, orderBy)).map((user, index) => (
                             <TableRow hover key={index}>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {index+1}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.name ? user.name : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.surname ? user.surname : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.email ? user.email : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.phone ? user.phone : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.sign_orders ? user.sign_orders : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {onEdit(user.id)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.paid_invoice ? user.paid_invoice : "-"}
                                 </TableCell>
                             </TableRow>

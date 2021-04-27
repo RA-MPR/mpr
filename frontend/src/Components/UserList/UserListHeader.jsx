@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 const UserListHeader = ({onSearch, onClickAdd}) => {
     return (
-        <div className="contact-list-header">
+        <div className="user-list-header">
             <Typography variant="h4">Obchodníci</Typography>
             <TextField
                 onChange={(e) => {onSearch(e.target.value)}}
