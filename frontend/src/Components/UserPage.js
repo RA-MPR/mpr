@@ -2,10 +2,23 @@ import { Grid, Paper } from "@material-ui/core";
 // eslint-disable-next-line
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 import UserList from "./UserList/UserList"; 
+import UserFormDialog from "./UserFormDialog/UserFormDialog";
+import React, {useState} from 'react'
 
 import "./UserPage.css";
 
 function UserPage({token}) {
+
+    const [showDialog, setShowDialog] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    const showAddForm = () => {
+        setShowDialog(true);
+    }
+
+    const showEditForm = (id) => {
+
+    }
 
     return (
         <div className="root">
@@ -13,7 +26,8 @@ function UserPage({token}) {
             <Grid item xs={8}>
                 <Paper style={{ padding: 16 }}>
                     <div className="user-main-screen">
-                        <UserList className="user-module" token={token} />
+                        <UserFormDialog token={token} setOpen={setShowDialog} open={showDialog}  refreshUsers={setRefresh} />
+                        <UserList className="user-module" token={token} onAdd={showAddForm} onEdit={showEditForm} refresh={refresh}/>
                     </div>
                 </Paper>
             </Grid>

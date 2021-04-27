@@ -23,7 +23,7 @@ const columns = [
     {id: 'paid_invoices', label: "Zaplacené faktury"}
 ]
 
-const UserList = ({className, token, onEdit, onAdd}) => {
+const UserList = ({className, token, onEdit, onAdd, refresh}) => {
 
     const [admin, setAdmin] = useState(false);
     const [usersFromServer, setUsersFromServer] = useState([]);
@@ -61,7 +61,7 @@ const UserList = ({className, token, onEdit, onAdd}) => {
         }
         getUsers();
         // eslint-disable-next-line
-    },[admin]);
+    },[admin, refresh]);
 
     useEffect(() => {
         const getUsers = async () => {
