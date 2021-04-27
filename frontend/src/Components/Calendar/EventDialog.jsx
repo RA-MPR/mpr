@@ -7,7 +7,6 @@ import {
     Switch,
     FormControlLabel,
     Button,
-    Typography,
     FormControl,
     InputLabel,
     Select,
@@ -37,7 +36,6 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
     const [selectedCompany, setSelectedCompany] = useState("");
     const [reminder, setReminder] = useState(true);
 
-    const isMounted = useRef(false);
     useEffect(() => {
         const getData = async() => {
             const companiesFromServer = await fetchCompanies();

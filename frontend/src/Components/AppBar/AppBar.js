@@ -36,7 +36,7 @@ function App({ token, removeToken }) {
 
   React.useEffect(() => {
     const getAdmin = async () => {
-      const admin = await fetchAdmin();
+      await fetchAdmin();
     };
     getAdmin();
   }, []);

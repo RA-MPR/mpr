@@ -333,7 +333,7 @@ const Events = ({
         open={openForm}
         setOpen={setOpenForm}
         refreshEvents={setRefresh}
-      />{" "}
+      />
     </>
   );
 };

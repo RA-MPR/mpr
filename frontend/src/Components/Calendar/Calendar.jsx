@@ -15,7 +15,7 @@ const Calendar = ({token, refresh, openEventsOfTheDay, date}) => {
         eventsData.data.map(e => {
             allEvents.push({title: " ", date:e.date});
         });
-        const filtered = [... new Map(allEvents.map(item => [item["date"], item])).values()];
+        const filtered = [...new Map(allEvents.map(item => [item["date"], item])).values()];
 
         setEvents(filtered);
       }
