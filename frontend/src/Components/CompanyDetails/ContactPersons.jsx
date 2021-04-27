@@ -70,7 +70,7 @@ const ContactPersons = ({data, clean, refresh, ico, token}) => {
       }
 
     const handleDelete = (id) => {
-        axios.delete("http://127.0.0.1:8000/contact/" + id, {headers:{Authorization: "Token " + token}});
+        axios.delete("/api/contact/" + id, {headers:{Authorization: "Token " + token}});
         refresh();
     }
 
@@ -150,7 +150,7 @@ const ContactPersons = ({data, clean, refresh, ico, token}) => {
                     "email" : newContactEmail,
                     "company" : ico
                 }
-                axios.post("http://127.0.0.1:8000/contact/", data, {headers:{Authorization: "Token " + token}});
+                axios.post("/api/contact/", data, {headers:{Authorization: "Token " + token}});
                 refresh();
                 closeNewContact();
             }

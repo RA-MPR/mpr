@@ -33,7 +33,7 @@ const Graph = ({ upcomingRefresh, token }) => {
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:8000/user/orders", {
+      .get("/api/user/orders", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {

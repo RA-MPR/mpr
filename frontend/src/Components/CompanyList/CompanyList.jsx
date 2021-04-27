@@ -56,7 +56,7 @@ const CompanyList = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("http://127.0.0.1:8000/user/admin", {
+      .get("/api/user/admin", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -160,7 +160,7 @@ const CompanyList = ({
 
   const fetchAllCompanies = async () => {
     const data = await axios
-      .get("http://127.0.0.1:8000/company", {
+      .get("/api/company", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -169,7 +169,7 @@ const CompanyList = ({
 
   const fetchMyCompanies = async () => {
     const data = await axios
-      .get("http://127.0.0.1:8000/user/companies", {
+      .get("/api/user/companies", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -272,7 +272,7 @@ const CompanyList = ({
   const handleTakeCompany = () => {
     axios
       .put(
-        "http://127.0.0.1:8000/company/" + companyICO + "/",
+        "/api/company/" + companyICO + "/",
         { update_user: "True" },
         {
           headers: { Authorization: "Token " + token },

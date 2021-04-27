@@ -35,7 +35,7 @@ const App = () => {
 
   const fetchAdmin = async () => {
     await axios
-      .get("http://127.0.0.1:8000/user/admin", {
+      .get("/api/user/admin", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {

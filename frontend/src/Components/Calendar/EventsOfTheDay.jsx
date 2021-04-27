@@ -44,7 +44,7 @@ const EventsOfTheDay = (props) => {
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:8000/user/events?date=" + date, {
+      .get("/api/user/events?date=" + date, {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -71,7 +71,7 @@ const EventsOfTheDay = (props) => {
 
   const handleDeleteEvent = () => {
     axios
-      .delete("http://127.0.0.1:8000/event/" + deleteID, {
+      .delete("/api/event/" + deleteID, {
         headers: { Authorization: "Token " + token },
       })
       .then(() => {
@@ -82,7 +82,7 @@ const EventsOfTheDay = (props) => {
   const handleStatusEvent = (id, active) => {
     axios
       .put(
-        "http://127.0.0.1:8000/event/" + id + "/",
+        "/api/event/" + id + "/",
         { is_active: active },
         {
           headers: { Authorization: "Token " + token },
