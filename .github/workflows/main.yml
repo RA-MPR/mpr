@@ -81,6 +81,6 @@ jobs:
           deploy_path: /root/mpr
           stack_file_name: docker-compose.prod.yml
           keep_files: 5
-          args: up -d
+          args: --env-file .env up -d
           docker_prune: 'false'
           pull_images_first: 'true'
