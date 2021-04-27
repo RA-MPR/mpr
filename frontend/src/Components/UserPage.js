@@ -12,7 +12,9 @@ function UserPage({token}) {
             <Grid container justify="center" spacing={2} style={{width:"100%"}}>
             <Grid item xs={8}>
                 <Paper style={{ padding: 16 }}>
-                    <UserList className="user-module" token={token} />
+                    <div className="user-main-screen">
+                        <UserList className="user-module" token={token} />
+                    </div>
                 </Paper>
             </Grid>
             <Grid item xs={3}>

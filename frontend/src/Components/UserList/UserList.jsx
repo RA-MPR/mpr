@@ -66,9 +66,9 @@ const UserList = ({className, token, onEdit, onAdd}) => {
     useEffect(() => {
         const getUsers = async () => {
             setUsers(usersFromServer.filter((user) => 
-                user.name.toLowerCase().includes(searchValue.toLowerCase()) || 
-                user.surname.toLowerCase().includes(searchValue.toLowerCase()) || 
-                user.company.name.toLowerCase().includes(searchValue.toLowerCase())))
+                (user.name && user.name.toLowerCase().includes(searchValue.toLowerCase())) || 
+                (user.surname && user.surname.toLowerCase().includes(searchValue.toLowerCase())) || 
+                (user.email && user.email.toLowerCase().includes(searchValue.toLowerCase()))))
         }
         getUsers();
         // eslint-disable-next-line
@@ -174,7 +174,7 @@ const UserList = ({className, token, onEdit, onAdd}) => {
                                     direction = {columns[6].id === orderBy ? orderDirection : 'asc'}
                                     onClick = {createSortHandler(columns[6].id)}
                                 >
-                                    {columns[5].label}
+                                    {columns[6].label}
                                 </TableSortLabel>
                             </TableCell>
                         </TableRow>
