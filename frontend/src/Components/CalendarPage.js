@@ -6,7 +6,6 @@ import {useState } from "react";
 
 import "./CalendarPage.css";
 import EventsOfTheDay from "./Calendar/EventsOfTheDay";
-import EventDialog from "./Calendar/EventDialog";
 import Calendar from "./Calendar/Calendar"
 
 function CalendarPage({token}) {

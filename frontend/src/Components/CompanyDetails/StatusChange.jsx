@@ -51,7 +51,7 @@ const saveAndClose = () => {
 
     if(status === "Vlastní") {
         if(newStatus.length > 0) {
-            axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
+            axios.put('/api/company/'+ico+"/", {
                 "status": newStatus,
                 "status_color": statusColor
             }, {headers:{Authorization: "Token " + token}}).then(refresh());
@@ -62,7 +62,7 @@ const saveAndClose = () => {
         }
         
     } else {
-        axios.put('http://0.0.0.0:8000/company/'+ico+"/", {
+        axios.put('/api/company/'+ico+"/", {
             "status": status,
             "status_color": statusColor
         }, {headers:{Authorization: "Token " + token}}).then(refresh());

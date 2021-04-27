@@ -59,7 +59,7 @@ const CompanyDetails = ({
 
   useEffect(() => {
     const getAdmin = async () => {
-      const admin = await fetchAdmin();
+      await fetchAdmin();
     };
     getAdmin();
   }, []);
@@ -105,7 +105,7 @@ const CompanyDetails = ({
       const ordersData = await fetchOrders();
       setOrders(ordersData.filter((order) => order.company === ico));
       const eventsData = await fetchEvents();
-      setEvents(eventsData.filter((event) => event.company == ico));
+      setEvents(eventsData.filter((event) => event.company === ico));
       setNotes(companyData.notes);
       if (companyData.create_date) {
         setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));

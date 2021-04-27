@@ -219,7 +219,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                 ]);
             }
 
-            axios.put('http://0.0.0.0:8000/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}});
+            axios.put('/api/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}});
             setMainPhoneNumber(newMainPhoneNumber);
             setCompanyICO(newCompanyICO);
 

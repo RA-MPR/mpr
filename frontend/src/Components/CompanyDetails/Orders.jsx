@@ -51,7 +51,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
   const setConfirmData = (type, id, contract_number, sum) => {
     setDeleteType(type);
     setDeleteID(id);
-    if (type == 0) {
+    if (Number(type) === 0) {
       setConfirmTitle("Opravdu odstranit objednávku?");
       setConfirmText(
         "Opravdu chcete odstranit objednávku " +
@@ -95,7 +95,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const setOrderIDInvoice = (data, number) => {
     for (var i = 0; i < data.length; i++) {
-      if (data[i].contract_number == number) {
+      if (data[i].contract_number === number) {
         return data[i].id;
       }
     }
@@ -115,7 +115,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
     var date = parse(event.target.datePicker.value, "dd.MM.yyyy", new Date());
     var formattedDate = format(date, "yyyy-MM-dd");
 
-    if (type == 0) {
+    if (Number(type) === 0) {
       axios
         .post("/api/order/", {
           date: formattedDate,
@@ -169,7 +169,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           open={confirmOpen}
           setOpen={setConfirmOpen}
           onConfirm={() =>
-            deleteType == 0
+            Number(deleteType) === 0
               ? handleDeleteOrder(deleteID)
               : handleDeleteInvoice(deleteID)
           }
