@@ -22,3 +22,7 @@
 .graph-body .narrow{
     width: 100px;
 }
+
+.hidden{
+    display: none !important;
+}

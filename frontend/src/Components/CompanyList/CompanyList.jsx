@@ -16,6 +16,7 @@ import "./CompanyList.css";
 
 import StatusChange from "../CompanyDetails/StatusChange";
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
+import { Tooltip } from "@material-ui/core";
 
 const columns = [
   { id: "id", label: "" },
@@ -441,6 +442,9 @@ const CompanyList = ({
                     </TableCell>
                   )}
                   {onlyMyCompanies && (
+                    <Tooltip
+                      title="datum"
+                      placement="top">
                     <TableCell
                       className="clickable"
                       onClick={() =>
@@ -460,6 +464,7 @@ const CompanyList = ({
                         {company.status}
                       </span>
                     </TableCell>
+                    </Tooltip>
                   )}
                   <TableCell
                     className="clickable"

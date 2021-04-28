@@ -13,7 +13,7 @@ import Graph from "./Graph/Graph";
 
 import {useHistory} from "react-router-dom";
 
-function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
+function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody, setGraphBody}) {
  
   const history = useHistory();
 
@@ -67,7 +67,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco}) {
         <Grid item xs={3}>
           <Grid item xs={12}>
             <Paper style={{ padding: 16 }}>
-              <Graph token={token} upcomingRefresh={refreshOrders}/>
+              <Graph token={token} upcomingRefresh={refreshOrders} graphBody={graphBody} setGraphBody={setGraphBody}/>
             </Paper>
           </Grid>
           <Grid item xs={12} style={{ paddingTop: "10px" }}>
