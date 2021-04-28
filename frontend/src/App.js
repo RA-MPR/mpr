@@ -14,6 +14,7 @@ import CalendarPage from "./Components/CalendarPage";
 import useToken from "./Components/Auth/useToken";
 import Login from "./Components/Auth/Login";
 import UserPage from "./Components/UserPage";
+import MatrixPage from "./Components/MatrixPage";
 
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
@@ -50,7 +51,7 @@ const App = () => {
             />
           </Route>
           <Route path="/matrix">
-            <div>Místo pro matici rizik</div>
+            <MatrixPage />
           </Route>
           <Route path="/" exact>
             <CompanyPage
