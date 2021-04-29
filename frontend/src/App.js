@@ -18,6 +18,11 @@ import UserPage from "./Components/UserPage";
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
   const { token, setToken, removeToken } = useToken();
+  const [graphBody, setGraphBody] = useState(true);
+
+  React.useEffect(() => {
+    document.title = "Mazel+";
+  }, [])
 
   const theme = createMuiTheme({
     palette: {
@@ -33,6 +38,7 @@ const App = () => {
   if (!token) {
     return <Login setToken={setToken} />;
   }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,6 +64,8 @@ const App = () => {
               setDetailIco={setDetailIco}
               token={token}
               componentToShow="companyList"
+              graphBody={graphBody}
+              setGraphBody={setGraphBody}
             />
           </Route>
           <Route path="/company/new" exact>
@@ -66,6 +74,8 @@ const App = () => {
               setDetailIco={setDetailIco}
               token={token}
               componentToShow="companyNew"
+              graphBody={graphBody}
+              setGraphBody={setGraphBody}
             />
           </Route>
           <Route path="/company/detail" exact>
@@ -74,6 +84,8 @@ const App = () => {
               setDetailIco={setDetailIco}
               token={token}
               componentToShow="companyDetail"
+              graphBody={graphBody}
+              setGraphBody={setGraphBody}
             />
           </Route>
           <Route path="/users" exact>

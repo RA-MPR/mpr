@@ -129,23 +129,25 @@ const UserFormDialog = ({ open, setOpen, token, refreshUsers }) => {
             />
             <TextField
               fullWidth
-              label="Email"
-              error={emailError}
-              helperText={emailErrorMessage}
-              required
-              value={selectedEmail}
-              margin="normal"
-              onChange={handleEmailChange}
-            />
-            <TextField
-              fullWidth
               label="Telefon"
               error={phoneError}
               helperText={phoneErrorMessage}
               required
+              type="tel"
               value={selectedPhone}
               margin="normal"
               onChange={handlePhoneChange}
+            />
+            <TextField
+              fullWidth
+              label="Email"
+              error={emailError}
+              helperText={emailErrorMessage}
+              required
+              type="email"
+              value={selectedEmail}
+              margin="normal"
+              onChange={handleEmailChange}
             />
             <TextField
               fullWidth

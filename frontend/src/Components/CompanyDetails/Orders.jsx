@@ -126,6 +126,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
         .then(function (response) {
           loadNewData();
           setRefreshOrders((prev) => !prev);
+          hideNewOrderRow();
         });
     } else {
       var orderId = setOrderIDInvoice(data, event.target.orderNumber.value);
@@ -139,6 +140,8 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           }, {headers:{Authorization: "Token " + token}})
           .then(function (response) {
             loadNewData();
+            setRefreshOrders((prev) => !prev);
+            hideNewOrderRow();
           });
       }
     }
@@ -182,7 +185,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           error={alertText}
         />
         <Typography variant="h5">
-          Podepsané objednávky
+          Dokumenty
           <IconButton
             className="plus-button"
             size="small"
@@ -220,6 +223,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
                         type="number"
                         autoFocus
                         required
+                        helperText="Číslo objednávky"
                       />
                     </TableCell>
                     <TableCell>
@@ -231,7 +235,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
                         required
                       >
                         <ToggleButton value={0}>Objednávka</ToggleButton>
-                        <ToggleButton value={1}>Faktura</ToggleButton>
+                        <ToggleButton value={1}>Zaplacená faktura</ToggleButton>
                       </ToggleButtonGroup>
                     </TableCell>
                     <TableCell>
