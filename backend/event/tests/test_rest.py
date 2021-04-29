@@ -50,7 +50,7 @@ class EventRestTestCase(APITestCase):
         }
         current_count = Event.objects.count()
         self.client.force_authenticate(user=self.user)
-        response = self.client.post("/event/", event_data)
+        response = self.client.post("/api/event/", event_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Event.objects.count(), current_count + 1)
         self.assertEqual(Event.objects.get(id=self.test_data_id).name, "Tea")
@@ -61,6 +61,6 @@ class EventRestTestCase(APITestCase):
             "name": "Milk",
         }
         self.client.force_authenticate(user=self.user)
-        response = self.client.put(f"/event/{id}/", altered_event_data, format="json")
+        response = self.client.put(f"/api/event/{id}/", altered_event_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Event.objects.get(id=id).name, "Milk")

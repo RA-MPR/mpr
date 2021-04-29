@@ -47,6 +47,7 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             fields["notes"].required = False
             fields["create_date"].required = False
             fields["modification_date"].required = False
+            fields["status_modification_date"].required = False
             fields["user"].required = False
             del fields["advertising_this_year"]
         return fields
@@ -62,6 +63,8 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             billing_address = models.Address.objects.create(**validated_data.pop("billing_address"))
 
         company = models.Company.objects.create(**validated_data)
+        if "status" in validated_data or "status_color" in validated_data:
+            company.status_modification_date = date.today()
         company.create_date = date.today()
         company.modification_date = date.today()
         company.contact_address = contact_address
@@ -83,6 +86,8 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
             else:
                 user = get_object_or_404(User, email=request_user)
                 company.user = user
+        if "status" in validated_data or "status_color" in validated_data:
+            company.status_modification_date = date.today()
         if "contact_address" in validated_data:
             contact_address_data = validated_data.pop("contact_address")
             if company.contact_address:

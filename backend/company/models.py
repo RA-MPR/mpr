@@ -34,6 +34,7 @@ class Company(models.Model):
     ad_volume = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=50, blank=True, null=True)
     status_color = models.CharField(max_length=30, blank=True, null=True)
+    status_modification_date = models.DateField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     update_user = models.BooleanField(blank=True, null=True)
 
