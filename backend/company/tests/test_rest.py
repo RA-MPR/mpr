@@ -74,7 +74,7 @@ class CompanyRestTestCase(APITestCase):
 
         current_count = Company.objects.count()
         self.client.force_authenticate(user=self.user)
-        response = self.client.post("/company/", company_data)
+        response = self.client.post("/api/company/", company_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Company.objects.count(), current_count + 1)
         self.assertEqual(Company.objects.get(ico="12345678").name, "ABC")
@@ -85,14 +85,14 @@ class CompanyRestTestCase(APITestCase):
             "name": "Seznam_1",
         }
         self.client.force_authenticate(user=self.user)
-        response = self.client.put(f"/company/{ico}/", altered_company_data, format="json")
+        response = self.client.put(f"/api/company/{ico}/", altered_company_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Company.objects.get(ico=ico).name, "Seznam_1")
 
     def test_company_contact(self):
         ico = "26168685"
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(f"/company/{ico}/")
+        response = self.client.get(f"/api/company/{ico}/")
         contact = response.data["contacts"][0]
         self.assertEqual(contact["name"], "Studijní")
 
@@ -102,13 +102,13 @@ class CompanyRestTestCase(APITestCase):
         contact.delete()
 
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(f"/company/{ico}/")
+        response = self.client.get(f"/api/company/{ico}/")
         contacts = response.data["contacts"]
         self.assertEqual(len(contacts), 0)
 
     def test_company_order(self):
         ico = "26168685"
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(f"/company/{ico}/")
+        response = self.client.get(f"/api/company/{ico}/")
         order = response.data["orders"][0]
         self.assertEqual(order["contract_number"], '123')
