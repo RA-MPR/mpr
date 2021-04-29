@@ -48,7 +48,7 @@ class InvoiceRestTestCase(APITestCase):
         }
         current_count = Order.objects.count()
         self.client.force_authenticate(user=self.user)
-        response = self.client.post("/order/", order_data)
+        response = self.client.post("/api/order/", order_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Order.objects.count(), current_count + 1)
         self.assertEqual(Order.objects.get(id=self.test_data_id).sum, 5000)
@@ -59,6 +59,6 @@ class InvoiceRestTestCase(APITestCase):
             "sum": 3000,
         }
         self.client.force_authenticate(user=self.user)
-        response = self.client.put(f"/order/{id}", altered_order_data, format="json")
+        response = self.client.put(f"/api/order/{id}", altered_order_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Order.objects.get(id=id).sum, 3000)
