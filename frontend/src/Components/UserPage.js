@@ -34,7 +34,7 @@ function UserPage({token}) {
             <Grid item xs={3}>
                 <Grid item xs={12}>
                 <Paper style={{ padding: 16 }}>
-                <UpcomingEvents token={token} height="80.5vh"/>
+                <UpcomingEvents token={token} maxHeight="100%" height="calc(-50px + 84vh)"/>
                 </Paper>
                 </Grid>
             </Grid>

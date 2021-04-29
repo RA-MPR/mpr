@@ -28,6 +28,7 @@ const UpcomingEvents = ({
   upcomingRefresh,
   token,
   setRefreshEvents,
+  maxHeight,
   height,
 }) => {
   const [data, setData] = React.useState([]);
@@ -147,7 +148,7 @@ const UpcomingEvents = ({
       </div>
       <TableContainer
         className="upcomingevents-table"
-        style={{ maxHeight: height }}
+        style={{ maxHeight: maxHeight, height: height }}
       >
         <Table>
           <TableBody>
