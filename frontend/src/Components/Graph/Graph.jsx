@@ -55,17 +55,22 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
   }, []);
 
   const data = {
-    labels: serverData.slice(-months).map((a, index) => {
-      if (Number(months) === 3)
+    labels: serverData.filter((a) => {
+      if(Number(months) === 3)
+        return monthsByQuarters[actualQuarter - 1].includes(a.month) ? true : false;
+      else 
+        return true;
+    }).map((a, index) => {
+      if (Number(months) === 3){
         return cs.localize.month(
           monthsByQuarters[actualQuarter - 1][index] - 1
-        );
+        )
+      }
       else return a.month;
     }),
     datasets: [
       {
         data: serverData
-          .slice(-months)
           .filter((a) => {
             if (Number(months) === 3)
               return monthsByQuarters[actualQuarter - 1].includes(a.month);
@@ -75,7 +80,6 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
             return a.total;
           }),
         backgroundColor: serverData
-          .slice(-months)
           .filter((a) => {
             if (Number(months) === 3)
               return monthsByQuarters[actualQuarter - 1].includes(a.month);
@@ -98,7 +102,6 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
           }
         ),
         borderColor: serverData
-        .slice(-months)
         .filter((a) => {
           if (Number(months) === 3)
             return monthsByQuarters[actualQuarter - 1].includes(a.month);
@@ -126,7 +129,6 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
   };
 
   const calculatedDataTotal = serverData
-    .slice(-3)
     .filter((a) => {
       if (Number(months) === 3)
         return monthsByQuarters[actualQuarter - 1].includes(a.month);
@@ -185,6 +187,7 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
         {
           ticks: {
             beginAtZero: true,
+            suggestedMax: 398000,
           },
         },
       ],
@@ -244,18 +247,18 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
               <Bar
                 data={dataTotal}
                 options={optionsTotal}
-                width={100}
+                width={"90%"}
                 height={200}
               />
             </div>
             <div className="wide">
-              <Bar data={data} options={options} width={300} height={200} />
+              <Bar data={data} options={options} width={"90%"} height={200} redraw/>
             </div>
           </>
         )}
         {Number(months) === 12 && (
           <div className="wide">
-            <Bar data={data} options={options} width={400} height={200} />
+            <Bar data={data} options={options} width={"90%"} height={200} redraw/>
           </div>
         )}
       </div>
