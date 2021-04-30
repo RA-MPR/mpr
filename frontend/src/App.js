@@ -14,13 +14,16 @@ import CalendarPage from "./Components/CalendarPage";
 import useToken from "./Components/Auth/useToken";
 import Login from "./Components/Auth/Login";
 import UserPage from "./Components/UserPage";
-
-import axios from "axios";
+import MatrixPage from "./Components/MatrixPage";
 
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
-  const [admin, setAdmin] = useState(false);
   const { token, setToken, removeToken } = useToken();
+  const [graphBody, setGraphBody] = useState(true);
+
+  React.useEffect(() => {
+    document.title = "Mazel+";
+  }, [])
 
   const theme = createMuiTheme({
     palette: {
@@ -33,26 +36,10 @@ const App = () => {
     },
   });
 
-  const fetchAdmin = async () => {
-    await axios
-      .get("http://127.0.0.1:8000/user/admin", {
-        headers: { Authorization: "Token " + token },
-      })
-      .then((res) => {
-        setAdmin(res.data["is_admin"]);
-      });
-  };
-
-  React.useEffect(() => {
-    const getAdmin = async () => {
-      const admin = await fetchAdmin();
-    };
-    getAdmin();
-  }, []);
-
   if (!token) {
     return <Login setToken={setToken} />;
   }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -70,7 +57,7 @@ const App = () => {
             />
           </Route>
           <Route path="/matrix">
-            <div>Místo pro matici rizik</div>
+            <MatrixPage />
           </Route>
           <Route path="/" exact>
             <CompanyPage
@@ -78,6 +65,8 @@ const App = () => {
               setDetailIco={setDetailIco}
               token={token}
               componentToShow="companyList"
+              graphBody={graphBody}
+              setGraphBody={setGraphBody}
             />
           </Route>
           <Route path="/company/new" exact>
@@ -86,6 +75,8 @@ const App = () => {
               setDetailIco={setDetailIco}
               token={token}
               componentToShow="companyNew"
+              graphBody={graphBody}
+              setGraphBody={setGraphBody}
             />
           </Route>
           <Route path="/company/detail" exact>
@@ -94,13 +85,15 @@ const App = () => {
               setDetailIco={setDetailIco}
               token={token}
               componentToShow="companyDetail"
+              graphBody={graphBody}
+              setGraphBody={setGraphBody}
             />
           </Route>
-          { admin ? <Route path="/users" exact>
+          <Route path="/users" exact>
             <UserPage
               token={token}
             />
-          </Route> : "" }
+          </Route>
           <Route component={NotFound}></Route>
         </Switch>
         <Footer />

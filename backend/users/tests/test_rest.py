@@ -32,7 +32,7 @@ class UserRestTestCase(APITestCase):
         Company.objects.create(**company_data)
         Company.objects.get(ico="12345678")
         cls.current_date = date.today()
-        cls.start_date = date.today() + relativedelta(months=-11)
+        cls.start_date = date.today().replace(month=1)
 
         a = cls.start_date.month
         while a <= 12:
@@ -89,11 +89,11 @@ class UserRestTestCase(APITestCase):
             }
             Order.objects.create(**order_data2)
             a += 1
-            cls.user = user
+        cls.user = user
 
     def test_orders1(self):
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(f"/user/orders/")
+        response = self.client.get(f"/api/user/orders/")
         self.assertEqual(response.status_code, 200)
         j = json.loads(response.content)
         for item in j:

@@ -49,7 +49,7 @@ const CompanyDetails = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("http://127.0.0.1:8000/user/admin", {
+      .get("/api/user/admin", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -59,14 +59,14 @@ const CompanyDetails = ({
 
   useEffect(() => {
     const getAdmin = async () => {
-      const admin = await fetchAdmin();
+      await fetchAdmin();
     };
     getAdmin();
   }, []);
 
   const fetchCompany = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/company/" + ico, {
+      .get("/api/company/" + ico, {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -74,7 +74,7 @@ const CompanyDetails = ({
 
   const fetchContacts = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/contact", {
+      .get("/api/contact", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -82,7 +82,7 @@ const CompanyDetails = ({
 
   const fetchOrders = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/order", {
+      .get("/api/order", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -90,7 +90,7 @@ const CompanyDetails = ({
 
   const fetchEvents = async () => {
     return await axios
-      .get("http://127.0.0.1:8000/event", {
+      .get("/api/event", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -105,13 +105,12 @@ const CompanyDetails = ({
       const ordersData = await fetchOrders();
       setOrders(ordersData.filter((order) => order.company === ico));
       const eventsData = await fetchEvents();
-      setEvents(eventsData.filter((event) => event.company == ico));
+      setEvents(eventsData.filter((event) => event.company === ico));
       setNotes(companyData.notes);
       if (companyData.create_date) {
         setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));
       }
     };
-    console.log("STAHUJEM DATA");
     getData();
   }, [ico, refresh]);
 
@@ -134,7 +133,7 @@ const CompanyDetails = ({
 
   const handleGiveUp = () => {
     axios
-      .put("http://127.0.0.1:8000/company/" + company.ico +"/", {user: null},{
+      .put("/api/company/" + company.ico +"/", {user: null},{
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -144,7 +143,7 @@ const CompanyDetails = ({
 
   const handleDeleteCompany = () => {
     axios
-      .delete("http://127.0.0.1:8000/company/" + company.ico, {
+      .delete("/api/company/" + company.ico, {
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -153,7 +152,6 @@ const CompanyDetails = ({
   };
 
   if (ico === "") {
-    console.log("ICO je prazdne");
     return <div id="companyDetail"></div>;
   } else {
     return (

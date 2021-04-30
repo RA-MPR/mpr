@@ -25,6 +25,7 @@ class CompanySerializer(SimplifiedCompanySerializer):
             "notes",
             "status",
             "status_color",
+            "status_modification_date",
             "create_date",
             "modification_date",
             "contact_address",
@@ -75,6 +76,7 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "modification_date",
             "status",
             "status_color",
+            "status_modification_date",
             "advertising_this_year",
         )
         depth = 1

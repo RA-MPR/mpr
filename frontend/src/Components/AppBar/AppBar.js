@@ -26,7 +26,7 @@ function App({ token, removeToken }) {
 
   const fetchAdmin = async () => {
     await axios
-      .get("http://127.0.0.1:8000/user/admin", {
+      .get("/api/user/admin", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -36,7 +36,7 @@ function App({ token, removeToken }) {
 
   React.useEffect(() => {
     const getAdmin = async () => {
-      const admin = await fetchAdmin();
+      await fetchAdmin();
     };
     getAdmin();
   }, []);
@@ -66,7 +66,6 @@ function App({ token, removeToken }) {
             <span className="flexExpand"></span>
             <div>
               <ToggleButtonGroup value={page} exclusive onChange={handlePage}>
-                {console.log(window.location.pathname)}
                 {window.location.pathname === "/" && (
                   <ToggleButton selected value={0} component={Link} to="/">
                     Firmy

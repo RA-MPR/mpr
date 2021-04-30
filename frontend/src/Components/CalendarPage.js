@@ -6,7 +6,6 @@ import {useState } from "react";
 
 import "./CalendarPage.css";
 import EventsOfTheDay from "./Calendar/EventsOfTheDay";
-import EventDialog from "./Calendar/EventDialog";
 import Calendar from "./Calendar/Calendar"
 
 function CalendarPage({token}) {
@@ -33,7 +32,7 @@ function CalendarPage({token}) {
             <Grid item xs={3}>
                 <Grid item xs={12}>
                 <Paper style={{ padding: 16 }}>
-                <UpcomingEvents upcomingRefresh={refreshOrders} token={token} height="80.5vh"/>
+                <UpcomingEvents upcomingRefresh={refreshOrders} token={token} maxHeight="100%" height="calc(-50px + 84vh)"/>
                 </Paper>
                 </Grid>
             </Grid>

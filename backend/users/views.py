@@ -147,10 +147,8 @@ class UserOrderView(ListAPIView):
     def get(self, request):
         user = get_object_or_404(User, id=self.request.user.id)
 
-        f = date.today() + relativedelta(months=-11)
-        f = f.replace(day=1)
-        end_date = date.today() + relativedelta(months=1)
-        end_date = end_date.replace(day=1)
+        f = datetime.now().date().replace(month=1, day=1)
+        end_date = datetime.now().date().replace(month=12, day=31)
 
         summary = (Order.objects
                    .filter(user=user.id)
@@ -173,15 +171,9 @@ class UserOrderView(ListAPIView):
         for item in summary:
             d[str(item['month'])] = item['total']
 
-        start = f.month
-        end = date.today().month
         data = []
 
-        self.fillListOrder(start, 12, res, d, data)
-
-        if end < f.month:
-            start = 1
-            self.fillListOrder(start, end, res, d, data)
+        self.fillListOrder(1, 12, res, d, data)
 
         return Response(
             data,

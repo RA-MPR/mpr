@@ -51,7 +51,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
   const setConfirmData = (type, id, contract_number, sum) => {
     setDeleteType(type);
     setDeleteID(id);
-    if (type == 0) {
+    if (Number(type) === 0) {
       setConfirmTitle("Opravdu odstranit objednávku?");
       setConfirmText(
         "Opravdu chcete odstranit objednávku " +
@@ -95,7 +95,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const setOrderIDInvoice = (data, number) => {
     for (var i = 0; i < data.length; i++) {
-      if (data[i].contract_number == number) {
+      if (data[i].contract_number === number) {
         return data[i].id;
       }
     }
@@ -115,9 +115,9 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
     var date = parse(event.target.datePicker.value, "dd.MM.yyyy", new Date());
     var formattedDate = format(date, "yyyy-MM-dd");
 
-    if (type == 0) {
+    if (Number(type) === 0) {
       axios
-        .post("http://127.0.0.1:8000/order/", {
+        .post("/api/order/", {
           date: formattedDate,
           contract_number: event.target.orderNumber.value,
           sum: event.target.orderCost.value,
@@ -126,19 +126,21 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
         .then(function (response) {
           loadNewData();
           setRefreshOrders((prev) => !prev);
+          hideNewOrderRow();
         });
     } else {
       var orderId = setOrderIDInvoice(data, event.target.orderNumber.value);
-      console.log(orderId);
       if (orderId != null) {
         axios
-          .post("http://127.0.0.1:8000/invoice/", {
+          .post("/api/invoice/", {
             date: formattedDate,
             sum: event.target.orderCost.value,
             order_id: orderId,
           }, {headers:{Authorization: "Token " + token}})
           .then(function (response) {
             loadNewData();
+            setRefreshOrders((prev) => !prev);
+            hideNewOrderRow();
           });
       }
     }
@@ -146,7 +148,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const handleDeleteOrder = (orderId) => {
     axios
-      .delete("http://127.0.0.1:8000/order/" + orderId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/order/" + orderId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
         setRefreshOrders((prev) => !prev);
@@ -155,7 +157,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const handleDeleteInvoice = (invoiceId) => {
     axios
-      .delete("http://127.0.0.1:8000/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
       });
@@ -169,7 +171,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           open={confirmOpen}
           setOpen={setConfirmOpen}
           onConfirm={() =>
-            deleteType == 0
+            Number(deleteType) === 0
               ? handleDeleteOrder(deleteID)
               : handleDeleteInvoice(deleteID)
           }
@@ -182,7 +184,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           error={alertText}
         />
         <Typography variant="h5">
-          Podepsané objednávky
+          Dokumenty
           <IconButton
             className="plus-button"
             size="small"
@@ -220,6 +222,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
                         type="number"
                         autoFocus
                         required
+                        helperText="Číslo objednávky"
                       />
                     </TableCell>
                     <TableCell>
@@ -231,7 +234,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
                         required
                       >
                         <ToggleButton value={0}>Objednávka</ToggleButton>
-                        <ToggleButton value={1}>Faktura</ToggleButton>
+                        <ToggleButton value={1}>Zaplacená faktura</ToggleButton>
                       </ToggleButtonGroup>
                     </TableCell>
                     <TableCell>

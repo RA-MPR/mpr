@@ -12,7 +12,7 @@ export default function Login({ setToken }) {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/user/login/", {
+      .post("/api/user/login/", {
         username: event.target.email.value,
         password: event.target.password.value,
       })

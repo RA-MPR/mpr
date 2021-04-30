@@ -28,6 +28,7 @@ const UpcomingEvents = ({
   upcomingRefresh,
   token,
   setRefreshEvents,
+  maxHeight,
   height,
 }) => {
   const [data, setData] = React.useState([]);
@@ -53,7 +54,7 @@ const UpcomingEvents = ({
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:8000/user/events?is_active=True", {
+      .get("/api/user/events?is_active=True", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -78,7 +79,7 @@ const UpcomingEvents = ({
 
   const handleDeleteEvent = () => {
     axios
-      .delete("http://127.0.0.1:8000/event/" + deleteID, {
+      .delete("/api/event/" + deleteID, {
         headers: { Authorization: "Token " + token },
       })
       .then(() => {
@@ -90,7 +91,7 @@ const UpcomingEvents = ({
   const handleDisableEvent = (id) => {
     axios
       .put(
-        "http://127.0.0.1:8000/event/" + id + "/",
+        "/api/event/" + id + "/",
         { is_active: "False" },
         {
           headers: { Authorization: "Token " + token },
@@ -147,7 +148,7 @@ const UpcomingEvents = ({
       </div>
       <TableContainer
         className="upcomingevents-table"
-        style={{ maxHeight: height }}
+        style={{ maxHeight: maxHeight, height: height }}
       >
         <Table>
           <TableBody>

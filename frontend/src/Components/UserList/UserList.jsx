@@ -7,53 +7,75 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import ContactListHeader from './ContactListHeader';
-import './ContactList.css';
+import UserListHeader from './UserListHeader';
+import './UserList.css';
 
 import axios from 'axios';
-
-import {useHistory} from "react-router-dom";
+import { Typography } from '@material-ui/core';
 
 const columns = [
     {id: 'id', label: ""},
     {id: 'name', label: "Jméno"},
     {id: 'surname', label: "Příjmení"},
-    {id: 'company', label: "Firma"},
     {id: 'email', label: "Email"},
-    {id: 'phone', label: "Telefon"}
+    {id: 'phone', label: "Telefon"},
+    {id: 'signed_orders', label: "Podepsané objednávky"},
+    {id: 'paid_invoices', label: "Zaplacené faktury"}
 ]
 
-const ContactList = ({className, token, detailIco, setDetailIco}) => {
+const UserList = ({className, token, onEdit, onAdd, refresh}) => {
 
-    const history = useHistory();
-
-    const [contactsFromServer, setContactsFromServer] = useState([]);
-    const [contacts, setContacts] = useState([]);
+    const [admin, setAdmin] = useState(false);
+    const [usersFromServer, setUsersFromServer] = useState([]);
+    const [users, setUsers] = useState([]);
     const [orderDirection, setOrderDirection] = useState('asc');
     const [orderBy, setOrderBy] = useState('surname');
     const [searchValue, setSearchValue] = useState("");
 
-    useEffect(() => {
-        const getContacts = async () => {
-            const contsFromServer = await fetchContacts();
-            setContactsFromServer(contsFromServer);
-            setContacts(contsFromServer);
-        }
-        getContacts();
-    },[])
+    const fetchAdmin = async () => {
+        await axios
+        .get("/api/user/admin", {
+        headers: { Authorization: "Token " + token },
+        })
+        .then((res) => {
+            setAdmin(res.data["is_admin"]);
+        });
+    };
 
     useEffect(() => {
-        const getContacts = async () => {
-            setContacts(contactsFromServer.filter((contact) => 
-                contact.name.toLowerCase().includes(searchValue.toLowerCase()) || 
-                contact.surname.toLowerCase().includes(searchValue.toLowerCase()) || 
-                contact.company.name.toLowerCase().includes(searchValue.toLowerCase())))
+        const getAdmin = async () => {
+            await fetchAdmin();
+        };
+        getAdmin();
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        const getUsers = async () => {
+            if(admin){
+                const usFromServer = await fetchUsers();
+                setUsersFromServer(usFromServer);
+                setUsers(usFromServer);
+            }
+            
         }
-        getContacts();
+        getUsers();
+        // eslint-disable-next-line
+    },[admin, refresh]);
+
+    useEffect(() => {
+        const getUsers = async () => {
+            setUsers(usersFromServer.filter((user) => 
+                (user.name && user.name.toLowerCase().includes(searchValue.toLowerCase())) || 
+                (user.surname && user.surname.toLowerCase().includes(searchValue.toLowerCase())) || 
+                (user.email && user.email.toLowerCase().includes(searchValue.toLowerCase()))))
+        }
+        getUsers();
+        // eslint-disable-next-line
     }, [searchValue])
 
-    const fetchContacts = async() => {
-        const data = await axios.get('/api/user/contacts', {headers:{Authorization: "Token " + token}}).then(res => res.data);
+    const fetchUsers = async() => {
+        const data = await axios.get('/api/user/', {headers:{Authorization: "Token " + token}}).then(res => res.data);
         return data;
     }
 
@@ -83,8 +105,8 @@ const ContactList = ({className, token, detailIco, setDetailIco}) => {
             : (a,b) => -descendingComparator(a, b, orderBy)
     }
 
-    const sortRowInfo = (contacts, comparator) => {
-        const sortedRowArray = contacts.map((el, index) => [el, index]);
+    const sortRowInfo = (Users, comparator) => {
+        const sortedRowArray = Users.map((el, index) => [el, index]);
         sortedRowArray.sort((a,b) => {
             const order = comparator(a[0], b[0]);
             if(order !== 0) return order;
@@ -93,19 +115,10 @@ const ContactList = ({className, token, detailIco, setDetailIco}) => {
         return sortedRowArray.map((el) => el[0]);
     }
 
-    const handleShowCompanyDetail = (ico) => {
-        if(ico === detailIco){
-            history.push('/company/detail');
-        }else{
-            setDetailIco(ico);
-            history.push('/company/detail');
-        }
-    }
-
     return (
-        <div id="contactList" className={className + " contact-list"}>
-            <ContactListHeader onSearch={onSearch} />
-            <TableContainer>
+        <div id="contactList" className={className + " user-list"}>
+            {usersFromServer.length !== 0 ? <TableContainer>
+                <UserListHeader onSearch={onSearch} onClickAdd={onAdd}/>
                 <Table stickyHeader size='small' aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -155,38 +168,51 @@ const ContactList = ({className, token, detailIco, setDetailIco}) => {
                                     {columns[5].label}
                                 </TableSortLabel>
                             </TableCell>
+                            <TableCell align="center" key={columns[6].id}>
+                                <TableSortLabel 
+                                    active={columns[6].id === orderBy}
+                                    direction = {columns[6].id === orderBy ? orderDirection : 'asc'}
+                                    onClick = {createSortHandler(columns[6].id)}
+                                >
+                                    {columns[6].label}
+                                </TableSortLabel>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortRowInfo(contacts, getComparator(orderDirection, orderBy)).map((contact, index) => (
+                        {sortRowInfo(users, getComparator(orderDirection, orderBy)).map((user, index) => (
                             <TableRow hover key={index}>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {index+1}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
-                                    {contact.name}
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
+                                    {user.name ? user.name : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
-                                    {contact.surname}
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
+                                    {user.surname ? user.surname : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
-                                    <div className="text-container">
-                                        {contact.company.name}
-                                    </div>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
+                                    {user.email ? user.email : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
-                                    {contact.email}
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
+                                    {user.phone ? user.phone : "-"}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
-                                    {contact.phone}
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
+                                    {user.sign_orders ? user.sign_orders : "-"}
+                                </TableCell>
+                                <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
+                                    {user.paid_invoice ? user.paid_invoice : "-"}
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer> : 
+            <div>
+                <Typography variant="h3">Přístup zamítnut!</Typography>
+            </div>}
         </div>
     )
 }
 
-export default ContactList
+export default UserList

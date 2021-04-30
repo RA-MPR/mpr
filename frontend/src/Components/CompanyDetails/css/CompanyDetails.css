@@ -112,11 +112,11 @@ h3, h4 {
     grid-template-columns: 50% 50%;
 }
 
-.grid>.events {
+.grid>.company-details-events {
     grid-area: left;
 }
 
-.grid>.notes {
+.grid>.company-details-notes {
     grid-area: right;
 }
 

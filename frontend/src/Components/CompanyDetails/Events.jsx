@@ -109,7 +109,7 @@ const Events = ({
 
     axios
       .post(
-        "http://127.0.0.1:8000/event/",
+        "/api/event/",
         {
           name: event.target.eventName.value,
           date: formattedDate,
@@ -129,7 +129,7 @@ const Events = ({
 
   const handleDeleteEvent = () => {
     axios
-      .delete("http://127.0.0.1:8000/event/" + deleteId, {
+      .delete("/api/event/" + deleteId, {
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -141,7 +141,7 @@ const Events = ({
   const handleStatusEvent = (id, active) => {
     axios
       .put(
-        "http://127.0.0.1:8000/event/" + id + "/",
+        "/api/event/" + id + "/",
         { is_active: active },
         {
           headers: { Authorization: "Token " + token },
@@ -333,7 +333,7 @@ const Events = ({
         open={openForm}
         setOpen={setOpenForm}
         refreshEvents={setRefresh}
-      />{" "}
+      />
     </>
   );
 };

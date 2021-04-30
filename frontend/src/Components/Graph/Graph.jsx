@@ -7,19 +7,22 @@ import "./Graph.css";
 import { Bar } from "@reactchartjs/react-chart.js";
 
 import { cs } from "date-fns/locale";
-import { Divider, Select, Typography, MenuItem } from "@material-ui/core";
+import {
+  Divider,
+  Select,
+  Typography,
+  MenuItem,
+  IconButton,
+} from "@material-ui/core";
 import { getQuarter, getMonth } from "date-fns";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 
-const Graph = ({ upcomingRefresh, token }) => {
+const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
   const [serverData, setServerData] = React.useState([]);
   const [months, setMonths] = React.useState(12);
   const [actualQuarter, setActualQuarter] = React.useState(
     getQuarter(new Date())
   );
-  const [actualMonth, setActualMonth] = React.useState(
-    getMonth(new Date())
-  );
-
   const monthsByQuarters = [
     [1, 2, 3],
     [4, 5, 6],
@@ -33,7 +36,7 @@ const Graph = ({ upcomingRefresh, token }) => {
 
   async function fetchData() {
     await axios
-      .get("http://127.0.0.1:8000/user/orders", {
+      .get("/api/user/orders", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -44,53 +47,103 @@ const Graph = ({ upcomingRefresh, token }) => {
   React.useEffect(() => {
     fetchData();
     setActualQuarter(getQuarter(new Date()));
-    setActualMonth(getMonth(new Date()));
   }, [upcomingRefresh]);
 
+  React.useEffect(() => {
+    if (!graphBody)
+      document.getElementById("graphBody").classList.add("hidden");
+  }, []);
+
   const data = {
-    labels: serverData.slice(-months).map((a, index) => {
-      if (months == 3)
+    labels: serverData.filter((a) => {
+      if(Number(months) === 3)
+        return monthsByQuarters[actualQuarter - 1].includes(a.month) ? true : false;
+      else 
+        return true;
+    }).map((a, index) => {
+      if (Number(months) === 3){
         return cs.localize.month(
           monthsByQuarters[actualQuarter - 1][index] - 1
-        );
+        )
+      }
       else return a.month;
     }),
     datasets: [
       {
         data: serverData
-          .slice(-months)
           .filter((a) => {
-            if (months == 3)
+            if (Number(months) === 3)
               return monthsByQuarters[actualQuarter - 1].includes(a.month);
             else return true;
           })
           .map((a) => {
             return a.total;
           }),
-        backgroundColor: "rgba(74, 175, 5, 0.7)",
-        borderColor: "rgba(74, 175, 5, 1)",
+        backgroundColor: serverData
+          .filter((a) => {
+            if (Number(months) === 3)
+              return monthsByQuarters[actualQuarter - 1].includes(a.month);
+            else return true;
+          })
+          .map((a) => {
+            switch(a.month % 3){
+              case 1:
+                if(a.total < 119000) return "rgb(16, 156, 241, 0.7)"
+                else return "rgba(74, 175, 5, 0.7)";
+              case 2:
+                if(a.total < 119000) return "rgb(16, 156, 241, 0.7)"
+                else return "rgba(74, 175, 5, 0.7)";
+              case 0:
+                if(a.total < 160000) return "rgb(16, 156, 241, 0.7)"
+                else return "rgba(74, 175, 5, 0.7)";
+              default:
+                return "rgba(255, 255, 255, 0.7)"
+            }
+          }
+        ),
+        borderColor: serverData
+        .filter((a) => {
+          if (Number(months) === 3)
+            return monthsByQuarters[actualQuarter - 1].includes(a.month);
+          else return true;
+        })
+        .map((a) => {
+          switch(a.month % 3){
+            case 1:
+              if(a.total < 119000) return "rgb(16, 156, 241, 1)"
+              else return "rgba(74, 175, 5, 1)";
+            case 2:
+              if(a.total < 119000) return "rgb(16, 156, 241, 1)"
+              else return "rgba(74, 175, 5, 1)";
+            case 0:
+              if(a.total < 160000) return "rgb(16, 156, 241, 1)"
+              else return "rgba(74, 175, 5, 1)";
+            default:
+              return "rgba(255, 255, 255, 1)"
+          }
+        }
+      ),
         borderWidth: 1,
       },
     ],
   };
 
+  const calculatedDataTotal = serverData
+    .filter((a) => {
+      if (Number(months) === 3)
+        return monthsByQuarters[actualQuarter - 1].includes(a.month);
+      else return true;
+    })
+    .map((a) => a.total)
+    .reduce((a, b) => a + b, 0);
+
   const dataTotal = {
     labels: ["celkem"],
     datasets: [
       {
-        data: [
-          serverData
-            .slice(-3)
-            .filter((a) => {
-              if (months == 3)
-                return monthsByQuarters[actualQuarter - 1].includes(a.month);
-              else return true;
-            })
-            .map((a) => a.total)
-            .reduce((a, b) => a + b, 0),
-        ],
-        backgroundColor: "rgba(74, 175, 5, 0.7)",
-        borderColor: "rgba(74, 175, 5, 1)",
+        data: [calculatedDataTotal],
+        backgroundColor: calculatedDataTotal < 398000 ? "rgb(16, 156, 241, 0.7)" : "rgba(74, 175, 5, 0.7)",
+        borderColor: calculatedDataTotal < 398000 ? "rgb(16, 156, 241, 1)" : "rgba(74, 175, 5, 1)",
         borderWidth: 1,
       },
     ],
@@ -101,7 +154,7 @@ const Graph = ({ upcomingRefresh, token }) => {
     tooltips: {
       callbacks: {
         title: function (tooltipItem, data) {
-          if (months == 3)
+          if (Number(months) === 3)
             return capitalize(data["labels"][tooltipItem[0]["index"]]);
           else
             return capitalize(
@@ -134,6 +187,7 @@ const Graph = ({ upcomingRefresh, token }) => {
         {
           ticks: {
             beginAtZero: true,
+            suggestedMax: 398000,
           },
         },
       ],
@@ -144,42 +198,67 @@ const Graph = ({ upcomingRefresh, token }) => {
     setMonths(event.target.value);
   };
 
+  const showGraphBody = () => {
+    document.getElementById("graphBody").classList.remove("hidden");
+    setGraphBody(true);
+  };
+
+  const hideGraphBody = () => {
+    document.getElementById("graphBody").classList.add("hidden");
+    setGraphBody(false);
+  };
+
   return (
     <>
       <div className="graph-header">
-        <Typography variant="h5">Podepsané objednávky</Typography>
-        <div>
-          Zobrazit:
-          <Select
-            className="graph-select"
-            value={months}
-            onChange={handleMonthsChange}
-          >
-            <MenuItem value={12}>rok</MenuItem>
-            <MenuItem value={3}>kvartál</MenuItem>
-          </Select>
+        <div style={{ display: "contents" }}>
+          <Typography variant="h5" style={{ overflow: "hidden"}}>Podepsané objednávky</Typography>
+          {!graphBody ? (
+            <IconButton size="small" onClick={showGraphBody}>
+              <KeyboardArrowDown></KeyboardArrowDown>
+            </IconButton>
+          ) : (
+            <IconButton size="small" onClick={hideGraphBody}>
+              <KeyboardArrowUp></KeyboardArrowUp>
+            </IconButton>
+          )}
+        </div>
+        <div style={{ display: "contents" }}>
+          {graphBody && (
+            <>
+              Zobrazit:
+              <Select
+                className="graph-select"
+                value={months}
+                onChange={handleMonthsChange}
+              >
+                <MenuItem value={12}>rok</MenuItem>
+                <MenuItem value={3}>kvartál</MenuItem>
+              </Select>
+            </>
+          )}
         </div>
       </div>
-      <Divider />
-      <div className="graph-body">
-        {months == 3 && (
+      {graphBody && <Divider />}
+      <div id="graphBody" className="graph-body">
+        {Number(months) === 3 && (
           <>
             <div className="narrow">
               <Bar
                 data={dataTotal}
                 options={optionsTotal}
-                width={100}
+                width={"90%"}
                 height={200}
               />
             </div>
             <div className="wide">
-              <Bar data={data} options={options} width={300} height={200} />
+              <Bar data={data} options={options} width={"90%"} height={200} redraw/>
             </div>
           </>
         )}
-        {months == 12 && (
+        {Number(months) === 12 && (
           <div className="wide">
-            <Bar data={data} options={options} width={400} height={200} />
+            <Bar data={data} options={options} width={"90%"} height={200} redraw/>
           </div>
         )}
       </div>
