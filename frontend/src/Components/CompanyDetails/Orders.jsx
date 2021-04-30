@@ -183,8 +183,10 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           handleClose={() => setAlertOpen(false)}
           error={alertText}
         />
+        <div className="card-header">
         <Typography variant="h5">
           Dokumenty
+          </Typography>
           <IconButton
             className="plus-button"
             size="small"
@@ -192,7 +194,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           >
             <AddIcon />
           </IconButton>
-        </Typography>
+          </div>
         <form onSubmit={handleAddOrder}>
           <TableContainer className="addNewRowTable">
             <Table>

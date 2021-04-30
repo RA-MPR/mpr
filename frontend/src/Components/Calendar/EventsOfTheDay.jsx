@@ -27,6 +27,7 @@ import "./Calendar.css";
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 
 import EventDialog from "./EventDialog";
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 const EventsOfTheDay = (props) => {
 
@@ -61,6 +62,7 @@ const EventsOfTheDay = (props) => {
   React.useEffect(() => {
     fetchData();
     refreshEvents((prev) => !prev);
+    refreshCalendar();
   }, [refresh, open]);
 
 
@@ -192,6 +194,7 @@ const EventsOfTheDay = (props) => {
                           <Checkbox
                             className="activeCheck"
                             checked={!event.is_active}
+                            icon={<CheckBoxIcon />}
                             color="primary"
                             onClick={(e) => {
                               e.stopPropagation();

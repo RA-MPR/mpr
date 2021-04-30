@@ -91,8 +91,8 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
   const icoValidate = (icoValue) => {
     var ico = icoValue.replace(/ /g, "");
     if (!ico) {
-      setErrorICO("Vyžadováno");
-      return false;
+      setErrorICO("");
+      return true;
     }
     if (ico.length !== 8) {
       setErrorICO("IČO nemá správnou délku");
@@ -235,7 +235,6 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
           <Grid item xs={3}>
             <TextField
               name="ICO"
-              required
               id="ICO"
               label="IČO"
               type="number"
@@ -258,7 +257,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
             />
           </Grid>
           <Grid item xs={7}>
-            <TextField id="name" fullWidth label="Jméno firmy" name="name" />
+            <TextField id="name" fullWidth label="Jméno firmy" name="name" required/>
           </Grid>
 
           <Grid item xs={7}>

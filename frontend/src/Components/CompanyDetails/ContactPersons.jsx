@@ -159,10 +159,10 @@ const ContactPersons = ({data, clean, refresh, ico, token}) => {
     return (
         <Card className="company-details-contact-persons comapny-details-card">
         <CardContent>
-            <Typography variant="h5" gutterBottom>
-                Kontaktní osoby
+            <div className="card-header">
+                <Typography variant="h5" gutterBottom>Kontaktní osoby</Typography>
                 <IconButton className="plus-button" size="small" onClick={handleAddNewContactPerson}><AddIcon/></IconButton>
-            </Typography>
+            </div>
             {newContact && <TableContainer>
                 <Table>
                     <TableBody>

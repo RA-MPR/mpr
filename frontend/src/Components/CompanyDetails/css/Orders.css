@@ -78,3 +78,9 @@
 .datePickerOrder .MuiSvgIcon-root {
     fill: #109CF1 !important;
 }
+
+.company-details-orders .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

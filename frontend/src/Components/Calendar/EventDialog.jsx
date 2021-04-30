@@ -157,7 +157,6 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
                         <TextField
                             fullWidth
                             label="Popis"
-                            required
                             value={selectedDesc}
                             margin='normal'
                             onChange={handleDescChange}/>
@@ -194,9 +193,8 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
                             />
                         </MuiPickersUtilsProvider>
                         <FormControl fullWidth>
-                            <InputLabel>Firma*</InputLabel>
+                            <InputLabel>Firma</InputLabel>
                             <Select
-                                required
                                 id="company"
                                 name="company"
                                 onChange={handleCompanyChange}

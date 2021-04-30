@@ -30,6 +30,7 @@ import axios from "axios";
 import ConfirmDialog from "./ConfirmDialog";
 
 import EventDialog from "../Calendar/EventDialog";
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 import "./css/Events.css";
 import {
@@ -170,8 +171,10 @@ const Events = ({
           >
             Chcete tuto událost odstranit ze systému?
           </ConfirmDialog>
+          <div className="card-header">
           <Typography variant="h5">
             Události
+          </Typography>
             <IconButton
               className="plus-button"
               size="small"
@@ -179,7 +182,7 @@ const Events = ({
             >
               <AddIcon />
             </IconButton>
-          </Typography>
+            </div>
           <form onSubmit={handleAddEvent}>
             <TableContainer className="events-table">
               <Table>
@@ -309,6 +312,7 @@ const Events = ({
                             <Checkbox
                               className="activeCheck"
                               checked={!event.is_active}
+                              icon={<CheckBoxIcon />}
                               color="primary"
                               onClick={(e) => {
                                 e.stopPropagation();
