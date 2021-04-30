@@ -6,11 +6,11 @@ describe('Login', function() {
 	  })
 
 	it('Login - admin', function() {
-		cy.get('#email').type('admin@test.io')
-        .should('have.value', 'admin@test.io')
+		cy.get('#email').type('admin@mpr.zarybnicky.com')
+        .should('have.value', 'admin@mpr.zarybnicky.com')
 
-		cy.get('#password').type('poiuztre')
-        .should('have.value', 'poiuztre')
+		cy.get('#password').type('admin')
+        .should('have.value', 'admin')
 
 		cy.get('.MuiGrid-root > .MuiGrid-root > div > #login > .MuiButton-label').click()
         cy.url().should('eq', 'http://0.0.0.0:3000/')

@@ -5,8 +5,8 @@ describe('Contact tests', function() {
 		cy.on('uncaught:exception', (err, runnable) => { return false })
 
 		//login
-		cy.get('#email').type('admin@test.io')
-		cy.get('#password').type('poiuztre')
+		cy.get('#email').type('admin@mpr.zarybnicky.com')
+		cy.get('#password').type('admin')
 		cy.get('.MuiGrid-root > .MuiGrid-root > div > #login > .MuiButton-label').click()
 	  })
 	
