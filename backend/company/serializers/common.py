@@ -52,7 +52,6 @@ class CompanyListSerializer(serializers.ModelSerializer):
             "ad_volume",
             "user",
             "status",
-            "status_modification_date",
             "status_color",
             "modification_date",
             "advertising_this_year"
@@ -77,6 +76,7 @@ class CompanyUserSerializer(serializers.ModelSerializer):
             "modification_date",
             "status",
             "status_color",
+            "status_modification_date",
             "advertising_this_year",
         )
         depth = 1
