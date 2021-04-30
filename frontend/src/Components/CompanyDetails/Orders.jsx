@@ -130,7 +130,6 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
         });
     } else {
       var orderId = setOrderIDInvoice(data, event.target.orderNumber.value);
-      console.log(orderId);
       if (orderId != null) {
         axios
           .post("/api/invoice/", {

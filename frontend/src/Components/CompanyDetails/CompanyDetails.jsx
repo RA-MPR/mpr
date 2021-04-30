@@ -111,7 +111,6 @@ const CompanyDetails = ({
         setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));
       }
     };
-    console.log("STAHUJEM DATA");
     getData();
   }, [ico, refresh]);
 
@@ -153,7 +152,6 @@ const CompanyDetails = ({
   };
 
   if (ico === "") {
-    console.log("ICO je prazdne");
     return <div id="companyDetail"></div>;
   } else {
     return (

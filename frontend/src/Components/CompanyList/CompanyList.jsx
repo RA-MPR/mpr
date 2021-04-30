@@ -106,7 +106,6 @@ const CompanyList = ({
 
   useEffect(() => {
     const getCompanies = async () => {
-      console.log(companiesFromServer);
       if (letterFilter !== "") {
         if (onlyMyCompanies) {
           //TODO filter companies for currently loged in user
