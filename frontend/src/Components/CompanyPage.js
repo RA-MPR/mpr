@@ -42,8 +42,6 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody
   const isMounted = useRef(false);
   useEffect(() => {
     if(isMounted.current){
-
-      console.log(detailIco);
       history.push('/company/detail');
     }else{
       isMounted.current = true;

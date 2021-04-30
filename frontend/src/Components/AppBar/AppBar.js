@@ -66,7 +66,6 @@ function App({ token, removeToken }) {
             <span className="flexExpand"></span>
             <div>
               <ToggleButtonGroup value={page} exclusive onChange={handlePage}>
-                {console.log(window.location.pathname)}
                 {window.location.pathname === "/" && (
                   <ToggleButton selected value={0} component={Link} to="/">
                     Firmy

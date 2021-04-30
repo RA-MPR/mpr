@@ -7,8 +7,13 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Icon from "@material-ui/core/Icon";
 
 import axios from "axios";
+
+import { format, parse } from "date-fns";
+
+import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 
 import CompanyListHeader from "./CompanyListHeader";
 import CompanyListFooter from "./CompanyListFooter";
@@ -20,12 +25,12 @@ import { Tooltip } from "@material-ui/core";
 
 const columns = [
   { id: "id", label: "" },
-  { id: "insertionDate", label: "Datum" },
+  { id: "modification_date", label: "Datum" },
   { id: "status", label: "Status" },
   { id: "name", label: "Název" },
-  { id: "contactNumber", label: "Kontakt" },
+  { id: "phone_number", label: "Kontakt" },
   { id: "ico", label: "IČO" },
-  { id: "sales", label: "Reklama v tomto roce" },
+  { id: "advertising_this_year", label: "Obrat" },
   { id: "user", label: "Obchodník" },
   { id: "takeCompany", label: "Zabrat firmu" },
 ];
@@ -44,7 +49,7 @@ const CompanyList = ({
   const [onlyMyCompanies, setOnlyMyCompanies] = useState(true);
   const [letterFilter, setLetterFilter] = useState("");
   const [orderDirection, setOrderDirection] = useState("desc");
-  const [orderBy, setOrderBy] = useState("ico");
+  const [orderBy, setOrderBy] = useState("modification_date");
   const [searchValue, setSearchValue] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [admin, setAdmin] = useState(false);
@@ -79,31 +84,21 @@ const CompanyList = ({
       setCompaniesFromServer(compsFromServer);
       setMyCompaniesFromServer(myCompsFromServer);
       if (letterFilter !== "") {
-        if (onlyMyCompanies) {
-          //TODO filter companies for currently loged in user
           setMyCompanies(
             myCompsFromServer.filter(
-              (company) =>
-                /*(company.user === "Richard") && */ company.name[0].toUpperCase() ===
-                letterFilter
+              (company) => company.name[0].toUpperCase() === letterFilter
             )
           );
-        } else {
           setCompanies(
             compsFromServer.filter(
               (company) => company.name[0].toUpperCase() === letterFilter
             )
           );
-        }
       } else {
-        if (onlyMyCompanies) {
-          //TODO filter companies for currently loged in user
           setMyCompanies(
-            myCompsFromServer /*.filter((company) => company.user === "Richard")*/
+            myCompsFromServer
           );
-        } else {
           setCompanies(compsFromServer);
-        }
       }
     };
     getCompanies();
@@ -117,9 +112,9 @@ const CompanyList = ({
           setMyCompanies(
             myCompaniesFromServer.filter(
               (company) =>
-                /*(company.user === "Richard") && */ company.name
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase()) &&
+              //TODO Pridat hladanie podla adresy
+                (company.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+                company.ico.toLowerCase().includes(searchValue.toLowerCase())) &&
                 company.name[0].toUpperCase() === letterFilter
             )
           );
@@ -127,30 +122,30 @@ const CompanyList = ({
           setCompanies(
             companiesFromServer.filter(
               (company) =>
-                company.name
-                  .toLowerCase()
-                  .includes(searchValue.toLowerCase()) &&
+              //TODO Pridat hladanie podla adresy
+                (company.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+                company.ico.toLowerCase().includes(searchValue.toLowerCase())) &&
                 company.name[0].toUpperCase() === letterFilter
             )
           );
         }
       } else {
         if (onlyMyCompanies) {
-          //TODO filter companies for currently loged in user
           setMyCompanies(
             myCompaniesFromServer.filter(
-              (company) =>
-                company.name
-                  .toLowerCase()
-                  .includes(
-                    searchValue.toLowerCase()
-                  ) /* && company.user === "Richard")*/
+              (company) => (
+              //TODO Pridat hladanie podla adresy
+                company.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+                company.ico.toLowerCase().includes(searchValue.toLowerCase())
+              )
             )
           );
         } else {
           setCompanies(
             companiesFromServer.filter((company) =>
-              company.name.toLowerCase().includes(searchValue.toLowerCase())
+            //TODO Pridat hladanie podla adresy
+              company.name.toLowerCase().includes(searchValue.toLowerCase()) || 
+              company.ico.toLowerCase().includes(searchValue.toLowerCase())
             )
           );
         }
@@ -301,7 +296,9 @@ const CompanyList = ({
                   active={columns[1].id === orderBy}
                   direction={columns[1].id === orderBy ? orderDirection : "asc"}
                   onClick={createSortHandler(columns[1].id)}
-                />
+                >
+                  <Icon><AccessAlarmIcon/></Icon>
+                </TableSortLabel>
               </TableCell>
               {!onlyMyCompanies && (
                 <TableCell width="13%" align="center">
@@ -392,17 +389,9 @@ const CompanyList = ({
                 </TableCell>
               )}
               {!onlyMyCompanies && (
-                <TableCell width="18%" align="center" key={columns[7].id}>
-                  <TableSortLabel
-                    active={columns[7].id === orderBy}
-                    direction={
-                      columns[7].id === orderBy ? orderDirection : "asc"
-                    }
-                    onClick={createSortHandler(columns[7].id)}
-                  >
-                    {columns[7].label}
-                  </TableSortLabel>
-                </TableCell>
+              <TableCell width="18%" align="center" key={columns[7].id}>
+                  {columns[7].label}
+              </TableCell>
               )}
             </TableRow>
           </TableHead>
@@ -443,7 +432,10 @@ const CompanyList = ({
                   )}
                   {onlyMyCompanies && (
                     <Tooltip
-                      title="datum"
+                      title={format(
+                        parse(company.status_modification_date, "yyyy-MM-dd", new Date()),
+                        "dd.MM.yyyy"
+                      )}
                       placement="top">
                     <TableCell
                       className="clickable"
@@ -528,7 +520,11 @@ const CompanyList = ({
                       onClick={() => admin && onShowCompanyDetail(company.ico)}
                       align="center"
                     >
-                      {company.user === null ? "" : company.user.name}
+                      {company.user !== null && company.user !== undefined &&
+                       company.user.name !== null && company.user.name !== undefined &&
+                       company.user.surname !== null && company.user.surname !== undefined ? 
+                          company.user.name[0] + ". " + company.user.surname :
+                          ""}
                     </TableCell>
                   )}
                 </TableRow>
