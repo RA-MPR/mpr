@@ -9,7 +9,7 @@ import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
-const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes, companyName}) => {
+const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes, companyName, refresh}) => {
 
     const [billingAddressZipError, setBillingAddressZipError] = useState(false);
     const [contactAddressZipError, setContactAddressZipError] = useState(false);
@@ -226,6 +226,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
 
             setInfoEditing(false);
             noteEditingHandler(false);
+            refresh();
         }
     }
 

@@ -270,6 +270,7 @@ const CompanyDetails = ({
                   token={token}
                   noteEditingHandler={setEditing}
                   notes={notes}
+                  refresh={refreshDetails}
                 />
 
                 <ContactPersons
