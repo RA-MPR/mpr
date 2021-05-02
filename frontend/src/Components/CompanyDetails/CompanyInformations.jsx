@@ -140,8 +140,9 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         let billingAddressZipTest = newBillingAddressZip.match("^[0-9]{5}$|^$");
         let phoneTest = newMainPhoneNumber.match("^([\+]|00)([0-9]){12}$|^$");
         let icoTest = newCompanyICO.match("[0-9]{8}");
+        let nameTest = companyName.length > 0;
 
-        if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest) {
+        if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest && nameTest) {
             let data = {
                 "name": companyName,
                 "ico": newCompanyICO,
