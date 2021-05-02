@@ -220,13 +220,15 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                 ]);
             }
 
-            axios.put('/api/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}});
-            setMainPhoneNumber(newMainPhoneNumber);
-            setCompanyICO(newCompanyICO);
+            axios.put('/api/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}})
+                 .then(() => {
+                    setMainPhoneNumber(newMainPhoneNumber);
+                    setCompanyICO(newCompanyICO);
 
-            setInfoEditing(false);
-            noteEditingHandler(false);
-            refresh();
+                    setInfoEditing(false);
+                    noteEditingHandler(false);
+                    refresh();
+                 });
         }
     }
 
