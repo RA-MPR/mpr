@@ -222,7 +222,6 @@ const Events = ({
                               name="eventDesc"
                               id="eventDesc"
                               autoFocus
-                              required
                             />
                           </div>
                           <div className="time">

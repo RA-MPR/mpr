@@ -29,7 +29,7 @@ const Notes = ({data, edit, setNotes}) => {
 
                 <div className="notes-box">
                     {!edit &&  <div style={{whiteSpace: "pre-wrap"}}>{data}</div>}
-                    {edit && <TextField className="note-edit-box" multiline value={noteText} onChange={(e) => handleNotechange(e.target.value)} />}
+                    {edit && <TextField className="note-edit-box" multiline value={noteText} rows={10} onChange={(e) => handleNotechange(e.target.value)} />}
                 </div>
 
             </CardContent>

@@ -8,6 +8,7 @@ import StatusChange from "./StatusChange";
 import { Button, IconButton } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Card, CardContent } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -44,6 +45,10 @@ const CompanyDetails = ({
   const [editing, setEditing] = useState(false);
   const [addDate, setAddDate] = useState("");
   const [admin, setAdmin] = useState(false);
+
+  const [newCompanyName, setNewCompanyName] = useState("");
+  const [newCompanyNameError, setNewCompanyNameError] = useState(false);
+  const [newCompanyNameErrorMessage, setNewCompanyNameErrorMessage] = useState("");
 
   const history = useHistory();
 
@@ -107,6 +112,7 @@ const CompanyDetails = ({
       const eventsData = await fetchEvents();
       setEvents(eventsData.filter((event) => event.company === ico));
       setNotes(companyData.notes);
+      setNewCompanyName(companyData.name)
       if (companyData.create_date) {
         setAddDate(format(Date.parse(companyData.create_date), "dd.MM.yyyy"));
       }
@@ -151,6 +157,16 @@ const CompanyDetails = ({
       });
   };
 
+  const handleNewCompanyNameChange = (event) => {
+    setNewCompanyNameError(false);
+    setNewCompanyNameErrorMessage("");
+    setNewCompanyName(event.target.value);
+    if(event.target.value.length == 0) {
+      setNewCompanyNameError(true);
+      setNewCompanyNameErrorMessage("Název firmy je povinný");
+    }
+  }
+
   if (ico === "") {
     return <div id="companyDetail"></div>;
   } else {
@@ -181,9 +197,17 @@ const CompanyDetails = ({
             <CardContent>
               <div className="company-details-header">
                 <div className="left">
-                  <Typography id="company-name" variant="h3">
+                  {!editing && <Typography id="company-name" variant="h3">
                     {company.name}
-                  </Typography>
+                  </Typography>}
+                  {editing && 
+                    <TextField 
+                        label="Název firmi*"
+                        value={newCompanyName} 
+                        error={newCompanyNameError} 
+                        helperText={newCompanyNameErrorMessage}
+                        onChange={handleNewCompanyNameChange}
+                        />}
                   <span
                     className={
                       (company.status_color === "white"
@@ -242,9 +266,11 @@ const CompanyDetails = ({
                   billingAddressData={company.billing_address}
                   contactAddressData={company.contact_address}
                   mainPhoneNumberData={company.phone_number}
+                  companyName={newCompanyName}
                   token={token}
                   noteEditingHandler={setEditing}
                   notes={notes}
+                  refresh={refreshDetails}
                 />
 
                 <ContactPersons

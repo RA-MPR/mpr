@@ -9,7 +9,7 @@ import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
-const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes}) => {
+const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes, companyName, refresh}) => {
 
     const [billingAddressZipError, setBillingAddressZipError] = useState(false);
     const [contactAddressZipError, setContactAddressZipError] = useState(false);
@@ -140,9 +140,11 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         let billingAddressZipTest = newBillingAddressZip.match("^[0-9]{5}$|^$");
         let phoneTest = newMainPhoneNumber.match("^([\+]|00)([0-9]){12}$|^$");
         let icoTest = newCompanyICO.match("[0-9]{8}");
+        let nameTest = companyName.length > 0;
 
-        if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest) {
+        if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest && nameTest) {
             let data = {
+                "name": companyName,
                 "ico": newCompanyICO,
                 "phone_number": newMainPhoneNumber,
                 "notes": notes                
@@ -219,12 +221,15 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
                 ]);
             }
 
-            axios.put('/api/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}});
-            setMainPhoneNumber(newMainPhoneNumber);
-            setCompanyICO(newCompanyICO);
+            axios.put('/api/company/'+companyICO+"/", data, {headers:{Authorization: "Token " + token}})
+                 .then(() => {
+                    setMainPhoneNumber(newMainPhoneNumber);
+                    setCompanyICO(newCompanyICO);
 
-            setInfoEditing(false);
-            noteEditingHandler(false);
+                    setInfoEditing(false);
+                    noteEditingHandler(false);
+                    refresh();
+                 });
         }
     }
 
