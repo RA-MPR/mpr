@@ -70,7 +70,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody
           </Grid>
           <Grid item xs={12} style={{ paddingTop: "10px" }}>
             <Paper style={{ padding: 16 }}>
-              <UpcomingEvents token={token} upcomingRefresh={refreshOrders} setRefreshEvents={setRefreshEvents} height="calc(84vh - 365px)" maxHeight="100%"/>
+              <UpcomingEvents token={token} upcomingRefresh={upcomingRefresh} setRefreshEvents={setRefreshEvents} height="calc(84vh - 365px)" maxHeight="100%"/>
             </Paper>
           </Grid>
         </Grid>

@@ -92,3 +92,9 @@
 .check-reminder {
     margin-top: 15px !important;
 }
+
+.company-details-events .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

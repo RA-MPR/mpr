@@ -17,10 +17,11 @@
 
 .graph-body .wide{
     flex: 1;
+    width: 70%;
 }
 
 .graph-body .narrow{
-    width: 100px;
+    width: 30%;
 }
 
 .hidden{

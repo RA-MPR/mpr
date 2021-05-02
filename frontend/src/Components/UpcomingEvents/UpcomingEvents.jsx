@@ -24,6 +24,8 @@ import "./UpcomingEvents.css";
 import ConfirmDialog from "../CompanyDetails/ConfirmDialog";
 import EventDialog from "../Calendar/EventDialog";
 
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
 const UpcomingEvents = ({
   upcomingRefresh,
   token,
@@ -191,6 +193,7 @@ const UpcomingEvents = ({
                       <Checkbox
                         className="activeCheck"
                         checked={!event.is_active}
+                        icon={<CheckBoxIcon />}
                         color="primary"
                         onClick={(e) => {
                           e.stopPropagation();

@@ -151,6 +151,7 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
 
   const options = {
     maintainAspectRatio: false,
+    responsive: true,
     tooltips: {
       callbacks: {
         title: function (tooltipItem, data) {
@@ -179,6 +180,7 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
 
   const optionsTotal = {
     maintainAspectRatio: false,
+    responsive: true,
     legend: {
       display: false,
     },
@@ -247,18 +249,17 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
               <Bar
                 data={dataTotal}
                 options={optionsTotal}
-                width={"90%"}
                 height={200}
               />
             </div>
             <div className="wide">
-              <Bar data={data} options={options} width={"90%"} height={200} redraw/>
+              <Bar data={data} options={options} height={200} redraw/>
             </div>
           </>
         )}
         {Number(months) === 12 && (
           <div className="wide">
-            <Bar data={data} options={options} width={"90%"} height={200} redraw/>
+            <Bar data={data} options={options} height={200} redraw/>
           </div>
         )}
       </div>
