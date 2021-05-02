@@ -9,7 +9,7 @@ import axios from "axios"
 
 import "./css/CompanyInformations.css"
 
-const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes}) => {
+const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddressData, contactAddressData, token, noteEditingHandler, notes, companyName}) => {
 
     const [billingAddressZipError, setBillingAddressZipError] = useState(false);
     const [contactAddressZipError, setContactAddressZipError] = useState(false);
@@ -143,6 +143,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
 
         if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest) {
             let data = {
+                "name": companyName,
                 "ico": newCompanyICO,
                 "phone_number": newMainPhoneNumber,
                 "notes": notes                
