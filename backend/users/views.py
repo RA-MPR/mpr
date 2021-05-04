@@ -17,6 +17,7 @@ from users.serializers import UserSerializer, UserCreateSerializer, UserAdminSer
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
+
 class UserView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -27,6 +28,22 @@ class UserView(ListAPIView):
 
     def get_queryset(self):
         return User.objects.annotate(sign_orders=Sum("Order__sum"), paid_invoice=Sum("Invoice__sum"))
+
+
+class UserIdCompany(ListAPIView):
+    serializer_class = CompanyUserSerializer
+    lookup_url_kwarg = "id"
+
+    def list(self, request, *args, **kwargs):
+        serializer = CompanyUserSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def get_queryset(self):
+        print(self.kwargs["id"])
+        user = get_object_or_404(User, id=self.kwargs["id"])
+        year_ago = datetime.now() + relativedelta(years=-1)
+        return Company.objects.annotate(
+            advertising_this_year=Sum("orders__sum", filter=Q(orders__date__gt=year_ago))).filter(user=user)
 
 
 class UserCreateView(CreateAPIView):
@@ -95,7 +112,8 @@ class UserCompanyView(ListAPIView):
     def get_queryset(self):
         user = get_object_or_404(User, id=self.request.user.id)
         year_ago = datetime.now() + relativedelta(years=-1)
-        return Company.objects.annotate(advertising_this_year=Sum("orders__sum", filter=Q(orders__date__gt=year_ago))).filter(user=user)
+        return Company.objects.annotate(
+            advertising_this_year=Sum("orders__sum", filter=Q(orders__date__gt=year_ago))).filter(user=user)
 
 
 class UserAdminView(APIView):
