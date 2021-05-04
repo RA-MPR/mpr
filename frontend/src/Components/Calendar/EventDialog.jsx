@@ -52,12 +52,12 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
     }, [isEditing, eventId]);
 
     const fetchEvent = async() => {
-        return axios.get("/api/event/"+eventId,
+        return axios.get("/api/event/"+eventId+"/",
         {headers: { Authorization: "Token " + token }}).then((res) => res.data);
     }
 
     const fetchCompanies = async() => {
-        return axios.get("/api/user/companies",
+        return axios.get("/api/user/companies/",
         {headers: { Authorization: "Token " + token }}).then((res) => res.data);
     }
 
@@ -202,7 +202,7 @@ const EventDialog = ({date, open, setOpen, isEditing, eventId, token, refreshEve
                                 fullWidth
                             >
                                 {companies.map((company) => (
-                                    <MenuItem key={company.ico} value={company.ico}>{company.name}</MenuItem>
+                                    <MenuItem key={company.id} value={company.id}>{company.name}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>

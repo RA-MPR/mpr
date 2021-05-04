@@ -34,7 +34,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
 
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  const [responseICO, setResponseICO] = React.useState("");
+  const [responseId, setResponseId] = React.useState("");
 
   const [errorICO, setErrorICO] = React.useState("");
 
@@ -71,7 +71,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
 
   const handleCloseSuccess = () => {
     setOpenSuccess(false);
-    onShowCompanyDetail(responseICO);
+    onShowCompanyDetail(responseId);
   };
 
   const handleColor = (event, value) => {
@@ -203,7 +203,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
         phone_number: phoneNumber,
       },{headers:{Authorization: "Token " + token}})
       .then(function (response) {
-        setResponseICO(response.data["ico"]);
+        setResponseId(response.data["id"]);
         handleClickOpenSuccess();
       })
       .catch(function (error) {

@@ -70,7 +70,7 @@ const ContactPersons = ({data, clean, refresh, id, token}) => {
       }
 
     const handleDelete = (id) => {
-        axios.delete("/api/contact/" + id, {headers:{Authorization: "Token " + token}});
+        axios.delete("/api/contact/" + id +"/", {headers:{Authorization: "Token " + token}});
         refresh();
     }
 

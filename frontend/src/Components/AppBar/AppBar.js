@@ -26,7 +26,7 @@ function App({ token, removeToken }) {
 
   const fetchAdmin = async () => {
     await axios
-      .get("/api/user/admin", {
+      .get("/api/user/admin/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {

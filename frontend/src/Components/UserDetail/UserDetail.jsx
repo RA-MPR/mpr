@@ -49,7 +49,7 @@ const UserDetail = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("/api/user/admin", {
+      .get("/api/user/admin/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -110,7 +110,7 @@ const UserDetail = ({
 
   const fetchCompanies = async () => {
     const data = await axios
-      .get("/api/user/"+userId, {
+      .get("/api/user/"+userId+"/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);

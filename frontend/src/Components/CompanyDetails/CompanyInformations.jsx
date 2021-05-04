@@ -53,6 +53,25 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         }
     }
 
+    const phoneValidate = (telValue) => {
+    var phoneNumber = telValue.replace(/ /g, "");
+    if (phoneNumber.length !== 0) {
+      if (telRegex.test(phoneNumber)) {
+        setErrorTel("");
+        return true;
+      }
+      if (telRegex2.test(phoneNumber)) {
+        phoneNumber = "+420" + phoneNumber;
+        setErrorTel("");
+        return true;
+      } else {
+        setErrorTel("Špatný formát (+420987654321)");
+        return false;
+      }
+    }
+    return true;
+  };
+
     const validateAndChangeBillingAddressZip = (value) => {
         setNewBillingAddressZip(value);
         if(!value.match("^[0-9]{5}$|^$")) {
@@ -66,7 +85,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
 
     const validateAndChangePhoneNumber = (value) => {
         setNewMainPhoneNumber(value);
-        if(!value.match("^([\+]|00)([0-9]){12}$|^$")) {
+        if(!phoneValidate(value)) {
             setPhoneNumberErrorMessage("Telefónni číslo musí být ve tvaru +xxx xxx xxx xxx, nebo 00xxx xxx xxx");
             setPhoneNumberError(true);
         } else {
@@ -138,7 +157,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         //TODO Rozumnejsia validacia adresy
         let contactAddressZipTest = newContactAddressZip.match("^[0-9]{5}$|^$");
         let billingAddressZipTest = newBillingAddressZip.match("^[0-9]{5}$|^$");
-        let phoneTest = newMainPhoneNumber.match("^([\+]|00)([0-9]){12}$|^$");
+        let phoneTest = phoneValidate(newMainPhoneNumber)
         let icoTest = newCompanyICO.match("[0-9]{8}");
         let nameTest = companyName.length > 0;
 

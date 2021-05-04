@@ -62,7 +62,7 @@ const CompanyList = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("/api/user/admin", {
+      .get("/api/user/admin/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -156,7 +156,7 @@ const CompanyList = ({
 
   const fetchAllCompanies = async () => {
     const data = await axios
-      .get("/api/company", {
+      .get("/api/company/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -165,7 +165,7 @@ const CompanyList = ({
 
   const fetchMyCompanies = async () => {
     const data = await axios
-      .get("/api/user/companies", {
+      .get("/api/user/companies/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);

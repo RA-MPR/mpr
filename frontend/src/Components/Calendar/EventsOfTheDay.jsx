@@ -45,7 +45,7 @@ const EventsOfTheDay = (props) => {
 
   async function fetchData() {
     await axios
-      .get("/api/user/events?date=" + date, {
+      .get("/api/user/events/?date=" + date, {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -73,7 +73,7 @@ const EventsOfTheDay = (props) => {
 
   const handleDeleteEvent = () => {
     axios
-      .delete("/api/event/" + deleteID, {
+      .delete("/api/event/" + deleteID+"/", {
         headers: { Authorization: "Token " + token },
       })
       .then(() => {

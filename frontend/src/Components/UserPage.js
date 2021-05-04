@@ -32,7 +32,7 @@ function UserPage({token, componentToShow, userDetailId, setUserDetailId, detail
         if(id == detailId){
             history.push('/company/detail');
         }else{
-            setDetailIco(id);
+            setDetailId(id);
         }
     }
     

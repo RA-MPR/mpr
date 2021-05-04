@@ -54,7 +54,7 @@ const CompanyDetails = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("/api/user/admin", {
+      .get("/api/user/admin/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -71,7 +71,7 @@ const CompanyDetails = ({
 
   const fetchCompany = async () => {
     return await axios
-      .get("/api/company/" + id, {
+      .get("/api/company/" + id+"/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -79,7 +79,7 @@ const CompanyDetails = ({
 
   const fetchContacts = async () => {
     return await axios
-      .get("/api/contact", {
+      .get("/api/contact/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -87,7 +87,7 @@ const CompanyDetails = ({
 
   const fetchOrders = async () => {
     return await axios
-      .get("/api/order", {
+      .get("/api/order/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -95,7 +95,7 @@ const CompanyDetails = ({
 
   const fetchEvents = async () => {
     return await axios
-      .get("/api/event", {
+      .get("/api/event/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -149,7 +149,7 @@ const CompanyDetails = ({
 
   const handleDeleteCompany = () => {
     axios
-      .delete("/api/company/" + company.id, {
+      .delete("/api/company/" + company.id+"/", {
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -262,6 +262,7 @@ const CompanyDetails = ({
               </div>
               <div className="company-details-body">
                 <CompanyInformations
+                  companyID={company.id}
                   companyICOData={company.ico}
                   billingAddressData={company.billing_address}
                   contactAddressData={company.contact_address}

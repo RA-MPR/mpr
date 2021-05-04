@@ -148,7 +148,7 @@ const Orders = ({ data, id, fetchOrder, setOrder, token, setRefreshOrders}) => {
 
   const handleDeleteOrder = (orderId) => {
     axios
-      .delete("/api/order/" + orderId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/order/" + orderId+"/", {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
         setRefreshOrders((prev) => !prev);
@@ -157,7 +157,7 @@ const Orders = ({ data, id, fetchOrder, setOrder, token, setRefreshOrders}) => {
 
   const handleDeleteInvoice = (invoiceId) => {
     axios
-      .delete("/api/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/invoice/" + invoiceId+"/", {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
       });

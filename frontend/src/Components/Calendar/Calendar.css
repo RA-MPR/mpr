@@ -132,7 +132,6 @@ a.fc-event {
     border-color: #AEAEAE !important;
 }
 .fc .fc-daygrid-day-top {
-    margin-top: 10px;
     display: flex !important;
     flex-direction: row-reverse;
     align-items: center;

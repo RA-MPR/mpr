@@ -130,7 +130,7 @@ const Events = ({
 
   const handleDeleteEvent = () => {
     axios
-      .delete("/api/event/" + deleteId, {
+      .delete("/api/event/" + deleteId+"/", {
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {

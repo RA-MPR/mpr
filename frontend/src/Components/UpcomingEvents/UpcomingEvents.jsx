@@ -56,7 +56,7 @@ const UpcomingEvents = ({
 
   async function fetchData() {
     await axios
-      .get("/api/user/events?is_active=True", {
+      .get("/api/user/events/?is_active=True", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -81,7 +81,7 @@ const UpcomingEvents = ({
 
   const handleDeleteEvent = () => {
     axios
-      .delete("/api/event/" + deleteID, {
+      .delete("/api/event/" + deleteID+"/", {
         headers: { Authorization: "Token " + token },
       })
       .then(() => {
