@@ -24,7 +24,7 @@ import { format } from "date-fns";
 import { useHistory } from "react-router-dom";
 
 const CompanyDetails = ({
-  ico,
+  id,
   className,
   onClose,
   token,
@@ -71,7 +71,7 @@ const CompanyDetails = ({
 
   const fetchCompany = async () => {
     return await axios
-      .get("/api/company/" + ico, {
+      .get("/api/company/" + id, {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -106,11 +106,11 @@ const CompanyDetails = ({
       const companyData = await fetchCompany();
       setCompany(companyData);
       const contactData = await fetchContacts();
-      setContacts(contactData.filter((contact) => contact.company.ico === ico));
+      setContacts(contactData.filter((contact) => contact.company.id === id));
       const ordersData = await fetchOrders();
-      setOrders(ordersData.filter((order) => order.company === ico));
+      setOrders(ordersData.filter((order) => order.company === id));
       const eventsData = await fetchEvents();
-      setEvents(eventsData.filter((event) => event.company === ico));
+      setEvents(eventsData.filter((event) => event.company === id));
       setNotes(companyData.notes);
       setNewCompanyName(companyData.name)
       if (companyData.create_date) {
@@ -118,7 +118,7 @@ const CompanyDetails = ({
       }
     };
     getData();
-  }, [ico, refresh]);
+  }, [id, refresh]);
 
   const handleBack = () => {
     setClean(!clean);
@@ -139,7 +139,7 @@ const CompanyDetails = ({
 
   const handleGiveUp = () => {
     axios
-      .put("/api/company/" + company.ico +"/", {user: null},{
+      .put("/api/company/" + company.id +"/", {user: null},{
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -149,7 +149,7 @@ const CompanyDetails = ({
 
   const handleDeleteCompany = () => {
     axios
-      .delete("/api/company/" + company.ico, {
+      .delete("/api/company/" + company.id, {
         headers: { Authorization: "Token " + token },
       })
       .then(function (response) {
@@ -167,7 +167,7 @@ const CompanyDetails = ({
     }
   }
 
-  if (ico === "") {
+  if (id === "") {
     return <div id="companyDetail"></div>;
   } else {
     return (
@@ -276,7 +276,7 @@ const CompanyDetails = ({
                 <ContactPersons
                   data={contacts}
                   clean={clean}
-                  ico={ico}
+                  id={id}
                   refresh={refreshDetails}
                   token={token}
                 />
@@ -284,7 +284,7 @@ const CompanyDetails = ({
                 <div className="grid">
                   <Events
                     data={events}
-                    ico={ico}
+                    id={id}
                     fetchEvents={fetchEvents}
                     setEvents={setEvents}
                     token={token}
@@ -296,7 +296,7 @@ const CompanyDetails = ({
 
                 <Orders
                   data={orders}
-                  ico={company.ico}
+                  id={company.id}
                   fetchOrder={fetchOrders}
                   setOrder={setOrders}
                   token={token}
@@ -312,7 +312,7 @@ const CompanyDetails = ({
           )}
           {company && (
             <StatusChange
-              ico={ico}
+              id={id}
               companyName={company.name}
               companyStatus={company.status}
               companyStatusColor={company.status_color}

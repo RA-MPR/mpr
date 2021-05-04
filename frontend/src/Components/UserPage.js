@@ -10,7 +10,7 @@ import UserDetail from "./UserDetail/UserDetail";
 
 import {useHistory} from "react-router-dom";
 
-function UserPage({token, componentToShow, userDetailId, setUserDetailId, detailIco, setDetailIco}) {
+function UserPage({token, componentToShow, userDetailId, setUserDetailId, detailId, setDetailId}) {
 
     const history = useHistory();
 
@@ -28,11 +28,11 @@ function UserPage({token, componentToShow, userDetailId, setUserDetailId, detail
 
     }
 
-    const onShowCompanyDetail = (ico) => {
-        if(ico == detailIco){
+    const onShowCompanyDetail = (id) => {
+        if(id == detailId){
             history.push('/company/detail');
         }else{
-            setDetailIco(ico);
+            setDetailIco(id);
         }
     }
     
@@ -67,7 +67,7 @@ function UserPage({token, componentToShow, userDetailId, setUserDetailId, detail
         }else{
         isMounted2.current = true;
         }
-    }, [detailIco]);
+    }, [detailId]);
 
     return (
         <div className="root">

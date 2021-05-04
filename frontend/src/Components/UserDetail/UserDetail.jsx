@@ -267,7 +267,7 @@ const UserDetail = ({
                     <TableCell
                       className="clickable"
                       onClick={() =>
-                        onShowCompanyDetail(company.ico)
+                        onShowCompanyDetail(company.id)
                       }
                       align="left"
                     >
@@ -277,7 +277,7 @@ const UserDetail = ({
                       <TableCell
                         className="clickable"
                         onClick={() =>
-                          onShowCompanyDetail(company.ico)
+                          onShowCompanyDetail(company.id)
                         }
                         align="center"
                       >
@@ -292,7 +292,7 @@ const UserDetail = ({
                     <TableCell
                       className="clickable"
                       onClick={() =>
-                        onShowCompanyDetail(company.ico)
+                        onShowCompanyDetail(company.id)
                       }
                       align="center"
                     >
@@ -300,7 +300,7 @@ const UserDetail = ({
                     </TableCell>
                     <TableCell
                       className="clickable"
-                      onClick={() => onShowCompanyDetail(company.ico)}
+                      onClick={() => onShowCompanyDetail(company.id)}
                       align="center"
                     >
                       {company.phone_number}
@@ -308,7 +308,7 @@ const UserDetail = ({
                     <TableCell
                       className="clickable"
                       onClick={() =>
-                        onShowCompanyDetail(company.ico)
+                        onShowCompanyDetail(company.id)
                       }
                       align="center"
                     >
@@ -316,7 +316,7 @@ const UserDetail = ({
                     </TableCell>
                     <TableCell
                       className="clickable"
-                      onClick={() => onShowCompanyDetail(company.ico)}
+                      onClick={() => onShowCompanyDetail(company.id)}
                       align="center"
                     >
                       {company.advertising_this_year !== null
