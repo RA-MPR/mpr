@@ -23,7 +23,7 @@ const columns = [
     {id: 'phone', label: "Telefon"}
 ]
 
-const ContactList = ({className, token, detailIco, setDetailIco}) => {
+const ContactList = ({className, token, detailId, setDetailId}) => {
 
     const history = useHistory();
 
@@ -93,11 +93,11 @@ const ContactList = ({className, token, detailIco, setDetailIco}) => {
         return sortedRowArray.map((el) => el[0]);
     }
 
-    const handleShowCompanyDetail = (ico) => {
-        if(ico === detailIco){
+    const handleShowCompanyDetail = (id) => {
+        if(id === detailId){
             history.push('/company/detail');
         }else{
-            setDetailIco(ico);
+            setDetailId(id);
             history.push('/company/detail');
         }
     }
@@ -160,24 +160,24 @@ const ContactList = ({className, token, detailIco, setDetailIco}) => {
                     <TableBody>
                         {sortRowInfo(contacts, getComparator(orderDirection, orderBy)).map((contact, index) => (
                             <TableRow hover key={index}>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.id)}}>
                                     {index+1}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.id)}}>
                                     {contact.name}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.id)}}>
                                     {contact.surname}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.id)}}>
                                     <div className="text-container">
                                         {contact.company.name}
                                     </div>
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.id)}}>
                                     {contact.email}
                                 </TableCell>
-                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.ico)}}>
+                                <TableCell align="center" onClick={() => {handleShowCompanyDetail(contact.company.id)}}>
                                     {contact.phone}
                                 </TableCell>
                             </TableRow>
