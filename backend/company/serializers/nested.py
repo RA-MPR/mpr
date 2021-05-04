@@ -17,6 +17,7 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
         fields = (
+            "id",
             "ico",
             "name",
             "phone_number",
@@ -44,6 +45,7 @@ class SimplifiedCompanySerializer(serializers.ModelSerializer):
 
         if request and getattr(request, "method", None) in ["PUT", "POST"]:
             # remove non-model field
+            fields["ico"].required = False
             fields["notes"].required = False
             fields["create_date"].required = False
             fields["modification_date"].required = False
@@ -116,6 +118,7 @@ class CompanyNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
         fields = (
+            "id",
             "ico",
             "name"
         )

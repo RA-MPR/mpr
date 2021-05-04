@@ -202,7 +202,7 @@ const CompanyDetails = ({
                   </Typography>}
                   {editing && 
                     <TextField 
-                        label="Název firmi*"
+                        label="Název firmy*"
                         value={newCompanyName} 
                         error={newCompanyNameError} 
                         helperText={newCompanyNameErrorMessage}

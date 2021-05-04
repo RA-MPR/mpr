@@ -19,7 +19,7 @@ class Address(models.Model):
 
 
 class Company(models.Model):
-    ico = models.CharField(blank=False, null=False, primary_key=True, max_length=8)
+    ico = models.CharField(blank=True, null=True, max_length=8)
     name = models.CharField(max_length=200, blank=True, null=True)
     contact_address = models.ForeignKey(
         Address, on_delete=models.CASCADE, blank=True, null=True, related_name="company_contact"
