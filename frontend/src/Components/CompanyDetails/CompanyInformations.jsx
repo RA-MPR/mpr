@@ -42,6 +42,9 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
     const [newContactAddressCountry, setNewContactAddressCountry] = useState("");
    
 
+    const telRegex = /^(\+420)?[1-9][0-9]{2}[0-9]{3}[0-9]{3}$/;
+    const telRegex2 = /^[1-9][0-9]{2}[0-9]{3}[0-9]{3}$/;
+
     const validateAndChangeContactAddressZip = (value) => {
         setNewContactAddressZip(value);
         if(!value.match("^[0-9]{5}$|^$")) {
@@ -57,15 +60,15 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
     var phoneNumber = telValue.replace(/ /g, "");
     if (phoneNumber.length !== 0) {
       if (telRegex.test(phoneNumber)) {
-        setErrorTel("");
+        setPhoneNumberErrorMessage("");
         return true;
       }
       if (telRegex2.test(phoneNumber)) {
         phoneNumber = "+420" + phoneNumber;
-        setErrorTel("");
+        setPhoneNumberErrorMessage("");
         return true;
       } else {
-        setErrorTel("Špatný formát (+420987654321)");
+        setPhoneNumberErrorMessage("Špatný formát (+420987654321)");
         return false;
       }
     }
@@ -86,7 +89,7 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
     const validateAndChangePhoneNumber = (value) => {
         setNewMainPhoneNumber(value);
         if(!phoneValidate(value)) {
-            setPhoneNumberErrorMessage("Telefónni číslo musí být ve tvaru +xxx xxx xxx xxx, nebo 00xxx xxx xxx");
+            // setPhoneNumberErrorMessage("Telefónni číslo musí být ve tvaru +xxx xxx xxx xxx, nebo 00xxx xxx xxx");
             setPhoneNumberError(true);
         } else {
             setPhoneNumberErrorMessage("");
