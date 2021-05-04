@@ -5,7 +5,7 @@ import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 
 import "./ContactPage.css";
 
-function ContactPage({token, detailIco, setDetailIco}) {
+function ContactPage({token, detailId, setDetailId}) {
 
     
 
@@ -15,7 +15,7 @@ function ContactPage({token, detailIco, setDetailIco}) {
             <Grid item xs={8}>
                 <Paper style={{ padding: 16 }}>
                 <div className="contact-main-screen">
-                    <ContactList className="contact-module" token={token} detailIco={detailIco} setDetailIco={setDetailIco}/>
+                    <ContactList className="contact-module" token={token} detailId={detailId} setDetailId={setDetailId}/>
                 </div>
                 </Paper>
             </Grid>
