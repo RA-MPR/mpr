@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import UserListHeader from './UserListHeader';
 import './UserList.css';
@@ -23,7 +24,7 @@ const columns = [
     {id: 'paid_invoices', label: "Zaplacené faktury"}
 ]
 
-const UserList = ({className, token, onEdit, onAdd, refresh}) => {
+const UserList = ({className, token, onEdit, onAdd, refresh, onShowDetail}) => {
 
     const [admin, setAdmin] = useState(false);
     const [usersFromServer, setUsersFromServer] = useState([]);
@@ -116,7 +117,7 @@ const UserList = ({className, token, onEdit, onAdd, refresh}) => {
     }
 
     return (
-        <div id="contactList" className={className + " user-list"}>
+        <div id="userList" className={className + " user-list"}>
             {usersFromServer.length !== 0 ? <TableContainer>
                 <UserListHeader onSearch={onSearch} onClickAdd={onAdd}/>
                 <Table stickyHeader size='small' aria-label="sticky table">
@@ -177,6 +178,7 @@ const UserList = ({className, token, onEdit, onAdd, refresh}) => {
                                     {columns[6].label}
                                 </TableSortLabel>
                             </TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -202,6 +204,9 @@ const UserList = ({className, token, onEdit, onAdd, refresh}) => {
                                 </TableCell>
                                 <TableCell align="center" className="clickable" onClick={() => {onEdit(user.id)}}>
                                     {user.paid_invoice ? user.paid_invoice : "-"}
+                                </TableCell>
+                                <TableCell>
+                                    <Button onClick={() => onShowDetail(user.id)}>Detail</Button>
                                 </TableCell>
                             </TableRow>
                         ))}
