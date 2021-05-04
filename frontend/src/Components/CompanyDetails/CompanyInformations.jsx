@@ -161,13 +161,14 @@ const CompanyInformations = ({companyICOData, mainPhoneNumberData, billingAddres
         let contactAddressZipTest = newContactAddressZip.match("^[0-9]{5}$|^$");
         let billingAddressZipTest = newBillingAddressZip.match("^[0-9]{5}$|^$");
         let phoneTest = phoneValidate(newMainPhoneNumber)
-        let icoTest = newCompanyICO.match("[0-9]{8}");
+        let icoTest = true;
+        if(newCompanyICO) icoTest = newCompanyICO.match("[0-9]{8}");
         let nameTest = companyName.length > 0;
 
         if(billingAddressZipTest && contactAddressZipTest && phoneTest && icoTest && nameTest) {
             let data = {
                 "name": companyName,
-                "ico": newCompanyICO,
+                "ico": newCompanyICO ? newCompanyICO : undefined,
                 "phone_number": newMainPhoneNumber,
                 "notes": notes                
             }

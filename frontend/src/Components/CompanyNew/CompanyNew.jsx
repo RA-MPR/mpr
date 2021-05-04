@@ -194,7 +194,7 @@ function NewCompany({ onCloseForm, className, onShowCompanyDetail, token }) {
 
     axios
       .post("/api/company/", {
-        ico: ico,
+        ico: ico !== "" ? ico : undefined,
         name: event.target.name.value,
         status: statusText,
         status_color: color,
