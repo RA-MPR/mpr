@@ -18,6 +18,7 @@ import MatrixPage from "./Components/MatrixPage";
 
 const App = () => {
   const [detailIco, setDetailIco] = useState("");
+  const [userDetailId, setUserDetailId] = useState("");
   const { token, setToken, removeToken } = useToken();
   const [graphBody, setGraphBody] = useState(true);
 
@@ -92,6 +93,21 @@ const App = () => {
           <Route path="/users" exact>
             <UserPage
               token={token}
+              userDetailId={userDetailId}
+              setUserDetailId={setUserDetailId}
+              detailIco={detailIco}
+              setDetailIco={setDetailIco}
+              componentToShow="userList"
+            />
+          </Route>
+          <Route path="/users/detail" exact>
+            <UserPage
+              token={token}
+              userDetailId={userDetailId}
+              setUserDetailId={setUserDetailId}
+              detailIco={detailIco}
+              setDetailIco={setDetailIco}
+              componentToShow="userDetail"
             />
           </Route>
           <Route component={NotFound}></Route>

@@ -17,7 +17,11 @@
     overflow-x: hidden;
 }
 
-.user-module{
+.user-module {
+    display: none !important;
+}
+
+.user-module.show {
     display: flex !important; 
     flex-direction: column;
 }
