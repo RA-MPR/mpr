@@ -13,7 +13,7 @@ import Graph from "./Graph/Graph";
 
 import {useHistory} from "react-router-dom";
 
-function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody, setGraphBody}) {
+function CompanyPage({token, componentToShow, detailId, setDetailId, graphBody, setGraphBody}) {
  
   const history = useHistory();
 
@@ -31,11 +31,11 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody
     history.push('/');
   }
 
-  const showCompanyDetail = (ico) =>{
-    if(ico === detailIco){
+  const showCompanyDetail = (id) =>{
+    if(id === detailId){
       history.push('/company/detail');
     }else{
-      setDetailIco(ico);
+      setDetailIco(id);
     }
   }
 
@@ -46,7 +46,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody
     }else{
       isMounted.current = true;
     }
-  }, [detailIco]);
+  }, [detailId]);
 
 
 
@@ -57,7 +57,7 @@ function CompanyPage({token, componentToShow, detailIco, setDetailIco, graphBody
           <Paper style={{ padding: 16 }}>
             <div className="company-main-screen">
               {componentToShow === "companyNew" && <CompanyNew onCloseForm={showCompanyList} onShowCompanyDetail={showCompanyDetail} token={token}/>}
-              {componentToShow === "companyDetail" && <CompanyDetails ico={detailIco} onClose={showCompanyList} token={token} setUpcomingRefresh={setUpcomingRefresh} refreshEvents={refreshEvents} setRefreshOrders={setRefreshOrders}/>}
+              {componentToShow === "companyDetail" && <CompanyDetails id={detailId} onClose={showCompanyList} token={token} setUpcomingRefresh={setUpcomingRefresh} refreshEvents={refreshEvents} setRefreshOrders={setRefreshOrders}/>}
               {componentToShow === "companyList" && <CompanyList onAddCompany={showNewCompanyForm} onShowCompanyDetail={showCompanyDetail} onRefresh={refresh} token={token}/>}
             </div>
           </Paper>

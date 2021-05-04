@@ -41,7 +41,7 @@ import {
 
 const Events = ({
   data,
-  ico,
+  id,
   fetchEvents,
   setEvents,
   token,
@@ -90,7 +90,7 @@ const Events = ({
 
   const loadNewData = async () => {
     const eventsData = await fetchEvents();
-    setEvents(eventsData.filter((event) => event.company === ico));
+    setEvents(eventsData.filter((event) => event.company === id));
   };
 
   React.useEffect(() => {
@@ -116,7 +116,7 @@ const Events = ({
           date: formattedDate,
           time: event.target.timePicker.value + ":00",
           description: event.target.eventDesc.value,
-          company: ico,
+          company: id,
           reminder: checked,
         },
         { headers: { Authorization: "Token " + token } }

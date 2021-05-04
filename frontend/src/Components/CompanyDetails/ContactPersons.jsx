@@ -16,7 +16,7 @@ import { React, useState, useEffect } from "react"
 import "./css/ContactPersons.css"
 
 
-const ContactPersons = ({data, clean, refresh, ico, token}) => {
+const ContactPersons = ({data, clean, refresh, id, token}) => {
 
     const [newContact, setNewContact] = useState(false);
 
@@ -148,7 +148,7 @@ const ContactPersons = ({data, clean, refresh, ico, token}) => {
                     "surname" : newContactLastName,
                     "phone" : newContactPhoneNumber,
                     "email" : newContactEmail,
-                    "company" : ico
+                    "company" : id
                 }
                 axios.post("/api/contact/", data, {headers:{Authorization: "Token " + token}});
                 refresh();
