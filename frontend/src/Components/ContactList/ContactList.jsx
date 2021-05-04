@@ -53,7 +53,7 @@ const ContactList = ({className, token, detailIco, setDetailIco}) => {
     }, [searchValue])
 
     const fetchContacts = async() => {
-        const data = await axios.get('/api/user/contacts', {headers:{Authorization: "Token " + token}}).then(res => res.data);
+        const data = await axios.get('/api/user/contacts/', {headers:{Authorization: "Token " + token}}).then(res => res.data);
         return data;
     }
 

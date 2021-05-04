@@ -2,7 +2,7 @@ import { Grid, Paper } from "@material-ui/core";
 // eslint-disable-next-line
 import UpcomingEvents from "./UpcomingEvents/UpcomingEvents";
 
-import {useState } from "react";
+import {useState, useEffect } from "react";
 
 import "./CalendarPage.css";
 import EventsOfTheDay from "./Calendar/EventsOfTheDay";
@@ -13,7 +13,16 @@ function CalendarPage({token}) {
     const [refreshOrders, setRefreshOrders] = useState(false);
     const [refresh ,setRefresh] = useState(false);
     const [date, setDate] = useState("2021-04-29");
-  
+
+    useEffect(()=>{
+        deleteDots()
+    },[])
+   const deleteDots = () => {
+       const numbers = document.getElementsByClassName("fc-daygrid-day-number");
+        Array.from(numbers).forEach(e => {
+           e.innerHTML = e.innerHTML.slice(0, e.innerHTML.length - 1)
+       })
+   }
    const refreshCalendar = () => {
         setRefresh(!refresh);
     }

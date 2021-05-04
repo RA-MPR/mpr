@@ -10,7 +10,7 @@ import axios from "axios"
 
 import "./css/StatusChange.css"
 
-const StatusChange = ({ico, companyName, companyStatus, companyStatusColor, open, onClose, refresh, token}) => {
+const StatusChange = ({id, companyName, companyStatus, companyStatusColor, open, onClose, refresh, token}) => {
 
 const [status, setStatus] = useState("Osloveno");
 const [statusColor, setStatusColor] = useState("orange");
@@ -51,7 +51,7 @@ const saveAndClose = () => {
 
     if(status === "Vlastní") {
         if(newStatus.length > 0) {
-            axios.put('/api/company/'+ico+"/", {
+            axios.put('/api/company/'+id+"/", {
                 "status": newStatus,
                 "status_color": statusColor
             }, {headers:{Authorization: "Token " + token}}).then(refresh());
@@ -62,7 +62,7 @@ const saveAndClose = () => {
         }
         
     } else {
-        axios.put('/api/company/'+ico+"/", {
+        axios.put('/api/company/'+id+"/", {
             "status": status,
             "status_color": statusColor
         }, {headers:{Authorization: "Token " + token}}).then(refresh());

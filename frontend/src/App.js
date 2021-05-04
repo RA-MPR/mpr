@@ -17,7 +17,8 @@ import UserPage from "./Components/UserPage";
 import MatrixPage from "./Components/MatrixPage";
 
 const App = () => {
-  const [detailIco, setDetailIco] = useState("");
+  const [detailId, setDetailId] = useState("");
+  const [userDetailId, setUserDetailId] = useState("");
   const { token, setToken, removeToken } = useToken();
   const [graphBody, setGraphBody] = useState(true);
 
@@ -52,8 +53,8 @@ const App = () => {
           <Route path="/contacts">
             <ContactPage
               token={token}
-              detailIco={detailIco}
-              setDetailIco={setDetailIco}
+              detailId={detailId}
+              setDetailId={setDetailId}
             />
           </Route>
           <Route path="/matrix">
@@ -61,8 +62,8 @@ const App = () => {
           </Route>
           <Route path="/" exact>
             <CompanyPage
-              detailIco={detailIco}
-              setDetailIco={setDetailIco}
+              detailId={detailId}
+              setDetailId={setDetailId}
               token={token}
               componentToShow="companyList"
               graphBody={graphBody}
@@ -71,8 +72,8 @@ const App = () => {
           </Route>
           <Route path="/company/new" exact>
             <CompanyPage
-              detailIco={detailIco}
-              setDetailIco={setDetailIco}
+              detailId={detailId}
+              setDetailId={setDetailId}
               token={token}
               componentToShow="companyNew"
               graphBody={graphBody}
@@ -81,8 +82,8 @@ const App = () => {
           </Route>
           <Route path="/company/detail" exact>
             <CompanyPage
-              detailIco={detailIco}
-              setDetailIco={setDetailIco}
+              detailId={detailId}
+              setDetailId={setDetailId}
               token={token}
               componentToShow="companyDetail"
               graphBody={graphBody}
@@ -92,6 +93,21 @@ const App = () => {
           <Route path="/users" exact>
             <UserPage
               token={token}
+              userDetailId={userDetailId}
+              setUserDetailId={setUserDetailId}
+              detailId={detailId}
+              setDetailId={setDetailId}
+              componentToShow="userList"
+            />
+          </Route>
+          <Route path="/users/detail" exact>
+            <UserPage
+              token={token}
+              userDetailId={userDetailId}
+              setUserDetailId={setUserDetailId}
+              detailId={detailId}
+              setDetailId={setDetailId}
+              componentToShow="userDetail"
             />
           </Route>
           <Route component={NotFound}></Route>

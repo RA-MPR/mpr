@@ -18,6 +18,7 @@ class CompanySerializer(SimplifiedCompanySerializer):
     class Meta:
         model = models.Company
         fields = (
+            "id",
             "ico",
             "name",
             "phone_number",
@@ -46,6 +47,7 @@ class CompanyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
         fields = (
+            "id",
             "ico",
             "name",
             "phone_number",
@@ -67,6 +69,7 @@ class CompanyUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Company
         fields = (
+            "id",
             "ico",
             "name",
             "phone_number",

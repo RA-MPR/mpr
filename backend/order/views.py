@@ -37,7 +37,7 @@ class OrderView(ListCreateAPIView):
         sum = serializer.validated_data.get("sum", None)
         company_id = serializer.validated_data.get("company_id", None)
 
-        company = get_object_or_404(Company, ico=company_id)
+        company = get_object_or_404(Company, id=company_id)
         return serializer.save(date=date, contract_number=contract_number, sum=sum, company=company, user=user)
 
 
@@ -64,7 +64,7 @@ class OrderByIdView(RetrieveUpdateDestroyAPIView):
 
         company_id = data.get("company_id", None)
         if company_id:
-            if not Company.objects.filter(ico=company_id):
+            if not Company.objects.filter(id=company_id):
                 content = {"Company model not found"}
                 return Response(content, status=status.HTTP_404_NOT_FOUND, )
 

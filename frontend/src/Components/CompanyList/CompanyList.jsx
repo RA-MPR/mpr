@@ -53,7 +53,7 @@ const CompanyList = ({
   const [searchValue, setSearchValue] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [admin, setAdmin] = useState(false);
-  const [companyICO, setCompanyICO] = useState(null);
+  const [companyId, setCompanyId] = useState(null);
   const [companyName, setCompanyName] = useState(null);
   const [companyStatus, setCompanyStatus] = useState(null);
   const [companyStatusColor, setCompanyStatusColor] = useState(null);
@@ -62,7 +62,7 @@ const CompanyList = ({
 
   const fetchAdmin = async () => {
     await axios
-      .get("/api/user/admin", {
+      .get("/api/user/admin/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {
@@ -156,7 +156,7 @@ const CompanyList = ({
 
   const fetchAllCompanies = async () => {
     const data = await axios
-      .get("/api/company", {
+      .get("/api/company/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -165,7 +165,7 @@ const CompanyList = ({
 
   const fetchMyCompanies = async () => {
     const data = await axios
-      .get("/api/user/companies", {
+      .get("/api/user/companies/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => res.data);
@@ -194,7 +194,7 @@ const CompanyList = ({
   };
 
   const takeCompany = (company) => {
-    setCompanyICO(company.ico);
+    setCompanyId(company.id);
     setCompanyName(company.name);
     setTakeOpen(true);
   };
@@ -257,8 +257,8 @@ const CompanyList = ({
     return sortedRowArray.map((el) => el[0]);
   };
 
-  const openStatusChange = (ico, name, status, statusColor) => {
-    setCompanyICO(ico);
+  const openStatusChange = (id, name, status, statusColor) => {
+    setCompanyId(id);
     setCompanyName(name);
     setCompanyStatus(status);
     setCompanyStatusColor(statusColor);
@@ -268,7 +268,7 @@ const CompanyList = ({
   const handleTakeCompany = () => {
     axios
       .put(
-        "/api/company/" + companyICO + "/",
+        "/api/company/" + companyId + "/",
         { update_user: "True" },
         {
           headers: { Authorization: "Token " + token },
@@ -403,7 +403,7 @@ const CompanyList = ({
                     className="clickable"
                     onClick={() =>
                       (onlyMyCompanies || admin) &&
-                      onShowCompanyDetail(company.ico)
+                      onShowCompanyDetail(company.id)
                     }
                     align="left"
                   >
@@ -441,7 +441,7 @@ const CompanyList = ({
                       className="clickable"
                       onClick={() =>
                         openStatusChange(
-                          company.ico,
+                          company.id,
                           company.name,
                           company.status,
                           company.status_color
@@ -462,7 +462,7 @@ const CompanyList = ({
                     className="clickable"
                     onClick={() =>
                       (onlyMyCompanies || admin) &&
-                      onShowCompanyDetail(company.ico)
+                      onShowCompanyDetail(company.id)
                     }
                     align="center"
                   >
@@ -471,7 +471,7 @@ const CompanyList = ({
                   {onlyMyCompanies && (
                     <TableCell
                       className="clickable"
-                      onClick={() => onShowCompanyDetail(company.ico)}
+                      onClick={() => onShowCompanyDetail(company.id)}
                       align="center"
                     >
                       {company.phone_number}
@@ -480,7 +480,7 @@ const CompanyList = ({
                   {!onlyMyCompanies && admin && (
                     <TableCell
                       className="clickable"
-                      onClick={() => onShowCompanyDetail(company.ico)}
+                      onClick={() => onShowCompanyDetail(company.id)}
                       align="center"
                     >
                       {company.advertising_this_year !== null
@@ -497,7 +497,7 @@ const CompanyList = ({
                     className="clickable"
                     onClick={() =>
                       (onlyMyCompanies || admin) &&
-                      onShowCompanyDetail(company.ico)
+                      onShowCompanyDetail(company.id)
                     }
                     align="center"
                   >
@@ -506,7 +506,7 @@ const CompanyList = ({
                   {onlyMyCompanies && (
                     <TableCell
                       className="clickable"
-                      onClick={() => onShowCompanyDetail(company.ico)}
+                      onClick={() => onShowCompanyDetail(company.id)}
                       align="center"
                     >
                       {company.advertising_this_year !== null
@@ -517,7 +517,7 @@ const CompanyList = ({
                   {!onlyMyCompanies && (
                     <TableCell
                       className="clickable"
-                      onClick={() => admin && onShowCompanyDetail(company.ico)}
+                      onClick={() => admin && onShowCompanyDetail(company.id)}
                       align="center"
                     >
                       {company.user !== null && company.user !== undefined &&
@@ -534,7 +534,7 @@ const CompanyList = ({
         </Table>
       </TableContainer>
       <StatusChange
-        ico={companyICO}
+        id={companyId}
         companyName={companyName}
         companyStatus={companyStatus}
         companyStatusColor={companyStatusColor}

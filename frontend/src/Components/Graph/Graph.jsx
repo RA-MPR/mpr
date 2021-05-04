@@ -36,7 +36,7 @@ const Graph = ({ upcomingRefresh, token, graphBody, setGraphBody }) => {
 
   async function fetchData() {
     await axios
-      .get("/api/user/orders", {
+      .get("/api/user/orders/", {
         headers: { Authorization: "Token " + token },
       })
       .then((res) => {

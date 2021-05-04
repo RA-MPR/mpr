@@ -34,7 +34,7 @@ import "./css/Orders.css";
 import ConfirmDialog from "./ConfirmDialog";
 import AlertDialog from "../CompanyNew/AlertDialog";
 
-const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => {
+const Orders = ({ data, id, fetchOrder, setOrder, token, setRefreshOrders}) => {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const [type, setType] = React.useState(0);
@@ -106,7 +106,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const loadNewData = async () => {
     const ordersData = await fetchOrder();
-    setOrder(ordersData.filter((order) => order.company === ico));
+    setOrder(ordersData.filter((order) => order.company === id));
   };
 
   const handleAddOrder = (event) => {
@@ -121,7 +121,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
           date: formattedDate,
           contract_number: event.target.orderNumber.value,
           sum: event.target.orderCost.value,
-          company_id: ico,
+          company_id: id,
         }, {headers:{Authorization: "Token " + token}})
         .then(function (response) {
           loadNewData();
@@ -148,7 +148,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const handleDeleteOrder = (orderId) => {
     axios
-      .delete("/api/order/" + orderId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/order/" + orderId+"/", {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
         setRefreshOrders((prev) => !prev);
@@ -157,7 +157,7 @@ const Orders = ({ data, ico, fetchOrder, setOrder, token, setRefreshOrders}) => 
 
   const handleDeleteInvoice = (invoiceId) => {
     axios
-      .delete("/api/invoice/" + invoiceId, {headers:{Authorization: "Token " + token}})
+      .delete("/api/invoice/" + invoiceId+"/", {headers:{Authorization: "Token " + token}})
       .then(function (response) {
         loadNewData();
       });
