@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "users.apps.AuthConfig",
     "phonenumber_field",
     'corsheaders',
+    "django_celery_beat",
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -125,6 +126,17 @@ EMAIL_USE_TLS = bool(os.environ.get("EMAIL_USE_TLS", False))
 EMAIL_USE_SSL = bool(os.environ.get("EMAIL_USE_SSL", False))
 
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "")
+
+# Celery
+redis_host = os.environ.get("REDIS_SERVICE_HOST", "redis")
+redis_port = os.environ.get("REDIS_SERVICE_PORT", "6379")
+redis_db = os.environ.get("REDIS_SERVICE_DB", "0")
+redis_url = "redis://{host}:{port}/{db}".format(host=redis_host, port=redis_port, db=redis_db)
+
+CELERY_RESULT_BACKEND = redis_url
+CELERY_BROKER_URL = redis_url
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
