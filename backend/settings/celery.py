@@ -1,5 +1,7 @@
 import os
+from datetime import datetime
 
+from dateutil.relativedelta import relativedelta
 from celery import Celery
 from celery.schedules import crontab
 from django.core.mail import send_mail
@@ -18,37 +20,37 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
-
 app.conf.beat_schedule = {
     'notification-every-10-minutes': {
         'task': 'send_notification_email',
         'schedule': crontab(minute="*/10"),
     },
-    'every-minute': {
-        'task': 'hello_world',
-        'schedule': crontab(),
-    },
 }
-
-
-@app.task(bind=True, name="hello_world")
-def hello_world(self):
-    print('Hello world!')
 
 
 @app.task(name="send_notification_email", bind=True, default_retry_delay=300, max_retries=2)
 def send_notification_email(self):
+    from event.models import Event
 
-    try:
+    notification_time = datetime.now() + relativedelta(minutes=+10)
+    reminders = (
+        Event.objects
+            .select_related("user")
+            .filter(
+                is_active=True,
+                reminder=True,
+                date=notification_time.date(),
+                time__lte=notification_time.time()
+            )
+    )
+
+    for reminder in reminders:
         send_mail(
-            subject="subject",
-            html_message="message",
+            subject=reminder.name,
             from_email=None,
-            recipient_list=["your@email.com"],
-            fail_silently=False,
-            message=None)
-        print("Email send")
-    except Exception as e:
-        print("Error")
-        print(e)
-        send_notification_email.retry()
+            recipient_list=[reminder.user.email],
+            fail_silently=True,
+            message=reminder.description,
+        )
+        reminder.is_active = False
+        reminder.save()
